@@ -104,4 +104,4 @@ export default () => <a href={$path().users._userId(0).$get({ hoge: "fuga" })}>L
 
 ## License
 
-pathpida is licensed under a [MIT License](https://github.com/aspidajs/pathpida/LICENSE).
+pathpida is licensed under a [MIT License](https://github.com/aspidajs/pathpida/blob/master/LICENSE).
