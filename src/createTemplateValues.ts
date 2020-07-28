@@ -25,11 +25,10 @@ export default (input: string, trailingSlash: boolean) => {
       }
 
       const importName = `${typeName}${imports.length}`
-      const result = targetText.slice(0, cursor)
       imports.push(
-        `${typeText.replace(typeName, importName)}${
-          result.includes('\r') ? result.replace(/\r/g, '') : result
-        }\n`
+        `${typeText.replace(typeName, importName)}${targetText
+          .slice(0, cursor)
+          .replace(/\r/g, '')}\n`
       )
       return importName
     }

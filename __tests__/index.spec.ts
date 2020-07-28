@@ -10,6 +10,6 @@ describe('cli test', () => {
     const { filePath, text } = build({ input, output, baseURL, trailingSlash })
 
     expect(filePath).toBe('$path.ts')
-    expect(text).toBe(result.includes('\r') ? result.replace(/\r/g, '') : result)
+    expect(text).toBe(result.replace(/\r/g, ''))
   })
 })
