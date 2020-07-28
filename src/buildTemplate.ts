@@ -3,12 +3,7 @@ import { Config } from './getConfig'
 import createTemplateValues from './createTemplateValues'
 import dataToURLString from './dataToURLString'
 
-export type Template = {
-  text: string
-  filePath: string
-}
-
-export default ({ input, baseURL, output, trailingSlash }: Config): Template => {
+export default ({ input, baseURL, output, trailingSlash }: Config) => {
   const { api, imports } = createTemplateValues(input, trailingSlash)
 
   const text = `/* eslint-disable */
