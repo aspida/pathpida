@@ -4,7 +4,7 @@ update_configs:
   - package_manager: "javascript"
     directory: "/"
     update_schedule: "live"
-    target_branch: "develop"
+    target_branch: "master"
     version_requirement_updates: "increase_versions"
     commit_message:
       prefix: "fix"

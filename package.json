@@ -34,27 +34,75 @@
     "path"
   ],
   "dependencies": {
-    "chokidar": "^3.4.0",
+    "chokidar": "^3.4.1",
     "minimist": "^1.2.5"
   },
+  "eslintConfig": {
+    "env": {
+      "es6": true,
+      "node": true,
+      "browser": true
+    },
+    "extends": [
+      "standard",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:jest/recommended",
+      "plugin:prettier/recommended",
+      "prettier/@typescript-eslint",
+      "prettier/standard"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "sourceType": "module"
+    },
+    "root": true,
+    "rules": {
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-var-requires": "off",
+      "@typescript-eslint/ban-types": "off",
+      "@typescript-eslint/camelcase": "off",
+      "@typescript-eslint/no-explicit-any": "off"
+    }
+  },
+  "prettier": {
+    "printWidth": 100,
+    "semi": false,
+    "arrowParens": "avoid",
+    "singleQuote": true,
+    "trailingComma": "none",
+    "endOfLine": "auto",
+    "overrides": [
+      {
+        "files": [
+          "*.md",
+          "*.yml"
+        ],
+        "options": {
+          "singleQuote": false
+        }
+      }
+    ]
+  },
   "devDependencies": {
-    "@types/jest": "^25.2.3",
+    "@types/jest": "^26.0.7",
     "@types/minimist": "^1.2.0",
-    "@typescript-eslint/eslint-plugin": "2.34.0",
-    "@typescript-eslint/parser": "^2.34.0",
-    "eslint": "^6.8.0",
+    "@typescript-eslint/eslint-plugin": "^3.7.1",
+    "@typescript-eslint/parser": "^3.7.1",
+    "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jest": "^23.13.2",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^23.19.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "jest": "^25.5.4",
+    "jest": "^26.1.0",
     "prettier": "2.0.5",
-    "standard-version": "^8.0.0",
-    "ts-jest": "^25.5.1",
-    "typescript": "^3.9.3"
+    "standard-version": "^8.0.2",
+    "ts-jest": "^26.1.3",
+    "typescript": "^3.9.7"
   }
 }
