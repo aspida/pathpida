@@ -4,6 +4,7 @@
     "declarationMap": true,
     "downlevelIteration": true,
     "experimentalDecorators": true,
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["dom", "dom.iterable"],
     "module": "commonjs",

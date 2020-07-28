@@ -1,4 +1,4 @@
-import path from 'path'
+import { version } from '../package.json'
 import minimist from 'minimist'
 import getConfig from './getConfig'
 import write from './writeRouteFile'
@@ -12,7 +12,7 @@ export const run = (args: string[]) => {
   })
 
   ;(argv.version !== undefined
-    ? () => console.log(`v${require(path.join(__dirname, '../package.json')).version}`)
+    ? () => console.log(`v${version}`)
     : argv.watch !== undefined
     ? () =>
         getConfig(argv.config).forEach(config => {
