@@ -18,13 +18,13 @@
     "test": "jest",
     "typecheck": "tsc --noEmit"
   },
-  "homepage": "https://github.com/aspidajs/pathpida#readme",
+  "homepage": "https://github.com/aspida/pathpida#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aspidajs/pathpida.git"
+    "url": "git+https://github.com/aspida/pathpida.git"
   },
   "bugs": {
-    "url": "https://github.com/aspidajs/pathpida/issues"
+    "url": "https://github.com/aspida/pathpida/issues"
   },
   "files": [
     "dist"

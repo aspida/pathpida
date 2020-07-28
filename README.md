@@ -6,7 +6,7 @@
 <br />
 <br />
 <div align="center">
-  <img src="https://aspidajs.github.io/pathpida/logos/svg/black.svg" alt="pathpida" title="pathpida" width="700" />
+  <img src="https://aspida.github.io/pathpida/logos/svg/black.svg" alt="pathpida" title="pathpida" width="700" />
 </div>
 <br />
 <br />
@@ -15,13 +15,13 @@
   <a href="https://www.npmjs.com/package/pathpida">
     <img src="https://img.shields.io/npm/v/pathpida" alt="npm version" />
   </a>
-  <a href="https://codecov.io/gh/aspidajs/pathpida">
-    <img src="https://img.shields.io/codecov/c/github/aspidajs/pathpida.svg" alt="Codecov" />
+  <a href="https://codecov.io/gh/aspida/pathpida">
+    <img src="https://img.shields.io/codecov/c/github/aspida/pathpida.svg" alt="Codecov" />
   </a>
   <a href="https://dependabot.com">
-    <img src="https://api.dependabot.com/badges/status?host=github&repo=aspidajs/pathpida" alt="Dependabot Status" />
+    <img src="https://api.dependabot.com/badges/status?host=github&repo=aspida/pathpida" alt="Dependabot Status" />
   </a>
-  <a href="https://github.com/aspidajs/pathpida/LICENSE">
+  <a href="https://github.com/aspida/pathpida/LICENSE">
     <img src="https://img.shields.io/npm/l/pathpida" alt="License" />
   </a>
 </div>
@@ -64,7 +64,7 @@ module.exports = {
 ```json
 {
   "scripts": {
-    "build:pathpida": "pathpida --build"
+    "build:pathpida": "pathpida"
   }
 }
 ```
@@ -104,4 +104,4 @@ export default () => <a href={$path().users._userId(0).$get({ hoge: "fuga" })}>L
 
 ## License
 
-pathpida is licensed under a [MIT License](https://github.com/aspidajs/pathpida/blob/master/LICENSE).
+pathpida is licensed under a [MIT License](https://github.com/aspida/pathpida/blob/master/LICENSE).
