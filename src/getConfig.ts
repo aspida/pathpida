@@ -8,22 +8,25 @@ export type Config = {
   trailingSlash?: boolean
 }
 
-export default (): Config => {
-  const type =
-    fs.existsSync('nuxt.config.js') || fs.existsSync('nuxt.config.ts') ? 'nuxtjs' : 'nextjs'
+export default (dir = process.cwd()): Config => {
+  const nuxtjsPath = path.join(dir, 'nuxt.config.js')
+  const nuxttsPath = path.join(dir, 'nuxt.config.ts')
+  const nextLibPath = path.join(dir, 'lib')
+  const inputPath = path.join(dir, 'pages')
+  const type = fs.existsSync(nuxtjsPath) || fs.existsSync(nuxttsPath) ? 'nuxtjs' : 'nextjs'
   if (type === 'nextjs') {
-    if (!fs.existsSync('lib')) fs.mkdirSync('lib')
+    if (!fs.existsSync(nextLibPath)) fs.mkdirSync(nextLibPath)
 
-    return { type: 'nextjs', input: 'pages', output: 'lib' }
+    return { type: 'nextjs', input: inputPath, output: nextLibPath }
   } else {
-    const config = fs.existsSync('nuxt.config.js')
-      ? require(path.join(process.cwd(), 'nuxt.config.js'))
-      : { trailingSlash: /trailingSlash: true/.test(fs.readFileSync('nuxt.config.ts', 'utf8')) }
+    const config = fs.existsSync(nuxtjsPath)
+      ? require(nuxtjsPath)
+      : { trailingSlash: /trailingSlash: true/.test(fs.readFileSync(nuxttsPath, 'utf8')) }
 
     return {
       type: 'nuxtjs',
-      input: 'pages',
-      output: 'plugins',
+      input: inputPath,
+      output: path.join(dir, 'plugins'),
       trailingSlash: config.trailingSlash
     }
   }

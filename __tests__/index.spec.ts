@@ -17,12 +17,15 @@ describe('cli test', () => {
   })
 
   test('main', () => {
-    const { input, output, baseURL, trailingSlash } = getConfig()[0]
+    fs.readdirSync('projects').forEach(dir => {
+      const basePath = `projects/${dir}`
+      const { type, input, output, trailingSlash } = getConfig(basePath)
 
-    const result = fs.readFileSync('$path.ts', 'utf8')
-    const { filePath, text } = build({ input, output, baseURL, trailingSlash })
+      const result = fs.readFileSync(`${output}/$path.ts`, 'utf8')
+      const { filePath, text } = build({ type, input, output, trailingSlash })
 
-    expect(filePath).toBe('$path.ts')
-    expect(text).toBe(result.replace(/\r/g, ''))
+      expect(filePath).toBe(`${output}/$path.ts`)
+      expect(text.replace(new RegExp(`${basePath}/`, 'g'), '')).toBe(result.replace(/\r/g, ''))
+    })
   })
 })

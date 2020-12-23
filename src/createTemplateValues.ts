@@ -9,13 +9,12 @@ const createMethods = (
   slags: Slags,
   pathname: string,
   trailingSlash: boolean
-) => {
-  return `${indent}  $path: (${
+) =>
+  `${indent}  $path: (${
     importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}` : ''
   }) => ({ path: '${pathname}${trailingSlash ? '/' : ''}'${
     slags.length ? `, params: { ${slags.join(', ')} }` : ''
   }${importName ? ', query' : ''} })`
-}
 
 export default (input: string, trailingSlash = false) => {
   const imports: string[] = []
@@ -145,15 +144,11 @@ export default (input: string, trailingSlash = false) => {
     )
   }
 
+  const text = createQueryString(input, '.', rootIndent, '', [], `{\n<% props %>\n}`, rootMethods)
+
   return `/* eslint-disable */
-${imports.join('\n')}${imports.length ? '\n\n' : ''}export const pagesPath = ${createQueryString(
-    input,
-    '.',
-    rootIndent,
-    '',
-    [],
-    `{\n<% props %>\n}`,
-    rootMethods
-  )}\n\nexport type PagesPath = typeof pagesPath
+${imports.join('\n')}${
+    imports.length ? '\n\n' : ''
+  }export const pagesPath = ${text}\n\nexport type PagesPath = typeof pagesPath
 `
 }
