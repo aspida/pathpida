@@ -7,45 +7,33 @@ const createMethods = (
   indent: string,
   importName: string | undefined,
   slags: Slags,
-  pathname: string,
-  trailingSlash: boolean
+  pathname: string
 ) => {
   return `${indent}  $path: (${
     importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}` : ''
-  }) => ({ path: '${pathname}${trailingSlash ? '/' : ''}'${
-    slags.length ? `, params: { ${slags.join(', ')} }` : ''
-  }${importName ? ', query' : ''} })`
+  }) => ({ pathname: '${pathname}'${
+    slags.length
+      ? `, query: { ${slags.join(', ')}${importName ? ', ...query' : ''} }`
+      : importName
+      ? ', query'
+      : ''
+  } })`
 }
 
-export default (input: string, trailingSlash = false) => {
+export default (input: string) => {
   const imports: string[] = []
   const getImportName = (file: string) => {
     const fileData = fs.readFileSync(file, 'utf8')
     const typeName = ['Query', 'OptionalQuery'].find(type =>
-      new RegExp(`export (interface ${type} ?{|type ${type} ?= ?{)`).test(fileData)
+      new RegExp(`export (interface ${type} ?{|type ${type} ?=)`).test(fileData)
     )
 
     if (typeName) {
-      const queryRegExp = new RegExp(`export (interface ${typeName} ?{|type ${typeName} ?= ?{)`)
-      const [, typeText, targetText] = fileData.split(queryRegExp)
-      let cursor = 0
-      let depth = 1
-
-      while (depth && cursor <= targetText.length) {
-        if (targetText[cursor] === '}') {
-          depth -= 1
-        } else if (targetText[cursor] === '{') {
-          depth += 1
-        }
-
-        cursor += 1
-      }
-
       const importName = `${typeName}${imports.length}`
       imports.push(
-        `${typeText.replace(typeName, importName)}${targetText
-          .slice(0, cursor)
-          .replace(/\r/g, '')}\n`
+        `import { ${typeName} as ${importName} } from '${path.posix
+          .relative('lib', file)
+          .replace(/(\/index)?\.tsx/, '')}'`
       )
       return importName
     }
@@ -65,21 +53,20 @@ export default (input: string, trailingSlash = false) => {
     indent += '  '
 
     fs.readdirSync(targetDir)
-      .filter(file => !file.startsWith('-'))
+      .filter(file => !file.startsWith('_'))
       .sort()
       .forEach((file, _, arr) => {
         const newSlags = [...slags]
         const basename = path.basename(file, path.extname(file))
+        const newUrl = `${url}/${basename}`
         let valFn = `${indent}${basename
           .replace(/(-|\.|!| |'|\*|\(|\))/g, '_')
           .replace(/^(\d)/, '$$$1')}: {\n<% next %>\n${indent}}`
-        let newUrl = `${url}/${basename}`
 
-        if (basename.startsWith('_')) {
-          const slag = basename.slice(1)
-          valFn = `${indent}_${slag}: (${slag}: number | string) => ({\n<% next %>\n${indent}})`
+        if (basename.startsWith('[') && basename.endsWith(']')) {
+          const slag = basename.replace(/[.[\]]/g, '')
+          valFn = `${indent}${`_${slag}`}: (${slag}: number | string) => ({\n<% next %>\n${indent}})`
           newSlags.push(slag)
-          newUrl = `${url}/:${slag}`
         }
 
         const target = path.posix.join(targetDir, file)
@@ -88,7 +75,7 @@ export default (input: string, trailingSlash = false) => {
           props.push(
             valFn.replace(
               '<% next %>',
-              createMethods(indent, getImportName(target), newSlags, newUrl, trailingSlash)
+              createMethods(indent, getImportName(target), newSlags, newUrl)
             )
           )
         } else if (fs.statSync(target).isDirectory()) {
@@ -102,8 +89,7 @@ export default (input: string, trailingSlash = false) => {
               indent,
               getImportName(path.posix.join(target, indexFile)),
               newSlags,
-              newUrl,
-              trailingSlash
+              newUrl
             )
           }
 
@@ -129,9 +115,7 @@ export default (input: string, trailingSlash = false) => {
     )
   }
 
-  const rootIndexFile = fs
-    .readdirSync(input)
-    .find(name => path.basename(name, path.extname(name)) === 'index')
+  const rootIndexFile = fs.readdirSync(input).find(name => name === 'index.tsx')
   const rootIndent = ''
   let rootMethods
 
@@ -140,8 +124,7 @@ export default (input: string, trailingSlash = false) => {
       rootIndent,
       getImportName(path.posix.join(input, rootIndexFile)),
       [],
-      '',
-      trailingSlash
+      '/'
     )
   }
 

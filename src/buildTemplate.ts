@@ -1,23 +1,9 @@
 import path from 'path'
 import { Config } from './getConfig'
+import createNextTemplate from './createNextTemplate'
 import createTemplateValues from './createTemplateValues'
-import dataToURLString from './dataToURLString'
 
-export default ({ input, baseURL, output, trailingSlash }: Config) => {
-  const { api, imports } = createTemplateValues(input, trailingSlash)
-
-  const text = `/* eslint-disable */
-${imports.map(i => i.replace(input, '.')).join('\n')}
-${api.includes('dataToURLString') ? dataToURLString : ''}
-const path = (baseURL?: string) => {
-  const prefix = (baseURL === undefined ? '${baseURL}' : baseURL).replace(/\\/$/, '')
-
-  return ${api}
-}
-
-export type PathInstance = ReturnType<typeof path>
-export default path
-`
-
-  return { text, filePath: path.posix.join(output, '$path.ts') }
-}
+export default ({ type, input, output, trailingSlash }: Config) => ({
+  text: type === 'nextjs' ? createNextTemplate(input) : createTemplateValues(input, trailingSlash),
+  filePath: path.posix.join(output, '$path.ts')
+})
