@@ -1,7 +1,7 @@
 import path from 'path'
 import { Config } from './getConfig'
 import createNextTemplate from './createNextTemplate'
-import createTemplateValues from './createTemplateValues'
+import createTemplateValues from './createNuxtTemplate'
 
 export default ({ type, input, output, trailingSlash }: Config) => ({
   text: type === 'nextjs' ? createNextTemplate(input) : createTemplateValues(input, trailingSlash),
