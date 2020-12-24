@@ -1,9 +1,10 @@
 {
   "name": "pathpida",
   "version": "0.6.0",
-  "description": "TypeScript friendly path generator for Next.js or Nuxt.js",
+  "description": "TypeScript friendly pages path generator for Next.js and Nuxt.js",
   "author": "Solufa <solufa2020@gmail.com>",
   "license": "MIT",
+  "types": "dist/cli.d.ts",
   "bin": "bin/index.js",
   "scripts": {
     "dev": "npm run build && cd projects/nextjs && node ../../bin/index.js && cd ../nuxtjs && node ../../bin/index.js",
@@ -31,12 +32,11 @@
   ],
   "keywords": [
     "typescript",
+    "nextjs",
+    "nuxtjs",
+    "pages",
     "path"
   ],
-  "dependencies": {
-    "chokidar": "^3.4.1",
-    "minimist": "^1.2.5"
-  },
   "eslintConfig": {
     "env": {
       "es6": true,
@@ -83,6 +83,10 @@
         }
       }
     ]
+  },
+  "dependencies": {
+    "chokidar": "^3.4.3",
+    "minimist": "^1.2.5"
   },
   "devDependencies": {
     "@types/jest": "^26.0.19",

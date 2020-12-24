@@ -27,10 +27,11 @@ export default (input: string, trailingSlash = false) => {
     if (typeName) {
       const queryRegExp = new RegExp(`export (interface ${typeName} ?{|type ${typeName} ?= ?{)`)
       const [, typeText, targetText] = fileData.split(queryRegExp)
+      const { length } = targetText
       let cursor = 0
       let depth = 1
 
-      while (depth && cursor <= targetText.length) {
+      while (depth && cursor <= length) {
         if (targetText[cursor] === '}') {
           depth -= 1
         } else if (targetText[cursor] === '{') {

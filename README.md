@@ -4,29 +4,28 @@
 <br />
 <br />
 <br />
+# pathpida
 <br />
-<div align="center">
-  <img src="https://aspida.github.io/pathpida/logos/svg/black.svg" alt="pathpida" title="pathpida" width="700" />
-</div>
-<br />
-<br />
-<br />
+<img src="https://aspida.github.io/pathpida/logos/png/logo.png" alt="pathpida" title="pathpida" />
 <div align="center">
   <a href="https://www.npmjs.com/package/pathpida">
     <img src="https://img.shields.io/npm/v/pathpida" alt="npm version" />
   </a>
+  <a href="https://www.npmjs.com/package/pathpida">
+    <img src="https://img.shields.io/npm/dm/pathpida" alt="npm download" />
+  </a>
+  <a href="https://github.com/aspida/pathpida/actions?query=workflow%3A%22Node.js+CI%22">
+    <img src="https://github.com/aspida/pathpida/workflows/Node.js%20CI/badge.svg?branch=master" alt="Node.js CI" />
+  </a>
   <a href="https://codecov.io/gh/aspida/pathpida">
     <img src="https://img.shields.io/codecov/c/github/aspida/pathpida.svg" alt="Codecov" />
   </a>
-  <a href="https://dependabot.com">
-    <img src="https://api.dependabot.com/badges/status?host=github&repo=aspida/pathpida" alt="Dependabot Status" />
-  </a>
-  <a href="https://github.com/aspida/pathpida/LICENSE">
-    <img src="https://img.shields.io/npm/l/pathpida" alt="License" />
+  <a href="https://lgtm.com/projects/g/aspida/pathpida/context:javascript">
+    <img src="https://img.shields.io/lgtm/grade/javascript/g/aspida/pathpida.svg" alt="Language grade: JavaScript" />
   </a>
 </div>
 <br />
-<p align="center">TypeScript friendly path generator for Next.js and Nuxt.js.</p>
+<p align="center">TypeScript friendly pages path generator for Next.js and Nuxt.js.</p>
 <br />
 <br />
 
