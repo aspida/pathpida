@@ -1,23 +1,59 @@
 import path from 'path'
 import { Config } from './getConfig'
-import createTemplateValues from './createTemplateValues'
-import dataToURLString from './dataToURLString'
+import createNextTemplate from './createNextTemplate'
+import createNuxtTemplate from './createNuxtTemplate'
+import createStaticTemplate from './createStaticTemplate'
 
-export default ({ input, baseURL, output, trailingSlash }: Config) => {
-  const { api, imports } = createTemplateValues(input, trailingSlash)
+let prevPagesText = ''
+let prevStaticText = ''
 
-  const text = `/* eslint-disable */
-${imports.map(i => i.replace(input, '.')).join('\n')}
-${api.includes('dataToURLString') ? dataToURLString : ''}
-const path = (baseURL?: string) => {
-  const prefix = (baseURL === undefined ? '${baseURL}' : baseURL).replace(/\\/$/, '')
+export default (
+  { type, input, staticDir, output, trailingSlash }: Config,
+  mode?: 'pages' | 'static'
+) => {
+  const isNextJs = type === 'nextjs'
+  prevPagesText =
+    mode === 'static'
+      ? prevPagesText
+      : isNextJs
+      ? createNextTemplate(input)
+      : createNuxtTemplate(input, trailingSlash)
+  prevStaticText = !staticDir || mode === 'pages' ? prevStaticText : createStaticTemplate(staticDir)
 
-  return ${api}
+  return {
+    text: `${prevPagesText}${prevStaticText}${
+      isNextJs
+        ? ''
+        : `
+declare module 'vue/types/vue' {
+  interface Vue {
+    $pagesPath: PagesPath${prevStaticText ? '\n    $staticPath: StaticPath' : ''}
+  }
 }
 
-export type PathInstance = ReturnType<typeof path>
-export default path
-`
+declare module '@nuxt/types' {
+  interface NuxtAppOptions {
+    $pagesPath: PagesPath${prevStaticText ? '\n    $staticPath: StaticPath' : ''}
+  }
 
-  return { text, filePath: path.posix.join(output, '$path.ts') }
+  interface Context {
+    $pagesPath: PagesPath${prevStaticText ? '\n    $staticPath: StaticPath' : ''}
+  }
+}
+
+declare module 'vuex/types/index' {
+  interface Store<S> {
+    $pagesPath: PagesPath${prevStaticText ? '\n    $staticPath: StaticPath' : ''}
+  }
+}
+
+const pathPlugin: Plugin = (_, inject) => {
+  inject('pagesPath', pagesPath)${prevStaticText ? "\n  inject('staticPath', staticPath)" : ''}
+}
+
+export default pathPlugin
+`
+    }`,
+    filePath: path.posix.join(output, '$path.ts')
+  }
 }

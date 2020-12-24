@@ -1,46 +1,48 @@
 import fs from 'fs'
 import path from 'path'
-import createMethods from './createMethodsString'
 
-export default (input: string, trailingSlash: boolean) => {
+type Slugs = string[]
+
+const createMethods = (
+  indent: string,
+  importName: string | undefined,
+  slugs: Slugs,
+  pathname: string
+) =>
+  `${indent}  $path: (${
+    importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}` : ''
+  }) => ({ pathname: '${pathname}' as const${
+    slugs.length
+      ? `, query: { ${slugs.join(', ')}${importName ? ', ...query' : ''} }`
+      : importName
+      ? ', query'
+      : ''
+  } })`
+
+export default (input: string) => {
   const imports: string[] = []
   const getImportName = (file: string) => {
-    const typeName = 'Query'
-    const queryRegExp = new RegExp(`export (interface ${typeName} ?{|type ${typeName} ?= ?{)`)
     const fileData = fs.readFileSync(file, 'utf8')
+    const typeName = ['Query', 'OptionalQuery'].find(type =>
+      new RegExp(`export (interface ${type} ?{|type ${type} ?=)`).test(fileData)
+    )
 
-    if (queryRegExp.test(fileData)) {
-      const [, typeText, targetText] = fileData.split(queryRegExp)
-      let cursor = 0
-      let depth = 1
-
-      while (depth && cursor <= targetText.length) {
-        if (targetText[cursor] === '}') {
-          depth -= 1
-        } else if (targetText[cursor] === '{') {
-          depth += 1
-        }
-
-        cursor += 1
-      }
-
+    if (typeName) {
       const importName = `${typeName}${imports.length}`
       imports.push(
-        `${typeText.replace(typeName, importName)}${targetText
-          .slice(0, cursor)
-          .replace(/\r/g, '')}\n`
+        `import { ${typeName} as ${importName} } from '${path.posix
+          .relative('lib', file)
+          .replace(/(\/index)?\.tsx/, '')}'`
       )
       return importName
     }
   }
 
-  let valCount = 0
-
   const createQueryString = (
     targetDir: string,
-    importBasePath: string,
     indent: string,
     url: string,
+    slugs: Slugs,
     text: string,
     methodsOfIndexTsFile?: string
   ) => {
@@ -49,23 +51,22 @@ export default (input: string, trailingSlash: boolean) => {
     indent += '  '
 
     fs.readdirSync(targetDir)
+      .filter(file => !file.startsWith('_'))
       .sort()
       .forEach((file, _, arr) => {
+        const newSlugs = [...slugs]
         const basename = path.basename(file, path.extname(file))
+        const newUrl = `${url}/${basename}`
         let valFn = `${indent}${basename
           .replace(/(-|\.|!| |'|\*|\(|\))/g, '_')
           .replace(/^(\d)/, '$$$1')}: {\n<% next %>\n${indent}}`
-        let newUrl = `${url}/${basename}`
 
-        const isNuxtLikeDynamicPath = basename.startsWith('_')
-
-        if (isNuxtLikeDynamicPath || (basename.startsWith('[') && basename.endsWith(']'))) {
-          valFn = `${indent}${
-            isNuxtLikeDynamicPath ? basename : `_${basename.slice(1, -1)}`
-          }: (val${valCount}: number | string) => ({\n<% next %>\n${indent}})`
-
-          newUrl = `${url}/\${val${valCount}}`
-          valCount += 1
+        if (basename.startsWith('[') && basename.endsWith(']')) {
+          const slug = basename.replace(/[.[\]]/g, '')
+          valFn = `${indent}${`_${slug}`}: (${slug}${basename.startsWith('[[') ? '?' : ''}: ${
+            /\[\./.test(basename) ? '(string | number)[]' : 'string | number'
+          }) => ({\n<% next %>\n${indent}})`
+          newSlugs.push(slug)
         }
 
         const target = path.posix.join(targetDir, file)
@@ -74,7 +75,7 @@ export default (input: string, trailingSlash: boolean) => {
           props.push(
             valFn.replace(
               '<% next %>',
-              createMethods(indent, getImportName(target), newUrl, trailingSlash)
+              createMethods(indent, getImportName(target), newSlugs, newUrl)
             )
           )
         } else if (fs.statSync(target).isDirectory()) {
@@ -87,17 +88,17 @@ export default (input: string, trailingSlash: boolean) => {
             methods = createMethods(
               indent,
               getImportName(path.posix.join(target, indexFile)),
-              newUrl,
-              trailingSlash
+              newSlugs,
+              newUrl
             )
           }
 
           props.push(
             createQueryString(
               target,
-              `${importBasePath}/${file}`,
               indent,
               newUrl,
+              newSlugs,
               valFn.replace('<% next %>', '<% props %>'),
               methods
             )
@@ -113,23 +114,24 @@ export default (input: string, trailingSlash: boolean) => {
     )
   }
 
-  const rootIndexFile = fs
-    .readdirSync(input)
-    .find(name => path.basename(name, path.extname(name)) === 'index')
-  const rootIndent = '  '
+  const rootIndexFile = fs.readdirSync(input).find(name => name === 'index.tsx')
+  const rootIndent = ''
   let rootMethods
 
   if (rootIndexFile) {
     rootMethods = createMethods(
       rootIndent,
       getImportName(path.posix.join(input, rootIndexFile)),
-      '',
-      trailingSlash
+      [],
+      '/'
     )
   }
 
-  return {
-    api: createQueryString(input, '.', rootIndent, '', `{\n<% props %>\n  }`, rootMethods),
-    imports
-  }
+  const text = createQueryString(input, rootIndent, '', [], `{\n<% props %>\n}`, rootMethods)
+
+  return `/* eslint-disable */
+${imports.join('\n')}${
+    imports.length ? '\n\n' : ''
+  }export const pagesPath = ${text}\n\nexport type PagesPath = typeof pagesPath
+`
 }

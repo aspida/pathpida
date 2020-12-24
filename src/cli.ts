@@ -6,17 +6,19 @@ import build from './buildTemplate'
 
 export const run = (args: string[]) => {
   const argv = minimist(args, {
-    string: ['version', 'config', 'watch'],
-    alias: { v: 'version', c: 'config', w: 'watch' }
+    string: ['version', 'watch', 'enableStatic'],
+    alias: { v: 'version', w: 'watch', s: 'enableStatic' }
   })
 
   // eslint-disable-next-line no-unused-expressions
   argv.version !== undefined
     ? console.log(`v${require('../package.json').version}`)
     : argv.watch !== undefined
-    ? getConfig(argv.config).forEach(config => {
+    ? (() => {
+        const config = getConfig(argv.enableStatic !== undefined)
         write(build(config))
-        watch(config.input, () => write(build(config)))
-      })
-    : getConfig(argv.config).map(build).forEach(write)
+        watch(config.input, () => write(build(config, 'pages')))
+        config.staticDir && watch(config.staticDir, () => write(build(config, 'static')))
+      })()
+    : write(build(getConfig(argv.enableStatic !== undefined)))
 }

@@ -2,35 +2,39 @@ import fs from 'fs'
 import path from 'path'
 
 export type Config = {
+  type: 'nextjs' | 'nuxtjs'
   input: string
+  staticDir?: string
   output: string
-  baseURL: string
-  trailingSlash: boolean
-}
-
-type ConfigFile = {
-  input?: string
-  output?: string
-  baseURL?: string
   trailingSlash?: boolean
 }
 
-const defaultConfig: Config = {
-  input: 'pages',
-  output: '',
-  baseURL: '',
-  trailingSlash: false
-}
+export default (enableStatic: boolean, dir = process.cwd()): Config => {
+  const nuxtjsPath = path.join(dir, 'nuxt.config.js')
+  const nuxttsPath = path.join(dir, 'nuxt.config.ts')
+  const nextLibPath = path.join(dir, 'lib')
+  const inputPath = path.posix.join(dir, 'pages')
+  const type = fs.existsSync(nuxtjsPath) || fs.existsSync(nuxttsPath) ? 'nuxtjs' : 'nextjs'
+  if (type === 'nextjs') {
+    if (!fs.existsSync(nextLibPath)) fs.mkdirSync(nextLibPath)
 
-export default (configPath = 'pathpida.config.js'): Config[] => {
-  if (fs.existsSync(configPath)) {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const config: ConfigFile | ConfigFile[] = require(path.join(process.cwd(), configPath))
+    return {
+      type: 'nextjs',
+      input: inputPath,
+      staticDir: enableStatic ? path.posix.join(dir, 'public') : undefined,
+      output: nextLibPath
+    }
+  } else {
+    const config = fs.existsSync(nuxtjsPath)
+      ? require(nuxtjsPath)
+      : { trailingSlash: /trailingSlash: true/.test(fs.readFileSync(nuxttsPath, 'utf8')) }
 
-    return Array.isArray(config)
-      ? config.map(c => ({ ...defaultConfig, ...c }))
-      : [{ ...defaultConfig, ...config }]
+    return {
+      type: 'nuxtjs',
+      input: inputPath,
+      staticDir: enableStatic ? path.posix.join(dir, 'static') : undefined,
+      output: path.posix.join(dir, 'plugins'),
+      trailingSlash: config.trailingSlash
+    }
   }
-
-  return [{ ...defaultConfig }]
 }
