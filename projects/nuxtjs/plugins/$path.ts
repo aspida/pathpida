@@ -1,21 +1,22 @@
 /* eslint-disable */
+import { Plugin } from '@nuxt/types'
+
 type Query0 = { hoge: string }
 
 type OptionalQuery1 = { hoge: string }
 
 type Query2 = { hoge: string }
 
-
 export const pagesPath = {
   _pid: (pid: number | string) => ({
-    $path: (query?: OptionalQuery1) => ({ path: '/:pid/' as const, params: { pid }, query })
+    $path: (query?: OptionalQuery1) => ({ path: '/:pid/' as const, params: { pid } as any, query: query as any })
   }),
   blog: {
     _slag: (slag: number | string) => ({
-      $path: (query: Query2) => ({ path: '/blog/:slag/' as const, params: { slag }, query })
+      $path: (query: Query2) => ({ path: '/blog/:slag/' as const, params: { slag } as any, query: query as any })
     })
   },
-  $path: (query: Query0) => ({ path: '/' as const, query })
+  $path: (query: Query0) => ({ path: '/' as const, query: query as any })
 }
 
 export type PagesPath = typeof pagesPath
@@ -28,3 +29,36 @@ export const staticPath = {
 } as const
 
 export type StaticPath = typeof staticPath
+
+declare module 'vue/types/vue' {
+  interface Vue {
+    $pagesPath: PagesPath
+    $staticPath: StaticPath
+  }
+}
+
+declare module '@nuxt/types' {
+  interface NuxtAppOptions {
+    $pagesPath: PagesPath
+    $staticPath: StaticPath
+  }
+
+  interface Context {
+    $pagesPath: PagesPath
+    $staticPath: StaticPath
+  }
+}
+
+declare module 'vuex/types/index' {
+  interface Store<S> {
+    $pagesPath: PagesPath
+    $staticPath: StaticPath
+  }
+}
+
+const pathPlugin: Plugin = (_, inject) => {
+  inject('pagesPath', pagesPath)
+  inject('staticPath', staticPath)
+}
+
+export default pathPlugin

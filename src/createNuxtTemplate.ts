@@ -13,8 +13,8 @@ const createMethods = (
   `${indent}  $path: (${
     importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}` : ''
   }) => ({ path: '${pathname}${trailingSlash ? '/' : ''}' as const${
-    slags.length ? `, params: { ${slags.join(', ')} }` : ''
-  }${importName ? ', query' : ''} })`
+    slags.length ? `, params: { ${slags.join(', ')} } as any` : ''
+  }${importName ? ', query: query as any' : ''} })`
 
 export default (input: string, trailingSlash = false) => {
   const imports: string[] = []
@@ -148,8 +148,10 @@ export default (input: string, trailingSlash = false) => {
   const text = createQueryString(input, '.', rootIndent, '', [], `{\n<% props %>\n}`, rootMethods)
 
   return `/* eslint-disable */
+import { Plugin } from '@nuxt/types'
+
 ${imports.join('\n')}${
-    imports.length ? '\n\n' : ''
+    imports.length ? '\n' : ''
   }export const pagesPath = ${text}\n\nexport type PagesPath = typeof pagesPath
 `
 }

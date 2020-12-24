@@ -13,9 +13,9 @@ const createMethods = (
     importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}` : ''
   }) => ({ pathname: '${pathname}' as const${
     slags.length
-      ? `, query: { ${slags.join(', ')}${importName ? ', ...query' : ''} }`
+      ? `, query: { ${slags.join(', ')}${importName ? ', ...query' : ''} } as any`
       : importName
-      ? ', query'
+      ? ', query: query as any'
       : ''
   } })`
 
