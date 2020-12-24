@@ -1,10 +1,4 @@
 # pathpida
-
-<br />
-<br />
-<br />
-<br />
-# pathpida
 <br />
 <img src="https://aspida.github.io/pathpida/logos/png/logo.png" alt="pathpida" title="pathpida" />
 <div align="center">
@@ -45,60 +39,277 @@
   $ yarn add pathpida --dev
   ```
 
-### Make HTTP request from application
-
-`pathpida.config.js`
-
-```js
-module.exports = {
-  input: "pages",
-  output: "types",
-  baseURL: "https://example.com/api",
-  trailingSlash: false
-}
-```
+### Setup
 
 `package.json`
 
 ```json
 {
   "scripts": {
-    "build:pathpida": "pathpida"
+    "dev:path": "pathpida --watch",
+    "build:path": "pathpida"
   }
 }
 ```
 
-`pages/users/[userId].tsx`
+If you are using Nuxt.js, add the following.
 
-```ts
-import React from "react"
-import $path from "../types/$path"
+`nuxt.config.js` or `nuxt.config.ts`
 
-export type Query = {
-  hoge: string
+```js
+{
+  plugins: ['~/plugins/$path']
 }
-
-export default () => <div>user info</div>
 ```
 
-`tarminal`
+### Usage (Next.js)
 
-```sh
-$ npm run build:pathpida
-# types/$path.ts was built successfully.
+```
+pages/index.tsx
+pages/post/create.tsx
+pages/post/[pid].tsx
+pages/post/[...slug].tsx
+
+lib/$path.ts // Generated automatically by pathpida
 ```
 
 `pages/index.tsx`
 
-```ts
-import React from "react"
-import $path from "../types/$path"
+```tsx
+import { pagesPath } from '../lib/$path'
 
+console.log(pagesPath.post.create.$path())
+console.log(pagesPath.post._pid(1).$path())
+console.log(pagesPath.post._slug(['a', 'b', 'c']).$path())
+
+export default () => {
+  const onclick = useCallback(() => {
+    router.push(pagesPath.post._pid(1).$path())
+  }, [])
+
+  return <>
+    <next-link href={pagesPath.post._slug(['a', 'b', 'c']).$path()} />
+    <div onclick={onclick} />
+  </>
+}
+```
+
+### Add query
+
+`pages/post/create.tsx`
+
+```tsx
 export type Query = {
-  pageid: number
+  userId: number
+  name?: string
 }
 
-export default () => <a href={$path().users._userId(0).$get({ hoge: "fuga" })}>Link to user page</a>
+export default () => <div />
+```
+
+`pages/post/[pid].tsx`
+
+```tsx
+export type OptionalQuery = {
+  limit: number
+  label?: string
+}
+
+export default () => <div />
+```
+
+`pages/index.tsx`
+
+```tsx
+import { pagesPath } from '../lib/$path'
+
+console.log(pagesPath.post.create.$path({ userId: 1 }))
+console.log(pagesPath.post.create.$path()) // type error
+console.log(pagesPath.post._pid(1).$path())
+console.log(pagesPath.post._pid(1).$path({ limit: 10 }))
+
+export default () => {
+  const onclick = useCallback(() => {
+    router.push(pagesPath.post._pid(1).$path())
+  }, [])
+
+  return <>
+    <next-link href={pagesPath.post._slug(['a', 'b', 'c']).$path()} />
+    <div onclick={onclick} />
+  </>
+}
+```
+
+### Add public files path
+
+`package.json`
+
+```json
+{
+  "scripts": {
+    "dev:path": "pathpida --enableStatic --watch",
+    "build:path": "pathpida --enableStatic"
+  }
+}
+```
+
+```
+pages/index.tsx
+pages/post/create.tsx
+pages/post/[pid].tsx
+pages/post/[...slug].tsx
+
+public/aa.json
+public/bb/cc.png
+
+lib/$path.ts // Generated automatically by pathpida
+```
+
+`pages/index.tsx`
+
+```tsx
+import { pagesPath, staticPath } from '../lib/$path'
+
+console.log(staticPath.aa_json) // /aa.json
+
+export default () => {
+  return <>
+    <next-link href={pagesPath.post._slug(['a', 'b', 'c']).$path()} />
+    <img src={staticPath.bb.cc_png} />
+  </>
+}
+```
+
+### Usage (Nuxt.js)
+
+```
+pages/index.vue
+pages/post/create.vue
+pages/post/_pid.tsx
+
+plugins/$path.ts // Generated automatically by pathpida
+```
+
+`pages/index.vue`
+
+```vue
+<template>
+  <div>
+    <nuxt-link :to="$pagesPath.post._pid(1).$path()" />
+    <div @click="onclick" />
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
+  methods: {
+    onclick() {
+      this.$router.push(this.$pagesPath.post._pid(1).$path())
+    }
+  }
+})
+</script>
+```
+
+### Add query
+
+`pages/post/create.vue`
+
+```vue
+<script lang="ts">
+import Vue from 'vue'
+
+export type Query = {
+  userId: number
+  name?: string
+}
+
+export default Vue.extend({
+})
+</script>
+```
+
+`pages/post/[pid].vue`
+
+```vue
+<script lang="ts">
+import Vue from 'vue'
+
+export type OptionalQuery = {
+  limit: number
+  label?: string
+}
+
+export default Vue.extend({
+})
+</script>
+```
+
+`pages/index.vue`
+
+```vue
+<template>
+  <div>
+    <nuxt-link :to="$pagesPath.post.create.$path({ userId: 1 })" />
+    <div @click="onclick" />
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
+  methods: {
+    onclick() {
+      this.$router.push(this.$pagesPath.post._pid(1).$path())
+      this.$router.push(this.$pagesPath.post._pid(1).$path({ limit: 10 }))
+    }
+  }
+})
+</script>
+```
+
+### Add static files path
+
+`package.json`
+
+```json
+{
+  "scripts": {
+    "dev:path": "pathpida --enableStatic --watch",
+    "build:path": "pathpida --enableStatic"
+  }
+}
+```
+
+```
+pages/index.vue
+pages/post/create.vue
+pages/post/[pid].vue
+
+static/aa.json
+static/bb/cc.png
+
+plugins/$path.ts // Generated automatically by pathpida
+```
+
+`pages/index.vue`
+
+```vue
+<template>
+  <div>
+    <nuxt-link :to="$pagesPath.post.create.$path({ userId: 1 })" />
+    <img :src="$staticPath.bb.cc_png" />
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({})
+</script>
 ```
 
 ## License
