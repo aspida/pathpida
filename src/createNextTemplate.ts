@@ -11,7 +11,7 @@ const createMethods = (
 ) =>
   `${indent}  $path: (${
     importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}` : ''
-  }) => ({ pathname: '${pathname}'${
+  }) => ({ pathname: '${pathname}' as const${
     slags.length
       ? `, query: { ${slags.join(', ')}${importName ? ', ...query' : ''} }`
       : importName
@@ -40,7 +40,6 @@ export default (input: string) => {
 
   const createQueryString = (
     targetDir: string,
-    importBasePath: string,
     indent: string,
     url: string,
     slags: Slags,
@@ -95,7 +94,6 @@ export default (input: string) => {
           props.push(
             createQueryString(
               target,
-              `${importBasePath}/${file}`,
               indent,
               newUrl,
               newSlags,
@@ -127,7 +125,7 @@ export default (input: string) => {
     )
   }
 
-  const text = createQueryString(input, '.', rootIndent, '', [], `{\n<% props %>\n}`, rootMethods)
+  const text = createQueryString(input, rootIndent, '', [], `{\n<% props %>\n}`, rootMethods)
 
   return `/* eslint-disable */
 ${imports.join('\n')}${

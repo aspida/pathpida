@@ -4,11 +4,12 @@ import path from 'path'
 export type Config = {
   type: 'nextjs' | 'nuxtjs'
   input: string
+  staticDir?: string
   output: string
   trailingSlash?: boolean
 }
 
-export default (dir = process.cwd()): Config => {
+export default (enableStatic: boolean, dir = process.cwd()): Config => {
   const nuxtjsPath = path.join(dir, 'nuxt.config.js')
   const nuxttsPath = path.join(dir, 'nuxt.config.ts')
   const nextLibPath = path.join(dir, 'lib')
@@ -17,7 +18,12 @@ export default (dir = process.cwd()): Config => {
   if (type === 'nextjs') {
     if (!fs.existsSync(nextLibPath)) fs.mkdirSync(nextLibPath)
 
-    return { type: 'nextjs', input: inputPath, output: nextLibPath }
+    return {
+      type: 'nextjs',
+      input: inputPath,
+      staticDir: enableStatic ? path.posix.join(dir, 'public') : undefined,
+      output: nextLibPath
+    }
   } else {
     const config = fs.existsSync(nuxtjsPath)
       ? require(nuxtjsPath)
@@ -26,6 +32,7 @@ export default (dir = process.cwd()): Config => {
     return {
       type: 'nuxtjs',
       input: inputPath,
+      staticDir: enableStatic ? path.posix.join(dir, 'static') : undefined,
       output: path.posix.join(dir, 'plugins'),
       trailingSlash: config.trailingSlash
     }

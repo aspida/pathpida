@@ -1,9 +1,26 @@
 import path from 'path'
 import { Config } from './getConfig'
 import createNextTemplate from './createNextTemplate'
-import createTemplateValues from './createNuxtTemplate'
+import createNuxtTemplate from './createNuxtTemplate'
+import createStaticTemplate from './createStaticTemplate'
 
-export default ({ type, input, output, trailingSlash }: Config) => ({
-  text: type === 'nextjs' ? createNextTemplate(input) : createTemplateValues(input, trailingSlash),
-  filePath: path.posix.join(output, '$path.ts')
-})
+let prevPagesText = ''
+let prevStaticText = ''
+
+export default (
+  { type, input, staticDir, output, trailingSlash }: Config,
+  mode?: 'pages' | 'static'
+) => {
+  prevPagesText =
+    mode === 'static'
+      ? prevPagesText
+      : type === 'nextjs'
+      ? createNextTemplate(input)
+      : createNuxtTemplate(input, trailingSlash)
+  prevStaticText = !staticDir || mode === 'pages' ? prevStaticText : createStaticTemplate(staticDir)
+
+  return {
+    text: `${prevPagesText}${prevStaticText}`,
+    filePath: path.posix.join(output, '$path.ts')
+  }
+}

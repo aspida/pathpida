@@ -1,0 +1,39 @@
+import fs from 'fs'
+import path from 'path'
+
+export default (input: string) => {
+  const createPublicString = (targetDir: string, indent: string, url: string, text: string) => {
+    const props: string[] = []
+
+    indent += '  '
+
+    fs.readdirSync(targetDir)
+      .sort()
+      .forEach(file => {
+        const newUrl = `${url}/${file}`
+        const target = path.posix.join(targetDir, file)
+        const valFn = `${indent}${file
+          .replace(/(-|\.|!| |'|\*|\(|\))/g, '_')
+          .replace(/^(\d)/, '$$$1')}: <% next %>`
+
+        if (fs.statSync(target).isFile()) {
+          props.push(valFn.replace('<% next %>', `'${newUrl}'`))
+        } else if (fs.statSync(target).isDirectory()) {
+          props.push(
+            createPublicString(
+              target,
+              indent,
+              newUrl,
+              valFn.replace('<% next %>', `{\n<% props %>\n${indent}}`)
+            )
+          )
+        }
+      })
+
+    return text.replace('<% props %>', props.join(',\n'))
+  }
+
+  const text = createPublicString(input, '', '', `{\n<% props %>\n} as const`)
+
+  return `\nexport const staticPath = ${text}\n\nexport type StaticPath = typeof staticPath\n`
+}

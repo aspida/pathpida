@@ -12,7 +12,7 @@ const createMethods = (
 ) =>
   `${indent}  $path: (${
     importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}` : ''
-  }) => ({ path: '${pathname}${trailingSlash ? '/' : ''}'${
+  }) => ({ path: '${pathname}${trailingSlash ? '/' : ''}' as const${
     slags.length ? `, params: { ${slags.join(', ')} }` : ''
   }${importName ? ', query' : ''} })`
 
