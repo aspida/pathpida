@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.8.0](https://github.com/aspida/pathpida/compare/v0.7.0...v0.8.0) (2020-12-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* change $path() to $url()
+
+### Features
+
+* change $path() to $url() ([6c931ec](https://github.com/aspida/pathpida/commit/6c931ec11ce74ce81bc8a910e1dbf98e13dc8ec9))
+
 ## [0.7.0](https://github.com/aspida/pathpida/compare/v0.6.0...v0.7.0) (2020-12-24)
 
 
