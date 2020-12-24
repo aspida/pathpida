@@ -8,12 +8,12 @@ type OptionalQuery1 = { hoge: string }
 type Query2 = { hoge: string }
 
 export const pagesPath = {
-  _pid: (pid: number | string) => ({
+  _pid: (pid: string | number) => ({
     $path: (query?: OptionalQuery1) => ({ path: '/:pid/' as const, params: { pid } as any, query: query as any })
   }),
   blog: {
-    _slag: (slag: number | string) => ({
-      $path: (query: Query2) => ({ path: '/blog/:slag/' as const, params: { slag } as any, query: query as any })
+    _slug: (slug: string | number) => ({
+      $path: (query: Query2) => ({ path: '/blog/:slug/' as const, params: { slug } as any, query: query as any })
     })
   },
   $path: (query: Query0) => ({ path: '/' as const, query: query as any })

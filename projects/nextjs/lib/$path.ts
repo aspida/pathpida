@@ -1,18 +1,23 @@
 /* eslint-disable */
 import { Query as Query0 } from '../pages'
 import { OptionalQuery as OptionalQuery1 } from '../pages/[pid]'
-import { Query as Query2 } from '../pages/blog/[...slag]'
+import { Query as Query2 } from '../pages/blog/[...slug]'
 
 export const pagesPath = {
-  _pid: (pid: number | string) => ({
-    $path: (query?: OptionalQuery1) => ({ pathname: '/[pid]' as const, query: { pid, ...query } as any })
+  _pid: (pid: string | number) => ({
+    $path: (query?: OptionalQuery1) => ({ pathname: '/[pid]' as const, query: { pid, ...query } })
   }),
   blog: {
-    _slag: (slag: number | string) => ({
-      $path: (query: Query2) => ({ pathname: '/blog/[...slag]' as const, query: { slag, ...query } as any })
-    })
+    _slug: (slug: (string | number)[]) => ({
+      $path: (query: Query2) => ({ pathname: '/blog/[...slug]' as const, query: { slug, ...query } })
+    }),
+    hoge: {
+      _fuga: (fuga?: (string | number)[]) => ({
+        $path: () => ({ pathname: '/blog/hoge/[[...fuga]]' as const, query: { fuga } })
+      })
+    }
   },
-  $path: (query: Query0) => ({ pathname: '/' as const, query: query as any })
+  $path: (query: Query0) => ({ pathname: '/' as const, query })
 }
 
 export type PagesPath = typeof pagesPath

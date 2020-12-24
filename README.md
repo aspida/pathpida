@@ -58,7 +58,10 @@ If you are using Nuxt.js, add the following.
 
 ```js
 {
-  plugins: ['~/plugins/$path']
+  plugins: ['~/plugins/$path'],
+  router: {
+    trailingSlash: true // optional
+  }
 }
 ```
 
@@ -76,6 +79,7 @@ lib/$path.ts // Generated automatically by pathpida
 `pages/index.tsx`
 
 ```tsx
+import Link from 'next/link'
 import { pagesPath } from '../lib/$path'
 
 console.log(pagesPath.post.create.$path())
@@ -88,7 +92,7 @@ export default () => {
   }, [])
 
   return <>
-    <next-link href={pagesPath.post._slug(['a', 'b', 'c']).$path()} />
+    <Link href={pagesPath.post._slug(['a', 'b', 'c']).$path()} />
     <div onclick={onclick} />
   </>
 }
@@ -121,6 +125,7 @@ export default () => <div />
 `pages/index.tsx`
 
 ```tsx
+import Link from 'next/link'
 import { pagesPath } from '../lib/$path'
 
 console.log(pagesPath.post.create.$path({ userId: 1 }))
@@ -134,7 +139,7 @@ export default () => {
   }, [])
 
   return <>
-    <next-link href={pagesPath.post._slug(['a', 'b', 'c']).$path()} />
+    <Link href={pagesPath.post._slug(['a', 'b', 'c']).$path()} />
     <div onclick={onclick} />
   </>
 }
@@ -168,13 +173,14 @@ lib/$path.ts // Generated automatically by pathpida
 `pages/index.tsx`
 
 ```tsx
+import Link from 'next/link'
 import { pagesPath, staticPath } from '../lib/$path'
 
 console.log(staticPath.aa_json) // /aa.json
 
 export default () => {
   return <>
-    <next-link href={pagesPath.post._slug(['a', 'b', 'c']).$path()} />
+    <Link href={pagesPath.post._slug(['a', 'b', 'c']).$path()} />
     <img src={staticPath.bb.cc_png} />
   </>
 }

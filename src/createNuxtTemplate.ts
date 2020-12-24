@@ -1,19 +1,19 @@
 import fs from 'fs'
 import path from 'path'
 
-type Slags = string[]
+type Slugs = string[]
 
 const createMethods = (
   indent: string,
   importName: string | undefined,
-  slags: Slags,
+  slugs: Slugs,
   pathname: string,
   trailingSlash: boolean
 ) =>
   `${indent}  $path: (${
     importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}` : ''
   }) => ({ path: '${pathname}${trailingSlash ? '/' : ''}' as const${
-    slags.length ? `, params: { ${slags.join(', ')} } as any` : ''
+    slugs.length ? `, params: { ${slugs.join(', ')} } as any` : ''
   }${importName ? ', query: query as any' : ''} })`
 
 export default (input: string, trailingSlash = false) => {
@@ -56,7 +56,7 @@ export default (input: string, trailingSlash = false) => {
     importBasePath: string,
     indent: string,
     url: string,
-    slags: Slags,
+    slugs: Slugs,
     text: string,
     methodsOfIndexTsFile?: string
   ) => {
@@ -68,7 +68,7 @@ export default (input: string, trailingSlash = false) => {
       .filter(file => !file.startsWith('-'))
       .sort()
       .forEach((file, _, arr) => {
-        const newSlags = [...slags]
+        const newSlugs = [...slugs]
         const basename = path.basename(file, path.extname(file))
         let valFn = `${indent}${basename
           .replace(/(-|\.|!| |'|\*|\(|\))/g, '_')
@@ -76,10 +76,10 @@ export default (input: string, trailingSlash = false) => {
         let newUrl = `${url}/${basename}`
 
         if (basename.startsWith('_')) {
-          const slag = basename.slice(1)
-          valFn = `${indent}_${slag}: (${slag}: number | string) => ({\n<% next %>\n${indent}})`
-          newSlags.push(slag)
-          newUrl = `${url}/:${slag}`
+          const slug = basename.slice(1)
+          valFn = `${indent}_${slug}: (${slug}: string | number) => ({\n<% next %>\n${indent}})`
+          newSlugs.push(slug)
+          newUrl = `${url}/:${slug}`
         }
 
         const target = path.posix.join(targetDir, file)
@@ -88,7 +88,7 @@ export default (input: string, trailingSlash = false) => {
           props.push(
             valFn.replace(
               '<% next %>',
-              createMethods(indent, getImportName(target), newSlags, newUrl, trailingSlash)
+              createMethods(indent, getImportName(target), newSlugs, newUrl, trailingSlash)
             )
           )
         } else if (fs.statSync(target).isDirectory()) {
@@ -101,7 +101,7 @@ export default (input: string, trailingSlash = false) => {
             methods = createMethods(
               indent,
               getImportName(path.posix.join(target, indexFile)),
-              newSlags,
+              newSlugs,
               newUrl,
               trailingSlash
             )
@@ -113,7 +113,7 @@ export default (input: string, trailingSlash = false) => {
               `${importBasePath}/${file}`,
               indent,
               newUrl,
-              newSlags,
+              newSlugs,
               valFn.replace('<% next %>', '<% props %>'),
               methods
             )
