@@ -5,19 +5,19 @@ import { Query as Query2 } from '../pages/blog/[...slug]'
 
 export const pagesPath = {
   _pid: (pid: string | number) => ({
-    $path: (query?: OptionalQuery1) => ({ pathname: '/[pid]' as const, query: { pid, ...query } })
+    $url: (query?: OptionalQuery1) => ({ pathname: '/[pid]' as const, query: { pid, ...query } })
   }),
   blog: {
     _slug: (slug: (string | number)[]) => ({
-      $path: (query: Query2) => ({ pathname: '/blog/[...slug]' as const, query: { slug, ...query } })
+      $url: (query: Query2) => ({ pathname: '/blog/[...slug]' as const, query: { slug, ...query } })
     }),
     hoge: {
       _fuga: (fuga?: (string | number)[]) => ({
-        $path: () => ({ pathname: '/blog/hoge/[[...fuga]]' as const, query: { fuga } })
+        $url: () => ({ pathname: '/blog/hoge/[[...fuga]]' as const, query: { fuga } })
       })
     }
   },
-  $path: (query: Query0) => ({ pathname: '/' as const, query })
+  $url: (query: Query0) => ({ pathname: '/' as const, query })
 }
 
 export type PagesPath = typeof pagesPath
