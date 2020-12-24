@@ -10,7 +10,7 @@ const createMethods = (
   pathname: string,
   trailingSlash: boolean
 ) =>
-  `${indent}  $path: (${
+  `${indent}  $url: (${
     importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}` : ''
   }) => ({ path: '${pathname}${trailingSlash ? '/' : ''}' as const${
     slugs.length ? `, params: { ${slugs.join(', ')} } as any` : ''

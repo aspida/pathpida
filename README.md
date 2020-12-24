@@ -23,49 +23,53 @@
 <br />
 <br />
 
-## Getting Started
+## Table of Contents
 
-### Installation
+- [Install](#Install)
+- [Setup - Next.js](#Setup-next)
+- [Usage - Next.js](#Usage-next)
+- [Define query - Next.js](#Define-query-next)
+- [Generate static files path - Next.js](#Generate-static-files-path-next)
+- [Setup - Nuxt.js](#Setup-nuxt)
+- [Usage - Nuxt.js](#Usage-nuxt)
+- [Define query - Nuxt.js](#Define-query-nuxt)
+- [Generate static files path - Nuxt.js](#Generate-static-files-path-nuxt)
+- [License](#License)
+
+## Install
 
 - Using [npm](https://www.npmjs.com/):
 
   ```sh
-  $ npm install pathpida --save-dev
+  $ npm install pathpida npm-run-all --save-dev
   ```
 
 - Using [Yarn](https://yarnpkg.com/):
 
   ```sh
-  $ yarn add pathpida --dev
+  $ yarn add pathpida npm-run-all --dev
   ```
 
-### Setup
+<a id="Setup-next"></a>
+
+## Setup - Next.js
 
 `package.json`
 
 ```json
 {
   "scripts": {
+    "dev": "run-p dev:*",
+    "dev:next": "next dev",
     "dev:path": "pathpida --watch",
     "build:path": "pathpida"
   }
 }
 ```
 
-If you are using Nuxt.js, add the following.
+<a id="Usage-next"></a>
 
-`nuxt.config.js` or `nuxt.config.ts`
-
-```js
-{
-  plugins: ['~/plugins/$path'],
-  router: {
-    trailingSlash: true // optional
-  }
-}
-```
-
-### Usage (Next.js)
+## Usage - Next.js
 
 ```
 pages/index.tsx
@@ -73,7 +77,7 @@ pages/post/create.tsx
 pages/post/[pid].tsx
 pages/post/[...slug].tsx
 
-lib/$path.ts // Generated automatically by pathpida
+lib/$path.ts or utils/$path.ts // Generated automatically by pathpida
 ```
 
 `pages/index.tsx`
@@ -82,23 +86,25 @@ lib/$path.ts // Generated automatically by pathpida
 import Link from 'next/link'
 import { pagesPath } from '../lib/$path'
 
-console.log(pagesPath.post.create.$path())
-console.log(pagesPath.post._pid(1).$path())
-console.log(pagesPath.post._slug(['a', 'b', 'c']).$path())
+console.log(pagesPath.post.create.$url()) // { pathname: '/post/create' }
+console.log(pagesPath.post._pid(1).$url()) // { pathname: '/post/[pid]', query: { pid: 1 }}
+console.log(pagesPath.post._slug(['a', 'b', 'c']).$url()) // { pathname: '/post//[...slug]', query: { slug: ['a', 'b', 'c'] }}
 
 export default () => {
   const onclick = useCallback(() => {
-    router.push(pagesPath.post._pid(1).$path())
+    router.push(pagesPath.post._pid(1).$url())
   }, [])
 
   return <>
-    <Link href={pagesPath.post._slug(['a', 'b', 'c']).$path()} />
+    <Link href={pagesPath.post._slug(['a', 'b', 'c']).$url()} />
     <div onclick={onclick} />
   </>
 }
 ```
 
-### Add query
+<a id="Define-query-next"></a>
+
+## Define query - Next.js
 
 `pages/post/create.tsx`
 
@@ -128,30 +134,34 @@ export default () => <div />
 import Link from 'next/link'
 import { pagesPath } from '../lib/$path'
 
-console.log(pagesPath.post.create.$path({ userId: 1 }))
-console.log(pagesPath.post.create.$path()) // type error
-console.log(pagesPath.post._pid(1).$path())
-console.log(pagesPath.post._pid(1).$path({ limit: 10 }))
+console.log(pagesPath.post.create.$url({ userId: 1 })) // { pathname: '/post/create', query: { userId: 1 }}
+console.log(pagesPath.post.create.$url()) // type error
+console.log(pagesPath.post._pid(1).$url()) // { pathname: '/post/[pid]', query: { pid: 1 }}
+console.log(pagesPath.post._pid(1).$url({ limit: 10 })) // { pathname: '/post/[pid]', query: { pid: 1, limit: 10 }}
 
 export default () => {
   const onclick = useCallback(() => {
-    router.push(pagesPath.post._pid(1).$path())
+    router.push(pagesPath.post._pid(1).$url())
   }, [])
 
   return <>
-    <Link href={pagesPath.post._slug(['a', 'b', 'c']).$path()} />
+    <Link href={pagesPath.post._slug(['a', 'b', 'c']).$url()} />
     <div onclick={onclick} />
   </>
 }
 ```
 
-### Add public files path
+<a id="Generate-static-files-path-next"></a>
+
+## Generate static files path - Next.js
 
 `package.json`
 
 ```json
 {
   "scripts": {
+    "dev": "run-p dev:*",
+    "dev:next": "next dev",
     "dev:path": "pathpida --enableStatic --watch",
     "build:path": "pathpida --enableStatic"
   }
@@ -167,7 +177,7 @@ pages/post/[...slug].tsx
 public/aa.json
 public/bb/cc.png
 
-lib/$path.ts // Generated automatically by pathpida
+lib/$path.ts or utils/$path.ts // Generated automatically by pathpida
 ```
 
 `pages/index.tsx`
@@ -180,13 +190,43 @@ console.log(staticPath.aa_json) // /aa.json
 
 export default () => {
   return <>
-    <Link href={pagesPath.post._slug(['a', 'b', 'c']).$path()} />
+    <Link href={pagesPath.post._slug(['a', 'b', 'c']).$url()} />
     <img src={staticPath.bb.cc_png} />
   </>
 }
 ```
 
-### Usage (Nuxt.js)
+<a id="Setup-nuxt"></a>
+
+## Setup - Nuxt.js
+
+`package.json`
+
+```json
+{
+  "scripts": {
+    "dev": "run-p dev:*",
+    "dev:nuxt": "nuxt-ts",
+    "dev:path": "pathpida --watch",
+    "build:path": "pathpida"
+  }
+}
+```
+
+`nuxt.config.js` or `nuxt.config.ts`
+
+```js
+{
+  plugins: ['~/plugins/$path'],
+  router: {
+    trailingSlash: true // optional
+  }
+}
+```
+
+<a id="Usage-nuxt"></a>
+
+## Usage - Nuxt.js
 
 ```
 pages/index.vue
@@ -201,7 +241,7 @@ plugins/$path.ts // Generated automatically by pathpida
 ```vue
 <template>
   <div>
-    <nuxt-link :to="$pagesPath.post._pid(1).$path()" />
+    <nuxt-link :to="$pagesPath.post._pid(1).$url()" />
     <div @click="onclick" />
   </div>
 </template>
@@ -212,14 +252,16 @@ import Vue from 'vue'
 export default Vue.extend({
   methods: {
     onclick() {
-      this.$router.push(this.$pagesPath.post._pid(1).$path())
+      this.$router.push(this.$pagesPath.post._pid(1).$url())
     }
   }
 })
 </script>
 ```
 
-### Add query
+<a id="Define-query-nuxt"></a>
+
+## Define query - Nuxt.js
 
 `pages/post/create.vue`
 
@@ -258,7 +300,7 @@ export default Vue.extend({
 ```vue
 <template>
   <div>
-    <nuxt-link :to="$pagesPath.post.create.$path({ userId: 1 })" />
+    <nuxt-link :to="$pagesPath.post.create.$url({ userId: 1 })" />
     <div @click="onclick" />
   </div>
 </template>
@@ -269,21 +311,25 @@ import Vue from 'vue'
 export default Vue.extend({
   methods: {
     onclick() {
-      this.$router.push(this.$pagesPath.post._pid(1).$path())
-      this.$router.push(this.$pagesPath.post._pid(1).$path({ limit: 10 }))
+      this.$router.push(this.$pagesPath.post._pid(1).$url())
+      this.$router.push(this.$pagesPath.post._pid(1).$url({ limit: 10 }))
     }
   }
 })
 </script>
 ```
 
-### Add static files path
+<a id="Generate-static-files-path-nuxt"></a>
+
+## Generate static files path - Nuxt.js
 
 `package.json`
 
 ```json
 {
   "scripts": {
+    "dev": "run-p dev:*",
+    "dev:nuxt": "nuxt-ts",
     "dev:path": "pathpida --enableStatic --watch",
     "build:path": "pathpida --enableStatic"
   }
@@ -306,7 +352,7 @@ plugins/$path.ts // Generated automatically by pathpida
 ```vue
 <template>
   <div>
-    <nuxt-link :to="$pagesPath.post.create.$path({ userId: 1 })" />
+    <nuxt-link :to="$pagesPath.post.create.$url({ userId: 1 })" />
     <img :src="$staticPath.bb.cc_png" />
   </div>
 </template>
