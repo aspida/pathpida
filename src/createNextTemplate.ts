@@ -57,7 +57,7 @@ export default (input: string) => {
       .sort()
       .forEach((file, _, arr) => {
         const newSlugs = [...slugs]
-        const basename = path.basename(file, path.extname(file))
+        const basename = path.basename(file, file.endsWith(']') ? '' : path.extname(file))
         const newUrl = `${url}/${basename}`
         let valFn = `${indent}${basename
           .replace(/(-|\.|!| |'|\*|\(|\))/g, '_')
