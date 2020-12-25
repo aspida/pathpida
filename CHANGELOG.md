@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.9.3](https://github.com/aspida/pathpida/compare/v0.9.2...v0.9.3) (2020-12-25)
+
+
+### Bug Fixes
+
+* break slug dir of nextjs ([bc04c39](https://github.com/aspida/pathpida/commit/bc04c3956991e24ca5014aa44ec1b59b07adc33d))
+
 ### [0.9.2](https://github.com/aspida/pathpida/compare/v0.9.1...v0.9.2) (2020-12-25)
 
 
