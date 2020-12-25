@@ -53,7 +53,7 @@ export default (input: string) => {
     indent += '  '
 
     fs.readdirSync(targetDir)
-      .filter(file => !file.startsWith('_'))
+      .filter(file => !file.startsWith('_') && `${url}/${file}` !== '/api')
       .sort()
       .forEach((file, _, arr) => {
         const newSlugs = [...slugs]

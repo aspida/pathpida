@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.10.1](https://github.com/aspida/pathpida/compare/v0.10.0...v0.10.1) (2020-12-25)
+
+
+### Bug Fixes
+
+* ignore pages/api on nextjs ([7cc612d](https://github.com/aspida/pathpida/commit/7cc612ddd004f0b32a9cfa6c6fcc591843b30054))
+
 ## [0.10.0](https://github.com/aspida/pathpida/compare/v0.9.4...v0.10.0) (2020-12-25)
 
 

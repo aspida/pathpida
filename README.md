@@ -62,7 +62,7 @@
     "dev": "run-p dev:*",
     "dev:next": "next dev",
     "dev:path": "pathpida --watch",
-    "build:path": "pathpida"
+    "build": "pathpida && next build"
   }
 }
 ```
@@ -174,7 +174,7 @@ export default () => {
     "dev": "run-p dev:*",
     "dev:next": "next dev",
     "dev:path": "pathpida --enableStatic --watch",
-    "build:path": "pathpida --enableStatic"
+    "build": "pathpida --enableStatic && next build"
   }
 }
 ```
@@ -233,7 +233,7 @@ export default () => {
     "dev": "run-p dev:*",
     "dev:nuxt": "nuxt-ts",
     "dev:path": "pathpida --watch",
-    "build:path": "pathpida"
+    "build": "pathpida && nuxt-ts build"
   }
 }
 ```
@@ -357,7 +357,7 @@ export default Vue.extend({
     "dev": "run-p dev:*",
     "dev:nuxt": "nuxt-ts",
     "dev:path": "pathpida --enableStatic --watch",
-    "build:path": "pathpida --enableStatic"
+    "build": "pathpida --enableStatic && nuxt-ts build"
   }
 }
 ```
