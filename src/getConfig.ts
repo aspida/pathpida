@@ -12,17 +12,19 @@ export type Config = {
 export default (enableStatic: boolean, dir = process.cwd()): Config => {
   const nuxtjsPath = path.join(dir, 'nuxt.config.js')
   const nuxttsPath = path.join(dir, 'nuxt.config.ts')
-  const nextLibPath = path.join(dir, 'lib')
-  const nextUtilsPath = path.join(dir, 'utils')
   const inputPath = path.posix.join(dir, 'pages')
   const type = fs.existsSync(nuxtjsPath) || fs.existsSync(nuxttsPath) ? 'nuxtjs' : 'nextjs'
   if (type === 'nextjs') {
+    const srcDir = fs.existsSync(inputPath) ? dir : path.posix.join(dir, 'src')
+    const nextUtilsPath = path.join(srcDir, 'utils')
+    const nextLibPath = path.join(srcDir, 'lib')
     const output = fs.existsSync(nextUtilsPath) ? nextUtilsPath : nextLibPath
+
     if (!fs.existsSync(output)) fs.mkdirSync(output)
 
     return {
       type: 'nextjs',
-      input: inputPath,
+      input: path.posix.join(srcDir, 'pages'),
       staticDir: enableStatic ? path.posix.join(dir, 'public') : undefined,
       output
     }
