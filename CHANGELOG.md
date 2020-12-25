@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.9.1](https://github.com/aspida/pathpida/compare/v0.9.0...v0.9.1) (2020-12-25)
+
+
+### Bug Fixes
+
+* add optional when url is optional ([e4fa62a](https://github.com/aspida/pathpida/commit/e4fa62a3cf21020480abc6774bb3eb65a47d6fdc))
+
 ## [0.9.0](https://github.com/aspida/pathpida/compare/v0.8.0...v0.9.0) (2020-12-25)
 
 
