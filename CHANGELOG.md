@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.10.0](https://github.com/aspida/pathpida/compare/v0.9.4...v0.10.0) (2020-12-25)
+
+
+### Features
+
+* support config.srcDir on nuxtjs ([5fdfb4c](https://github.com/aspida/pathpida/commit/5fdfb4ca09ea9d80fbfc8bde9b70234e218a8ce9))
+* support src/pages on nextjs ([ee70bdc](https://github.com/aspida/pathpida/commit/ee70bdcfdad29bf78516f7a89b62847495f593bc))
+
 ### [0.9.4](https://github.com/aspida/pathpida/compare/v0.9.3...v0.9.4) (2020-12-25)
 
 
