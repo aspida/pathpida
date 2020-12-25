@@ -9,14 +9,21 @@ type Query2 = { hoge: string }
 
 export const pagesPath = {
   _pid: (pid: string | number) => ({
-    $url: (query?: OptionalQuery1) => ({ path: '/:pid/' as const, params: { pid } as any, query: query as any })
+    $url: (url?: { query?: OptionalQuery1, hash?: string }) => ({ path: '/:pid/' as const, params: { pid } as any, query: url.query as any, hash: url.hash })
   }),
-  blog: {
-    _slug: (slug: string | number) => ({
-      $url: (query: Query2) => ({ path: '/blog/:slug/' as const, params: { slug } as any, query: query as any })
+  aaa: {
+    _bbb: (bbb: string | number) => ({
+      ccc: {
+        $url: (url?: { hash?: string }) => ({ path: '/aaa/:bbb/ccc/' as const, params: { bbb } as any, hash: url.hash })
+      }
     })
   },
-  $url: (query: Query0) => ({ path: '/' as const, query: query as any })
+  blog: {
+    _slug: (slug: string | number) => ({
+      $url: (url: { query: Query2, hash?: string }) => ({ path: '/blog/:slug/' as const, params: { slug } as any, query: url.query as any, hash: url.hash })
+    })
+  },
+  $url: (url: { query: Query0, hash?: string }) => ({ path: '/' as const, query: url.query as any, hash: url.hash })
 }
 
 export type PagesPath = typeof pagesPath
