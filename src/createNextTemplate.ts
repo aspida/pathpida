@@ -9,15 +9,15 @@ const createMethods = (
   slugs: Slugs,
   pathname: string
 ) =>
-  `${indent}  $url: (${
-    importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}` : ''
-  }) => ({ pathname: '${pathname}' as const${
+  `${indent}  $url: (url${importName?.startsWith('Query') ? '' : '?'}: { ${
+    importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}, ` : ''
+  }hash?: string }) => ({ pathname: '${pathname}' as const${
     slugs.length
-      ? `, query: { ${slugs.join(', ')}${importName ? ', ...query' : ''} }`
+      ? `, query: { ${slugs.join(', ')}${importName ? ', ...url.query' : ''} }`
       : importName
-      ? ', query'
+      ? ', query: url.query'
       : ''
-  } })`
+  }, hash: url.hash })`
 
 export default (input: string) => {
   const imports: string[] = []

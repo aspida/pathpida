@@ -134,10 +134,10 @@ export default () => <div />
 import Link from 'next/link'
 import { pagesPath } from '../lib/$path'
 
-console.log(pagesPath.post.create.$url({ userId: 1 })) // { pathname: '/post/create', query: { userId: 1 }}
+console.log(pagesPath.post.create.$url({ query: { userId: 1 }})) // { pathname: '/post/create', query: { userId: 1 }}
 console.log(pagesPath.post.create.$url()) // type error
 console.log(pagesPath.post._pid(1).$url()) // { pathname: '/post/[pid]', query: { pid: 1 }}
-console.log(pagesPath.post._pid(1).$url({ limit: 10 })) // { pathname: '/post/[pid]', query: { pid: 1, limit: 10 }}
+console.log(pagesPath.post._pid(1).$url({ query: { limit: 10 }, hash: '#sample' })) // { pathname: '/post/[pid]', query: { pid: 1, limit: 10 }, hash: '#sample' }
 
 export default () => {
   const onclick = useCallback(() => {
@@ -300,7 +300,7 @@ export default Vue.extend({
 ```vue
 <template>
   <div>
-    <nuxt-link :to="$pagesPath.post.create.$url({ userId: 1 })" />
+    <nuxt-link :to="$pagesPath.post.create.$url({ query: { userId: 1 }})" />
     <div @click="onclick" />
   </div>
 </template>
@@ -312,7 +312,7 @@ export default Vue.extend({
   methods: {
     onclick() {
       this.$router.push(this.$pagesPath.post._pid(1).$url())
-      this.$router.push(this.$pagesPath.post._pid(1).$url({ limit: 10 }))
+      this.$router.push(this.$pagesPath.post._pid(1).$url({ query: { limit: 10 }, hash: '#sample' }))
     }
   }
 })
@@ -352,7 +352,7 @@ plugins/$path.ts // Generated automatically by pathpida
 ```vue
 <template>
   <div>
-    <nuxt-link :to="$pagesPath.post.create.$url({ userId: 1 })" />
+    <nuxt-link :to="$pagesPath.post.create.$url({ query: { userId: 1 }})" />
     <img :src="$staticPath.bb.cc_png" />
   </div>
 </template>

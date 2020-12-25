@@ -10,11 +10,11 @@ const createMethods = (
   pathname: string,
   trailingSlash: boolean
 ) =>
-  `${indent}  $url: (${
-    importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}` : ''
-  }) => ({ path: '${pathname}${trailingSlash ? '/' : ''}' as const${
+  `${indent}  $url: (url${importName?.startsWith('Query') ? '' : '?'}: { ${
+    importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}, ` : ''
+  }hash?: string }) => ({ path: '${pathname}${trailingSlash ? '/' : ''}' as const${
     slugs.length ? `, params: { ${slugs.join(', ')} } as any` : ''
-  }${importName ? ', query: query as any' : ''} })`
+  }${importName ? ', query: url.query as any' : ''}, hash: url.hash })`
 
 export default (input: string, trailingSlash = false) => {
   const imports: string[] = []

@@ -5,19 +5,22 @@ import { Query as Query2 } from '../pages/blog/[...slug]'
 
 export const pagesPath = {
   _pid: (pid: string | number) => ({
-    $url: (query?: OptionalQuery1) => ({ pathname: '/[pid]' as const, query: { pid, ...query } })
+    $url: (url?: { query?: OptionalQuery1, hash?: string }) => ({ pathname: '/[pid]' as const, query: { pid, ...url.query }, hash: url.hash })
   }),
+  aaa: {
+
+  },
   blog: {
     _slug: (slug: (string | number)[]) => ({
-      $url: (query: Query2) => ({ pathname: '/blog/[...slug]' as const, query: { slug, ...query } })
+      $url: (url: { query: Query2, hash?: string }) => ({ pathname: '/blog/[...slug]' as const, query: { slug, ...url.query }, hash: url.hash })
     }),
     hoge: {
       _fuga: (fuga?: (string | number)[]) => ({
-        $url: () => ({ pathname: '/blog/hoge/[[...fuga]]' as const, query: { fuga } })
+        $url: (url?: { hash?: string }) => ({ pathname: '/blog/hoge/[[...fuga]]' as const, query: { fuga }, hash: url.hash })
       })
     }
   },
-  $url: (query: Query0) => ({ pathname: '/' as const, query })
+  $url: (url: { query: Query0, hash?: string }) => ({ pathname: '/' as const, query: url.query, hash: url.hash })
 }
 
 export type PagesPath = typeof pagesPath
