@@ -1,4 +1,5 @@
 import fs from 'fs'
+import path from 'path'
 import { version } from '../package.json'
 import build, { resetCache } from '../src/buildTemplate'
 import getConfig from '../src/getConfig'
@@ -20,7 +21,7 @@ describe('cli test', () => {
     fs.readdirSync('projects').forEach(dir => {
       resetCache()
 
-      const basePath = `projects/${dir}`
+      const basePath = path.join(process.cwd(), 'projects', dir)
       const { type, input, staticDir, output, trailingSlash } = getConfig(
         dir !== 'nuxtjs-no-slash',
         basePath
@@ -30,7 +31,15 @@ describe('cli test', () => {
       const { filePath, text } = build({ type, input, staticDir, output, trailingSlash })
 
       expect(filePath).toBe(`${output}/$path.ts`)
-      expect(text.replace(new RegExp(`${basePath}/`, 'g'), '')).toBe(result.replace(/\r/g, ''))
+      expect(
+        text.replace(
+          new RegExp(
+            `${/\\/.test(basePath) ? `${basePath.replace(/\\/g, '\\\\')}(/src)?` : basePath}/`,
+            'g'
+          ),
+          ''
+        )
+      ).toBe(result.replace(/\r/g, ''))
     })
   })
 })

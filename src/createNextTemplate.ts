@@ -33,7 +33,7 @@ export default (input: string) => {
       const importName = `${typeName}${imports.length}`
       imports.push(
         `import { ${typeName} as ${importName} } from '${path.posix
-          .relative('lib', file)
+          .relative(path.join(input, '../lib'), file)
           .replace(/(\/index)?\.tsx/, '')}'`
       )
       return importName
