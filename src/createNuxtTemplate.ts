@@ -14,7 +14,9 @@ const createMethods = (
     importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}, ` : ''
   }hash?: string }) => ({ path: '${pathname}${trailingSlash ? '/' : ''}' as const${
     slugs.length ? `, params: { ${slugs.join(', ')} } as any` : ''
-  }${importName ? ', query: url.query as any' : ''}, hash: url.hash })`
+  }${
+    importName ? `, query: url${importName.startsWith('Query') ? '' : '?'}.query as any` : ''
+  }, hash: url${importName?.startsWith('Query') ? '' : '?'}.hash })`
 
 export default (input: string, trailingSlash = false) => {
   const imports: string[] = []

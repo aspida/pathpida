@@ -5,7 +5,7 @@ import { Query as Query2 } from '../pages/blog/[...slug]'
 
 export const pagesPath = {
   _pid: (pid: string | number) => ({
-    $url: (url?: { query?: OptionalQuery1, hash?: string }) => ({ pathname: '/[pid]' as const, query: { pid, ...url.query }, hash: url.hash })
+    $url: (url?: { query?: OptionalQuery1, hash?: string }) => ({ pathname: '/[pid]' as const, query: { pid, ...url?.query }, hash: url?.hash })
   }),
   aaa: {
 
@@ -16,7 +16,7 @@ export const pagesPath = {
     }),
     hoge: {
       _fuga: (fuga?: (string | number)[]) => ({
-        $url: (url?: { hash?: string }) => ({ pathname: '/blog/hoge/[[...fuga]]' as const, query: { fuga }, hash: url.hash })
+        $url: (url?: { hash?: string }) => ({ pathname: '/blog/hoge/[[...fuga]]' as const, query: { fuga }, hash: url?.hash })
       })
     }
   },

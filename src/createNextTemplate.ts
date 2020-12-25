@@ -13,11 +13,13 @@ const createMethods = (
     importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}, ` : ''
   }hash?: string }) => ({ pathname: '${pathname}' as const${
     slugs.length
-      ? `, query: { ${slugs.join(', ')}${importName ? ', ...url.query' : ''} }`
+      ? `, query: { ${slugs.join(', ')}${
+          importName ? `, ...url${importName.startsWith('Query') ? '' : '?'}.query` : ''
+        } }`
       : importName
-      ? ', query: url.query'
+      ? `, query: url${importName.startsWith('Query') ? '' : '?'}.query`
       : ''
-  }, hash: url.hash })`
+  }, hash: url${importName?.startsWith('Query') ? '' : '?'}.hash })`
 
 export default (input: string) => {
   const imports: string[] = []
