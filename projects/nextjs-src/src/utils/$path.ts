@@ -12,7 +12,12 @@ export const pagesPath = {
       ccc: {
         $url: (url?: { hash?: string }) => ({ pathname: '/aaa/[...bbb]/ccc' as const, query: { bbb }, hash: url?.hash })
       }
-    })
+    }),
+    api: {
+      samples: {
+        $url: (url?: { hash?: string }) => ({ pathname: '/aaa/api/samples' as const, hash: url?.hash })
+      }
+    }
   },
   blog: {
     _slug: (slug: string[]) => ({
