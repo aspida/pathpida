@@ -9,12 +9,12 @@ type Query2 = { hoge: string }
 
 export const pagesPath = {
   _pid: (pid: string | number) => ({
-    $url: (url?: { query?: OptionalQuery1, hash?: string }) => ({ path: '/:pid/' as const, params: { pid } as any, query: url.query as any, hash: url.hash })
+    $url: (url?: { query?: OptionalQuery1, hash?: string }) => ({ path: '/:pid/' as const, params: { pid } as any, query: url?.query as any, hash: url?.hash })
   }),
   aaa: {
     _bbb: (bbb: string | number) => ({
       ccc: {
-        $url: (url?: { hash?: string }) => ({ path: '/aaa/:bbb/ccc/' as const, params: { bbb } as any, hash: url.hash })
+        $url: (url?: { hash?: string }) => ({ path: '/aaa/:bbb/ccc/' as const, params: { bbb } as any, hash: url?.hash })
       }
     })
   },
