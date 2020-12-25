@@ -80,6 +80,17 @@ pages/post/[...slug].tsx
 lib/$path.ts or utils/$path.ts // Generated automatically by pathpida
 ```
 
+or
+
+```
+src/pages/index.tsx
+src/pages/post/create.tsx
+src/pages/post/[pid].tsx
+src/pages/post/[...slug].tsx
+
+src/lib/$path.ts or src/utils/$path.ts // Generated automatically by pathpida
+```
+
 `pages/index.tsx`
 
 ```tsx
@@ -180,6 +191,20 @@ public/bb/cc.png
 lib/$path.ts or utils/$path.ts // Generated automatically by pathpida
 ```
 
+or
+
+```
+src/pages/index.tsx
+src/pages/post/create.tsx
+src/pages/post/[pid].tsx
+src/pages/post/[...slug].tsx
+
+public/aa.json
+public/bb/cc.png
+
+src/lib/$path.ts or src/utils/$path.ts // Generated automatically by pathpida
+```
+
 `pages/index.tsx`
 
 ```tsx
@@ -218,6 +243,7 @@ export default () => {
 ```js
 {
   plugins: ['~/plugins/$path'],
+  srcDir: 'client', // optional
   router: {
     trailingSlash: true // optional
   }

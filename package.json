@@ -7,7 +7,7 @@
   "types": "dist/cli.d.ts",
   "bin": "bin/index.js",
   "scripts": {
-    "dev": "npm run build && cd projects/nextjs && node ../../bin/index.js -s && cd ../nextjs-src && node ../../bin/index.js -s && cd ../nuxtjs && node ../../bin/index.js --enableStatic && cd ../nuxtjs-no-slash && node ../../bin/index.js",
+    "dev": "npm run build && cd projects/nextjs && node ../../bin/index.js -s && cd ../nextjs-src && node ../../bin/index.js -s && cd ../nuxtjs && node ../../bin/index.js --enableStatic && cd ../nuxtjs-src && node ../../bin/index.js --enableStatic && cd ../nuxtjs-no-slash && node ../../bin/index.js",
     "build": "npm run rimraf && tsc",
     "rimraf": "node -e \"require('fs').rmdirSync('dist', { recursive: true })\"",
     "release": "standard-version --skip.tag",
