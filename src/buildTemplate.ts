@@ -7,6 +7,11 @@ import createStaticTemplate from './createStaticTemplate'
 let prevPagesText = ''
 let prevStaticText = ''
 
+export const resetCache = () => {
+  prevPagesText = ''
+  prevStaticText = ''
+}
+
 export default (
   { type, input, staticDir, output, trailingSlash }: Config,
   mode?: 'pages' | 'static'

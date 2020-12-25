@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { version } from '../package.json'
-import build from '../src/buildTemplate'
+import build, { resetCache } from '../src/buildTemplate'
 import getConfig from '../src/getConfig'
 import { run } from '../src/cli'
 
@@ -18,8 +18,13 @@ describe('cli test', () => {
 
   test('main', () => {
     fs.readdirSync('projects').forEach(dir => {
+      resetCache()
+
       const basePath = `projects/${dir}`
-      const { type, input, staticDir, output, trailingSlash } = getConfig(true, basePath)
+      const { type, input, staticDir, output, trailingSlash } = getConfig(
+        dir !== 'nuxtjs-no-slash',
+        basePath
+      )
 
       const result = fs.readFileSync(`${output}/$path.ts`, 'utf8')
       const { filePath, text } = build({ type, input, staticDir, output, trailingSlash })

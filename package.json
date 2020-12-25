@@ -1,13 +1,13 @@
 {
   "name": "pathpida",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "TypeScript friendly pages path generator for Next.js and Nuxt.js",
   "author": "Solufa <solufa2020@gmail.com>",
   "license": "MIT",
   "types": "dist/cli.d.ts",
   "bin": "bin/index.js",
   "scripts": {
-    "dev": "npm run build && cd projects/nextjs && node ../../bin/index.js -s && cd ../nuxtjs && node ../../bin/index.js --enableStatic",
+    "dev": "npm run build && cd projects/nextjs && node ../../bin/index.js -s && cd ../nuxtjs && node ../../bin/index.js --enableStatic && cd ../nuxtjs-no-slash && node ../../bin/index.js",
     "build": "npm run rimraf && tsc",
     "rimraf": "node -e \"require('fs').rmdirSync('dist', { recursive: true })\"",
     "release": "standard-version --skip.tag",

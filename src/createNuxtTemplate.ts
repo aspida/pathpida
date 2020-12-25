@@ -1,20 +1,17 @@
 import fs from 'fs'
 import path from 'path'
 
-type Slugs = string[]
-
 const createMethods = (
   indent: string,
   importName: string | undefined,
-  slugs: Slugs,
   pathname: string,
   trailingSlash: boolean
 ) =>
   `${indent}  $url: (url${importName?.startsWith('Query') ? '' : '?'}: { ${
     importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}, ` : ''
-  }hash?: string }) => ({ path: '${pathname}${trailingSlash ? '/' : ''}' as const${
-    slugs.length ? `, params: { ${slugs.join(', ')} } as any` : ''
-  }${
+  }hash?: string }) => ({ path: ${/\${/.test(pathname) ? '`' : "'"}${pathname}${
+    trailingSlash || pathname === '' ? '/' : ''
+  }${/\${/.test(pathname) ? '`' : "'"}${
     importName ? `, query: url${importName.startsWith('Query') ? '' : '?'}.query as any` : ''
   }, hash: url${importName?.startsWith('Query') ? '' : '?'}.hash })`
 
@@ -58,7 +55,6 @@ export default (input: string, trailingSlash = false) => {
     importBasePath: string,
     indent: string,
     url: string,
-    slugs: Slugs,
     text: string,
     methodsOfIndexTsFile?: string
   ) => {
@@ -70,7 +66,6 @@ export default (input: string, trailingSlash = false) => {
       .filter(file => !file.startsWith('-'))
       .sort()
       .forEach((file, _, arr) => {
-        const newSlugs = [...slugs]
         const basename = path.basename(file, path.extname(file))
         let valFn = `${indent}${basename
           .replace(/(-|\.|!| |'|\*|\(|\))/g, '_')
@@ -80,8 +75,7 @@ export default (input: string, trailingSlash = false) => {
         if (basename.startsWith('_')) {
           const slug = basename.slice(1)
           valFn = `${indent}_${slug}: (${slug}: string | number) => ({\n<% next %>\n${indent}})`
-          newSlugs.push(slug)
-          newUrl = `${url}/:${slug}`
+          newUrl = `${url}/\${${slug}}`
         }
 
         const target = path.posix.join(targetDir, file)
@@ -90,7 +84,7 @@ export default (input: string, trailingSlash = false) => {
           props.push(
             valFn.replace(
               '<% next %>',
-              createMethods(indent, getImportName(target), newSlugs, newUrl, trailingSlash)
+              createMethods(indent, getImportName(target), newUrl, trailingSlash)
             )
           )
         } else if (fs.statSync(target).isDirectory()) {
@@ -103,7 +97,6 @@ export default (input: string, trailingSlash = false) => {
             methods = createMethods(
               indent,
               getImportName(path.posix.join(target, indexFile)),
-              newSlugs,
               newUrl,
               trailingSlash
             )
@@ -115,7 +108,6 @@ export default (input: string, trailingSlash = false) => {
               `${importBasePath}/${file}`,
               indent,
               newUrl,
-              newSlugs,
               valFn.replace('<% next %>', '<% props %>'),
               methods
             )
@@ -141,13 +133,12 @@ export default (input: string, trailingSlash = false) => {
     rootMethods = createMethods(
       rootIndent,
       getImportName(path.posix.join(input, rootIndexFile)),
-      [],
       '',
       trailingSlash
     )
   }
 
-  const text = createQueryString(input, '.', rootIndent, '', [], `{\n<% props %>\n}`, rootMethods)
+  const text = createQueryString(input, '.', rootIndent, '', `{\n<% props %>\n}`, rootMethods)
 
   return `/* eslint-disable */
 import { Plugin } from '@nuxt/types'

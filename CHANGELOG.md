@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.9.2](https://github.com/aspida/pathpida/compare/v0.9.1...v0.9.2) (2020-12-25)
+
+
+### Bug Fixes
+
+* replace params of nuxtjs ([8ef26ef](https://github.com/aspida/pathpida/commit/8ef26ef46a0759e2f1f826f1080d2688c3d22dfa))
+
 ### [0.9.1](https://github.com/aspida/pathpida/compare/v0.9.0...v0.9.1) (2020-12-25)
 
 
