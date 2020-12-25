@@ -15,7 +15,8 @@ export const pagesPath = {
     _bbb: (bbb: string | number) => ({
       ccc: {
         $url: (url?: { hash?: string }) => ({ path: `/aaa/${bbb}/ccc/`, hash: url?.hash })
-      }
+      },
+      $url: (url?: { hash?: string }) => ({ path: `/aaa/${bbb}/`, hash: url?.hash })
     })
   },
   blog: {

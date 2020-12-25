@@ -8,18 +8,18 @@ export const pagesPath = {
     $url: (url?: { query?: OptionalQuery1, hash?: string }) => ({ pathname: '/[pid]' as const, query: { pid, ...url?.query }, hash: url?.hash })
   }),
   aaa: {
-    _bbb: (bbb: (string | number)[]) => ({
+    _bbb: (bbb: string[]) => ({
       ccc: {
         $url: (url?: { hash?: string }) => ({ pathname: '/aaa/[...bbb]/ccc' as const, query: { bbb }, hash: url?.hash })
       }
     })
   },
   blog: {
-    _slug: (slug: (string | number)[]) => ({
+    _slug: (slug: string[]) => ({
       $url: (url: { query: Query2, hash?: string }) => ({ pathname: '/blog/[...slug]' as const, query: { slug, ...url.query }, hash: url.hash })
     }),
     hoge: {
-      _fuga: (fuga?: (string | number)[]) => ({
+      _fuga: (fuga?: string[]) => ({
         $url: (url?: { hash?: string }) => ({ pathname: '/blog/hoge/[[...fuga]]' as const, query: { fuga }, hash: url?.hash })
       })
     }

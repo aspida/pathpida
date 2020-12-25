@@ -66,7 +66,7 @@ export default (input: string) => {
         if (basename.startsWith('[') && basename.endsWith(']')) {
           const slug = basename.replace(/[.[\]]/g, '')
           valFn = `${indent}${`_${slug}`}: (${slug}${basename.startsWith('[[') ? '?' : ''}: ${
-            /\[\./.test(basename) ? '(string | number)[]' : 'string | number'
+            /\[\./.test(basename) ? 'string[]' : 'string | number'
           }) => ({\n<% next %>\n${indent}})`
           newSlugs.push(slug)
         }
