@@ -74,8 +74,13 @@ export default (input: string, trailingSlash = false) => {
 
         if (basename.startsWith('_')) {
           const slug = basename.slice(1)
-          valFn = `${indent}_${slug}: (${slug}: string | number) => ({\n<% next %>\n${indent}})`
-          newUrl = `${url}/\${${slug}}`
+          const isPassValNullable = basename !== file
+          valFn = `${indent}_${slug}: (${slug}${
+            isPassValNullable ? '?' : ''
+          }: string | number) => ({\n<% next %>\n${indent}})`
+          newUrl = `${url}${
+            isPassValNullable ? `\${${slug} !== undefined ? \`/\${${slug}}\` : ''}` : `/\${${slug}}`
+          }`
         }
 
         const target = path.posix.join(targetDir, file)
