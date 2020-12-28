@@ -19,9 +19,15 @@
   </a>
 </div>
 <br />
-<p align="center">TypeScript friendly pages path generator for Next.js and Nuxt.js.</p>
+<p align="center">TypeScript friendly internal link client for Next.js and Nuxt.js.</p>
 <br />
 <br />
+
+## Features
+
+- **Type safety**. Automatically generate type definition files for manipulating internal links in Next.js/Nuxt.js.
+- **Zero configration**. No configuration required, can be used immediately after installation.
+- **Zero runtime**. Lightweight because runtime code is not included in the bundle.
 
 ## Table of Contents
 
@@ -305,7 +311,7 @@ export default Vue.extend({
 </script>
 ```
 
-`pages/post/[pid].vue`
+`pages/post/_pid.vue`
 
 ```vue
 <script lang="ts">
@@ -365,7 +371,7 @@ export default Vue.extend({
 ```
 pages/index.vue
 pages/post/create.vue
-pages/post/[pid].vue
+pages/post/_pid.vue
 
 static/aa.json
 static/bb/cc.png

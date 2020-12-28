@@ -8,8 +8,8 @@ type OptionalQuery1 = { hoge: string }
 type Query2 = { hoge: string }
 
 export const pagesPath = {
-  _pid: (pid: string | number) => ({
-    $url: (url?: { query?: OptionalQuery1, hash?: string }) => ({ path: `/${pid}`, query: url?.query as any, hash: url?.hash })
+  _pid: (pid?: string | number) => ({
+    $url: (url?: { query?: OptionalQuery1, hash?: string }) => ({ path: `${pid !== undefined ? `/${pid}` : ''}`, query: url?.query as any, hash: url?.hash })
   }),
   aaa: {
     _bbb: (bbb: string | number) => ({
@@ -20,8 +20,8 @@ export const pagesPath = {
     })
   },
   blog: {
-    _slug: (slug: string | number) => ({
-      $url: (url: { query: Query2, hash?: string }) => ({ path: `/blog/${slug}`, query: url.query as any, hash: url.hash })
+    _slug: (slug?: string | number) => ({
+      $url: (url: { query: Query2, hash?: string }) => ({ path: `/blog${slug !== undefined ? `/${slug}` : ''}`, query: url.query as any, hash: url.hash })
     })
   },
   $url: (url: { query: Query0, hash?: string }) => ({ path: '/', query: url.query as any, hash: url.hash })

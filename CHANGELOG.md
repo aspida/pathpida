@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.10.2](https://github.com/aspida/pathpida/compare/v0.10.1...v0.10.2) (2020-12-28)
+
+
+### Bug Fixes
+
+* path value is optional when _slug.vue ([7cca39c](https://github.com/aspida/pathpida/commit/7cca39c6ed66704f9d22279a41710be0e64b2d50))
+
 ### [0.10.1](https://github.com/aspida/pathpida/compare/v0.10.0...v0.10.1) (2020-12-25)
 
 
