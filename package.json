@@ -1,6 +1,6 @@
 {
   "name": "pathpida",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "TypeScript friendly pages path generator for Next.js and Nuxt.js",
   "author": "Solufa <solufa2020@gmail.com>",
   "license": "MIT",
