@@ -6,23 +6,23 @@ import getConfig from '../src/getConfig'
 import { run } from '../src/cli'
 
 describe('cli test', () => {
-  test('version command', () => {
+  test('version command', async () => {
     const spyLog = jest.spyOn(console, 'log').mockImplementation(x => x)
     const args = ['--version']
 
-    run(args)
+    await run(args)
     expect(console.log).toHaveBeenCalledWith(`v${version}`)
 
     spyLog.mockReset()
     spyLog.mockRestore()
   })
 
-  test('main', () => {
-    fs.readdirSync('projects').forEach(dir => {
+  test('main', async () => {
+    for (const dir of fs.readdirSync('projects')) {
       resetCache()
 
       const basePath = path.join(process.cwd(), 'projects', dir)
-      const { type, input, staticDir, output, trailingSlash } = getConfig(
+      const { type, input, staticDir, output, trailingSlash } = await getConfig(
         dir !== 'nuxtjs-no-slash',
         basePath
       )
@@ -40,6 +40,6 @@ describe('cli test', () => {
           ''
         )
       ).toBe(result.replace(/\r/g, ''))
-    })
+    }
   })
 })

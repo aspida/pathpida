@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.11.0](https://github.com/aspida/pathpida/compare/v0.10.2...v0.11.0) (2021-01-04)
+
+
+### Features
+
+* support nuxt esm config and more complex patterns using @nuxt/config ([ad1cbd3](https://github.com/aspida/pathpida/commit/ad1cbd3e71e1093d91f574bca8ef0ee62a6fc0e6))
+
 ### [0.10.2](https://github.com/aspida/pathpida/compare/v0.10.1...v0.10.2) (2020-12-28)
 
 

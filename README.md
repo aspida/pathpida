@@ -351,6 +351,33 @@ export default Vue.extend({
 </script>
 ```
 
+### :warning: In the case of Nuxt.js, Query/OptionalQuery type must not contain any reference types.
+
+This is because due to typescript restrictions, types exported from `.vue` files cannot be imported in `plugins/$path.ts`.  
+If you want to import types from other files, please use [import types](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-9.html#import-types) with absolute paths.
+
+`types/users.ts`
+
+```ts
+export type UserId = number
+```
+
+`pages/post/create.vue`
+
+```vue
+<script lang="ts">
+import Vue from 'vue'
+
+export type Query = {
+  userId: import('~/types/users').UserId
+  name?: string
+}
+
+export default Vue.extend({
+})
+</script>
+```
+
 <a id="Generate-static-files-path-nuxt"></a>
 
 ## Generate static files path - Nuxt.js

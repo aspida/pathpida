@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { loadNuxtConfig } from '@nuxt/config'
 
 export type Config = {
   type: 'nextjs' | 'nuxtjs'
@@ -9,7 +10,7 @@ export type Config = {
   trailingSlash?: boolean
 }
 
-export default (enableStatic: boolean, dir = process.cwd()): Config => {
+export default async (enableStatic: boolean, dir = process.cwd()): Promise<Config> => {
   const nuxtjsPath = path.join(dir, 'nuxt.config.js')
   const nuxttsPath = path.join(dir, 'nuxt.config.ts')
   const type = fs.existsSync(nuxtjsPath) || fs.existsSync(nuxttsPath) ? 'nuxtjs' : 'nextjs'
@@ -29,12 +30,7 @@ export default (enableStatic: boolean, dir = process.cwd()): Config => {
       output
     }
   } else {
-    const config = fs.existsSync(nuxtjsPath)
-      ? require(nuxtjsPath)
-      : (configText => ({
-          srcDir: configText.match(/srcDir: ?['"](.+?)['"]/)?.[1],
-          router: { trailingSlash: /trailingSlash: true/.test(configText) }
-        }))(fs.readFileSync(nuxttsPath, 'utf8'))
+    const config = await loadNuxtConfig({ rootDir: dir })
     const srcDir = path.posix.join(dir, config.srcDir ?? '')
 
     return {
