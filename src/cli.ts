@@ -4,7 +4,7 @@ import write from './writeRouteFile'
 import watch from './watchInputDir'
 import build from './buildTemplate'
 
-export const run = (args: string[]) => {
+export const run = async (args: string[]) => {
   const argv = minimist(args, {
     string: ['version', 'watch', 'enableStatic'],
     alias: { v: 'version', w: 'watch', s: 'enableStatic' }
@@ -14,11 +14,11 @@ export const run = (args: string[]) => {
   argv.version !== undefined
     ? console.log(`v${require('../package.json').version}`)
     : argv.watch !== undefined
-    ? (() => {
-        const config = getConfig(argv.enableStatic !== undefined)
+    ? await (async () => {
+        const config = await getConfig(argv.enableStatic !== undefined)
         write(build(config))
         watch(config.input, () => write(build(config, 'pages')))
         config.staticDir && watch(config.staticDir, () => write(build(config, 'static')))
       })()
-    : write(build(getConfig(argv.enableStatic !== undefined)))
+    : write(build(await getConfig(argv.enableStatic !== undefined)))
 }
