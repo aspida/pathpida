@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.12.0](https://github.com/aspida/pathpida/compare/v0.11.0...v0.12.0) (2021-01-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* support basepath config for staticPath
+
+### Features
+
+* support basepath config for staticPath ([d8dddc0](https://github.com/aspida/pathpida/commit/d8dddc0a28f366b9bbd51855bdf2de3cc38f32d0))
+
 ## [0.11.0](https://github.com/aspida/pathpida/compare/v0.10.2...v0.11.0) (2021-01-04)
 
 

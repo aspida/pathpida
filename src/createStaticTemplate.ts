@@ -1,7 +1,12 @@
 import fs from 'fs'
 import path from 'path'
 
-export default (input: string) => {
+const normalizeBasePath = (basepath: string | undefined): string => {
+  if (typeof basepath === 'string') return basepath.replace(/\/+$/, '')
+  return ''
+}
+
+export default (input: string, basepath: string | undefined) => {
   const createPublicString = (targetDir: string, indent: string, url: string, text: string) => {
     const props: string[] = []
 
@@ -33,7 +38,12 @@ export default (input: string) => {
     return text.replace('<% props %>', props.join(',\n'))
   }
 
-  const text = createPublicString(input, '', '', `{\n<% props %>\n} as const`)
+  const text = createPublicString(
+    input,
+    '',
+    normalizeBasePath(basepath),
+    `{\n<% props %>\n} as const`
+  )
 
   return `\nexport const staticPath = ${text}\n\nexport type StaticPath = typeof staticPath\n`
 }

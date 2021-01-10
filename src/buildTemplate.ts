@@ -13,7 +13,7 @@ export const resetCache = () => {
 }
 
 export default (
-  { type, input, staticDir, output, trailingSlash }: Config,
+  { type, input, staticDir, output, trailingSlash, basepath }: Config,
   mode?: 'pages' | 'static'
 ) => {
   const isNextJs = type === 'nextjs'
@@ -23,7 +23,8 @@ export default (
       : isNextJs
       ? createNextTemplate(input)
       : createNuxtTemplate(input, trailingSlash)
-  prevStaticText = !staticDir || mode === 'pages' ? prevStaticText : createStaticTemplate(staticDir)
+  prevStaticText =
+    !staticDir || mode === 'pages' ? prevStaticText : createStaticTemplate(staticDir, basepath)
 
   return {
     text: `${prevPagesText}${prevStaticText}${
