@@ -21,20 +21,23 @@ describe('cli test', () => {
     for (const dir of fs.readdirSync('projects')) {
       resetCache()
 
-      const basePath = path.join(process.cwd(), 'projects', dir)
+      const workingDir = path.join(process.cwd(), 'projects', dir)
       const { type, input, staticDir, output, trailingSlash } = await getConfig(
         dir !== 'nuxtjs-no-slash',
-        basePath
+        workingDir
       )
 
       const result = fs.readFileSync(`${output}/$path.ts`, 'utf8')
-      const { filePath, text } = build({ type, input, staticDir, output, trailingSlash })
+      const basepath = /-basepath$/.test(dir) ? '/foo/bar' : undefined
+      const { filePath, text } = build({ type, input, staticDir, output, trailingSlash, basepath })
 
       expect(filePath).toBe(`${output}/$path.ts`)
       expect(
         text.replace(
           new RegExp(
-            `${/\\/.test(basePath) ? `${basePath.replace(/\\/g, '\\\\')}(/src)?` : basePath}/`,
+            `${
+              /\\/.test(workingDir) ? `${workingDir.replace(/\\/g, '\\\\')}(/src)?` : workingDir
+            }/`,
             'g'
           ),
           ''

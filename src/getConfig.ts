@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { loadNuxtConfig } from '@nuxt/config'
+import loadNextConfig from 'next/dist/next-server/server/config'
 
 export type Config = {
   type: 'nextjs' | 'nuxtjs'
@@ -8,6 +9,7 @@ export type Config = {
   staticDir?: string
   output: string
   trailingSlash?: boolean
+  basepath?: string
 }
 
 export default async (enableStatic: boolean, dir = process.cwd()): Promise<Config> => {
@@ -16,6 +18,7 @@ export default async (enableStatic: boolean, dir = process.cwd()): Promise<Confi
   const type = fs.existsSync(nuxtjsPath) || fs.existsSync(nuxttsPath) ? 'nuxtjs' : 'nextjs'
 
   if (type === 'nextjs') {
+    const config = loadNextConfig(require('next/constants').PHASE_PRODUCTION_BUILD, dir)
     const srcDir = fs.existsSync(path.posix.join(dir, 'pages')) ? dir : path.posix.join(dir, 'src')
     const nextUtilsPath = path.join(srcDir, 'utils')
     const nextLibPath = path.join(srcDir, 'lib')
@@ -27,10 +30,14 @@ export default async (enableStatic: boolean, dir = process.cwd()): Promise<Confi
       type,
       input: path.posix.join(srcDir, 'pages'),
       staticDir: enableStatic ? path.posix.join(dir, 'public') : undefined,
-      output
+      output,
+      basepath: config.basePath
     }
   } else {
-    const config = await loadNuxtConfig({ rootDir: dir })
+    const config = await loadNuxtConfig({
+      rootDir: dir,
+      configFile: fs.existsSync(nuxttsPath) ? nuxttsPath : undefined
+    })
     const srcDir = path.posix.join(dir, config.srcDir ?? '')
 
     return {
@@ -38,7 +45,8 @@ export default async (enableStatic: boolean, dir = process.cwd()): Promise<Confi
       input: path.posix.join(srcDir, 'pages'),
       staticDir: enableStatic ? path.posix.join(srcDir, 'static') : undefined,
       output: path.posix.join(srcDir, 'plugins'),
-      trailingSlash: config.router?.trailingSlash
+      trailingSlash: config.router?.trailingSlash,
+      basepath: config.router?.base
     }
   }
 }
