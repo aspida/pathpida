@@ -86,7 +86,7 @@
   },
   "dependencies": {
     "@nuxt/config": "^2.14.12",
-    "chokidar": "^3.4.3",
+    "chokidar": "^3.5.1",
     "minimist": "^1.2.5",
     "next": "^10.0.5"
   },
