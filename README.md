@@ -26,7 +26,7 @@
 ## Features
 
 - **Type safety**. Automatically generate type definition files for manipulating internal links in Next.js/Nuxt.js.
-- **Zero configration**. No configuration required, can be used immediately after installation.
+- **Zero configuration**. No configuration required can be used immediately after installation.
 - **Zero runtime**. Lightweight because runtime code is not included in the bundle.
 
 ## Table of Contents
