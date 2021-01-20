@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.12.1](https://github.com/aspida/pathpida/compare/v0.12.0...v0.12.1) (2021-01-20)
+
+
+### Bug Fixes
+
+* update chokidar@3.5.1 ([f1cfa18](https://github.com/aspida/pathpida/commit/f1cfa18efe6f42d0b13516144e6bbeac11a73ff3))
+
+
+### Documentation
+
+* fix typo in README ([39fd684](https://github.com/aspida/pathpida/commit/39fd684c25fed127434dceb04ca2ad23b6f75876))
+
 ## [0.12.0](https://github.com/aspida/pathpida/compare/v0.11.0...v0.12.0) (2021-01-10)
 
 
