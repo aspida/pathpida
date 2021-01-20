@@ -4,6 +4,13 @@ import { OptionalQuery as OptionalQuery1 } from '../pages/[pid]'
 import { Query as Query2 } from '../pages/blog/[...slug]'
 
 export const pagesPath = {
+  _a: (a: string | number) => ({
+    b: {
+      _c: (c: string[]) => ({
+        $url: (url?: { hash?: string }) => ({ pathname: '/[a]/b/[...c]' as const, query: { a, c }, hash: url?.hash })
+      })
+    }
+  }),
   _pid: (pid: string | number) => ({
     $url: (url?: { query?: OptionalQuery1, hash?: string }) => ({ pathname: '/[pid]' as const, query: { pid, ...url?.query }, hash: url?.hash })
   }),

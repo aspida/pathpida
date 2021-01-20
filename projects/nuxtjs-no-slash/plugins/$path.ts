@@ -8,6 +8,13 @@ type OptionalQuery1 = { hoge: string }
 type Query2 = { hoge: string }
 
 export const pagesPath = {
+  _a: (a: string | number) => ({
+    b: {
+      _c: (c: string | number) => ({
+        $url: (url?: { hash?: string }) => ({ path: `/${a}/b/${c}`, hash: url?.hash })
+      })
+    }
+  }),
   _pid: (pid?: string | number) => ({
     $url: (url?: { query?: OptionalQuery1, hash?: string }) => ({ path: `${pid !== undefined ? `/${pid}` : ''}`, query: url?.query as any, hash: url?.hash })
   }),
