@@ -108,13 +108,13 @@ console.log(pagesPath.post._pid(1).$url()) // { pathname: '/post/[pid]', query: 
 console.log(pagesPath.post._slug(['a', 'b', 'c']).$url()) // { pathname: '/post//[...slug]', query: { slug: ['a', 'b', 'c'] }}
 
 export default () => {
-  const onclick = useCallback(() => {
+  const onClick = useCallback(() => {
     router.push(pagesPath.post._pid(1).$url())
   }, [])
 
   return <>
     <Link href={pagesPath.post._slug(['a', 'b', 'c']).$url()} />
-    <div onclick={onclick} />
+    <div onClick={onClick} />
   </>
 }
 ```
@@ -157,13 +157,13 @@ console.log(pagesPath.post._pid(1).$url()) // { pathname: '/post/[pid]', query: 
 console.log(pagesPath.post._pid(1).$url({ query: { limit: 10 }, hash: 'sample' })) // { pathname: '/post/[pid]', query: { pid: 1, limit: 10 }, hash: 'sample' }
 
 export default () => {
-  const onclick = useCallback(() => {
+  const onClick = useCallback(() => {
     router.push(pagesPath.post._pid(1).$url())
   }, [])
 
   return <>
     <Link href={pagesPath.post._slug(['a', 'b', 'c']).$url()} />
-    <div onclick={onclick} />
+    <div onClick={onClick} />
   </>
 }
 ```
@@ -274,7 +274,7 @@ plugins/$path.ts // Generated automatically by pathpida
 <template>
   <div>
     <nuxt-link :to="$pagesPath.post._pid(1).$url()" />
-    <div @click="onclick" />
+    <div @click="onClick" />
   </div>
 </template>
 
@@ -283,7 +283,7 @@ import Vue from 'vue'
 
 export default Vue.extend({
   methods: {
-    onclick() {
+    onClick() {
       this.$router.push(this.$pagesPath.post._pid(1).$url())
     }
   }
@@ -333,7 +333,7 @@ export default Vue.extend({
 <template>
   <div>
     <nuxt-link :to="$pagesPath.post.create.$url({ query: { userId: 1 }})" />
-    <div @click="onclick" />
+    <div @click="onClick" />
   </div>
 </template>
 
@@ -342,7 +342,7 @@ import Vue from 'vue'
 
 export default Vue.extend({
   methods: {
-    onclick() {
+    onClick() {
       this.$router.push(this.$pagesPath.post._pid(1).$url())
       this.$router.push(this.$pagesPath.post._pid(1).$url({ query: { limit: 10 }, hash: 'sample' }))
     }
@@ -353,7 +353,7 @@ export default Vue.extend({
 
 ### :warning: In the case of Nuxt.js, Query/OptionalQuery type must not contain any reference types.
 
-This is because due to typescript restrictions, types exported from `.vue` files cannot be imported in `plugins/$path.ts`.  
+This is because due to typescript restrictions, types exported from `.vue` files cannot be imported in `plugins/$path.ts`.
 If you want to import types from other files, please use [import types](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-9.html#import-types) with absolute paths.
 
 `types/users.ts`
