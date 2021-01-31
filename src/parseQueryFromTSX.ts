@@ -14,7 +14,7 @@ export const parseQueryFromTSX = (input: string, file: string, suffix: number) =
   return {
     importName,
     importString: `import { ${typeName} as ${importName} } from '${path.posix
-      .relative(path.join(input, '../lib'), file)
+      .relative(path.posix.join(input, '../foobar'), file)
       .replace(/(\/index)?\.tsx/, '')}'`
   }
 }
