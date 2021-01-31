@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { parseQueryFromTSX } from './parseQueryFromTSX'
 
 const createMethods = (
   indent: string,
@@ -15,42 +16,55 @@ const createMethods = (
     importName ? `, query: url${importName.startsWith('Query') ? '' : '?'}.query as any` : ''
   }, hash: url${importName?.startsWith('Query') ? '' : '?'}.hash })`
 
+const parseQueryFromVue = (file: string, suffix: number) => {
+  const fileData = fs.readFileSync(file, 'utf8')
+  const typeName = ['Query', 'OptionalQuery'].find(type =>
+    new RegExp(`export (interface ${type} ?{|type ${type} ?= ?{)`).test(fileData)
+  )
+
+  if (!typeName) return
+
+  const queryRegExp = new RegExp(`export (interface ${typeName} ?{|type ${typeName} ?= ?{)`)
+  const [, typeText, targetText] = fileData.split(queryRegExp)
+  const { length } = targetText
+  let cursor = 0
+  let depth = 1
+
+  while (depth && cursor <= length) {
+    if (targetText[cursor] === '}') {
+      depth -= 1
+    } else if (targetText[cursor] === '{') {
+      depth += 1
+    }
+
+    cursor += 1
+  }
+
+  const importName = `${typeName}${suffix}`
+
+  return {
+    importName,
+    importString: `${typeText.replace(typeName, importName)}${targetText
+      .slice(0, cursor)
+      .replace(/\r/g, '')}\n`
+  }
+}
+
 export default (input: string, trailingSlash = false) => {
   const imports: string[] = []
   const getImportName = (file: string) => {
-    const fileData = fs.readFileSync(file, 'utf8')
-    const typeName = ['Query', 'OptionalQuery'].find(type =>
-      new RegExp(`export (interface ${type} ?{|type ${type} ?= ?{)`).test(fileData)
-    )
+    const result =
+      path.extname(file) === '.tsx'
+        ? parseQueryFromTSX(input, file, imports.length)
+        : parseQueryFromVue(file, imports.length)
 
-    if (typeName) {
-      const queryRegExp = new RegExp(`export (interface ${typeName} ?{|type ${typeName} ?= ?{)`)
-      const [, typeText, targetText] = fileData.split(queryRegExp)
-      const { length } = targetText
-      let cursor = 0
-      let depth = 1
-
-      while (depth && cursor <= length) {
-        if (targetText[cursor] === '}') {
-          depth -= 1
-        } else if (targetText[cursor] === '{') {
-          depth += 1
-        }
-
-        cursor += 1
-      }
-
-      const importName = `${typeName}${imports.length}`
-      imports.push(
-        `${typeText.replace(typeName, importName)}${targetText
-          .slice(0, cursor)
-          .replace(/\r/g, '')}\n`
-      )
-      return importName
+    if (result) {
+      imports.push(result.importString)
+      return result.importName
     }
   }
 
-  const createQueryString = (
+  const createPathObjString = (
     targetDir: string,
     importBasePath: string,
     indent: string,
@@ -108,7 +122,7 @@ export default (input: string, trailingSlash = false) => {
           }
 
           props.push(
-            createQueryString(
+            createPathObjString(
               target,
               `${importBasePath}/${file}`,
               indent,
@@ -143,12 +157,14 @@ export default (input: string, trailingSlash = false) => {
     )
   }
 
-  const text = createQueryString(input, '.', rootIndent, '', `{\n<% props %>\n}`, rootMethods)
+  const text = createPathObjString(input, '.', rootIndent, '', `{\n<% props %>\n}`, rootMethods)
+  const importsText = imports.filter(i => i.startsWith('import')).join('\n')
+  const queriesText = imports.filter(i => !i.startsWith('import')).join('\n')
 
   return `/* eslint-disable */
 import { Plugin } from '@nuxt/types'
-
-${imports.join('\n')}${
+${importsText}${importsText && queriesText ? '\n' : ''}
+${queriesText}${
     imports.length ? '\n' : ''
   }export const pagesPath = ${text}\n\nexport type PagesPath = typeof pagesPath
 `

@@ -5,7 +5,13 @@ type Query0 = { hoge: string }
 
 type OptionalQuery1 = { hoge: string }
 
-type Query2 = { hoge: string }
+type Query2 = {
+  hoge: string
+  fuga: {
+    a: number
+    b: { c: string }[]
+  }
+}
 
 export const pagesPath = {
   _a: (a: string | number) => ({

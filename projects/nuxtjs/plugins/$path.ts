@@ -1,11 +1,9 @@
 /* eslint-disable */
 import { Plugin } from '@nuxt/types'
-
-type Query0 = { hoge: string }
+import { Query as Query0 } from '../pages'
+import { Query as Query2 } from '../pages/blog/_slug'
 
 type OptionalQuery1 = { hoge: string }
-
-type Query2 = { hoge: string }
 
 export const pagesPath = {
   _a: (a: string | number) => ({

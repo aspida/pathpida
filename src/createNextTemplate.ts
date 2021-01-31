@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { parseQueryFromTSX } from './parseQueryFromTSX'
 
 type Slugs = string[]
 
@@ -24,23 +25,15 @@ const createMethods = (
 export default (input: string) => {
   const imports: string[] = []
   const getImportName = (file: string) => {
-    const fileData = fs.readFileSync(file, 'utf8')
-    const typeName = ['Query', 'OptionalQuery'].find(type =>
-      new RegExp(`export (interface ${type} ?{|type ${type} ?=)`).test(fileData)
-    )
+    const result = parseQueryFromTSX(input, file, imports.length)
 
-    if (typeName) {
-      const importName = `${typeName}${imports.length}`
-      imports.push(
-        `import { ${typeName} as ${importName} } from '${path.posix
-          .relative(path.join(input, '../lib'), file)
-          .replace(/(\/index)?\.tsx/, '')}'`
-      )
-      return importName
+    if (result) {
+      imports.push(result.importString)
+      return result.importName
     }
   }
 
-  const createQueryString = (
+  const createPathObjString = (
     targetDir: string,
     indent: string,
     url: string,
@@ -96,7 +89,7 @@ export default (input: string) => {
           }
 
           props.push(
-            createQueryString(
+            createPathObjString(
               target,
               indent,
               newUrl,
@@ -129,7 +122,7 @@ export default (input: string) => {
     )
   }
 
-  const text = createQueryString(input, rootIndent, '', [], `{\n<% props %>\n}`, rootMethods)
+  const text = createPathObjString(input, rootIndent, '', [], `{\n<% props %>\n}`, rootMethods)
 
   return `/* eslint-disable */
 ${imports.join('\n')}${
