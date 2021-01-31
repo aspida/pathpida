@@ -28,6 +28,7 @@
 - **Type safety**. Automatically generate type definition files for manipulating internal links in Next.js/Nuxt.js.
 - **Zero configuration**. No configuration required can be used immediately after installation.
 - **Zero runtime**. Lightweight because runtime code is not included in the bundle.
+- **Support for static files**. Static files in public/ are also supported, so static assets can be safely referenced.
 
 ## Table of Contents
 
@@ -351,7 +352,7 @@ export default Vue.extend({
 </script>
 ```
 
-### :warning: In the case of Nuxt.js, Query/OptionalQuery type must not contain any reference types.
+### :warning: In the case of .vue file, Query/OptionalQuery type must not contain any reference types.
 
 This is because due to typescript restrictions, types exported from `.vue` files cannot be imported in `plugins/$path.ts`.
 If you want to import types from other files, please use [import types](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-9.html#import-types) with absolute paths.
