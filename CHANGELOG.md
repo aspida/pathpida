@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.13.0](https://github.com/aspida/pathpida/compare/v0.12.1...v0.13.0) (2021-01-31)
+
+
+### Features
+
+* import query when Nuxt.js file is tsx ([ebc16b8](https://github.com/aspida/pathpida/commit/ebc16b8e0270d4d50c7c036d1d87aeecdfe4790c))
+
+
+### Bug Fixes
+
+* fix some typo in README.md ([d2d135d](https://github.com/aspida/pathpida/commit/d2d135df8c931437eb6513d493ca161bef11c844))
+* update next@10.0.6 ([699198b](https://github.com/aspida/pathpida/commit/699198b0275e6638eea9caffd83ed869ab976be9))
+
 ### [0.12.1](https://github.com/aspida/pathpida/compare/v0.12.0...v0.12.1) (2021-01-20)
 
 
