@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { parseQueryFromTSX } from './parseQueryFromTSX'
+import { replaceWithUnderscore } from './replaceWithUnderscore'
 
 const createMethods = (
   indent: string,
@@ -81,9 +82,7 @@ export default (input: string, trailingSlash = false) => {
       .sort()
       .forEach((file, _, arr) => {
         const basename = path.basename(file, path.extname(file))
-        let valFn = `${indent}${basename
-          .replace(/(-|\.|!| |'|\*|\(|\))/g, '_')
-          .replace(/^(\d)/, '$$$1')}: {\n<% next %>\n${indent}}`
+        let valFn = `${indent}${replaceWithUnderscore(basename)}: {\n<% next %>\n${indent}}`
         let newUrl = `${url}/${basename}`
 
         if (basename.startsWith('_')) {

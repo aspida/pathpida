@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { parseQueryFromTSX } from './parseQueryFromTSX'
+import { replaceWithUnderscore } from './replaceWithUnderscore'
 
 type Slugs = string[]
 
@@ -52,9 +53,7 @@ export default (input: string) => {
         const newSlugs = [...slugs]
         const basename = path.basename(file, file.endsWith(']') ? '' : path.extname(file))
         const newUrl = `${url}/${basename}`
-        let valFn = `${indent}${basename
-          .replace(/(-|\.|!| |'|\*|\(|\))/g, '_')
-          .replace(/^(\d)/, '$$$1')}: {\n<% next %>\n${indent}}`
+        let valFn = `${indent}${replaceWithUnderscore(basename)}: {\n<% next %>\n${indent}}`
 
         if (basename.startsWith('[') && basename.endsWith(']')) {
           const slug = basename.replace(/[.[\]]/g, '')

@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { replaceWithUnderscore } from './replaceWithUnderscore'
 
 const normalizeBasePath = (basepath: string | undefined): string => {
   if (typeof basepath === 'string') return basepath.replace(/\/+$/, '')
@@ -17,9 +18,7 @@ export default (input: string, basepath: string | undefined) => {
       .forEach(file => {
         const newUrl = `${url}/${file}`
         const target = path.posix.join(targetDir, file)
-        const valFn = `${indent}${file
-          .replace(/(-|\.|!| |'|\*|\(|\))/g, '_')
-          .replace(/^(\d)/, '$$$1')}: <% next %>`
+        const valFn = `${indent}${replaceWithUnderscore(file)}: <% next %>`
 
         if (fs.statSync(target).isFile()) {
           props.push(valFn.replace('<% next %>', `'${newUrl}'`))
