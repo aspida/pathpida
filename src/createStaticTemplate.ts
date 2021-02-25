@@ -9,32 +9,37 @@ const normalizeBasePath = (basepath: string | undefined): string => {
 
 export default (input: string, basepath: string | undefined) => {
   const createPublicString = (targetDir: string, indent: string, url: string, text: string) => {
-    const props: string[] = []
-
     indent += '  '
 
-    fs.readdirSync(targetDir)
-      .sort()
-      .forEach(file => {
-        const newUrl = `${url}/${file}`
-        const target = path.posix.join(targetDir, file)
-        const valFn = `${indent}${replaceWithUnderscore(file)}: <% next %>`
+    const files = fs.readdirSync(targetDir).sort()
+    const replacedFiles = files.map(replaceWithUnderscore)
+    const duplicatedInfo = replacedFiles.reduce<Record<string, number[]>>(
+      (a, b, i) => ({ ...a, [b]: [...(a[b] ?? []), i] }),
+      {}
+    )
+    const props: string[] = files.map((file, i) => {
+      const newUrl = `${url}/${file}`
+      const target = path.posix.join(targetDir, file)
+      const replacedFile = replacedFiles[i]
+      const valFn = `${indent}${
+        duplicatedInfo[replacedFile].length > 1
+          ? `${replacedFile}_${duplicatedInfo[replacedFile].indexOf(i)}`
+          : replacedFile
+      }: <% next %>`
 
-        if (fs.statSync(target).isFile()) {
-          props.push(valFn.replace('<% next %>', `'${newUrl}'`))
-        } else if (fs.statSync(target).isDirectory()) {
-          props.push(
-            createPublicString(
-              target,
-              indent,
-              newUrl,
-              valFn.replace('<% next %>', `{\n<% props %>\n${indent}}`)
-            )
+      return fs.statSync(target).isFile()
+        ? valFn.replace('<% next %>', `'${newUrl}'`)
+        : fs.statSync(target).isDirectory()
+        ? createPublicString(
+            target,
+            indent,
+            newUrl,
+            valFn.replace('<% next %>', `{\n<% props %>\n${indent}}`)
           )
-        }
-      })
+        : ''
+    })
 
-    return text.replace('<% props %>', props.join(',\n'))
+    return text.replace('<% props %>', props.filter(Boolean).join(',\n'))
   }
 
   const text = createPublicString(

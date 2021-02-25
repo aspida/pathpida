@@ -46,7 +46,12 @@ export const staticPath = {
   aa_json: '/foo/bar/aa.json',
   bb: {
     cc_png: '/foo/bar/bb/cc.png'
-  }
+  },
+  duplicate_json_0: {
+    sample_json: '/foo/bar/duplicate-json/sample.json'
+  },
+  duplicate_json_1: '/foo/bar/duplicate.json',
+  duplicate_json_2: '/foo/bar/duplicate_json'
 } as const
 
 export type StaticPath = typeof staticPath
