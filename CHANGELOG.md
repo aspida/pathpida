@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.13.1](https://github.com/aspida/pathpida/compare/v0.13.0...v0.13.1) (2021-02-25)
+
+
+### Bug Fixes
+
+* rename duplicated properties ([e28fba2](https://github.com/aspida/pathpida/commit/e28fba2189287ffec1bdae8aed093952b21acf64))
+* update next and @nuxt/config ([b81854f](https://github.com/aspida/pathpida/commit/b81854fb9dc31795b28ae4d88d8aa95629a85c37))
+
 ## [0.13.0](https://github.com/aspida/pathpida/compare/v0.12.1...v0.13.0) (2021-01-31)
 
 
