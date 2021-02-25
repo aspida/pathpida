@@ -17,29 +17,31 @@ export default (input: string, basepath: string | undefined) => {
       (a, b, i) => ({ ...a, [b]: [...(a[b] ?? []), i] }),
       {}
     )
-    const props: string[] = files.map((file, i) => {
-      const newUrl = `${url}/${file}`
-      const target = path.posix.join(targetDir, file)
-      const replacedFile = replacedFiles[i]
-      const valFn = `${indent}${
-        duplicatedInfo[replacedFile].length > 1
-          ? `${replacedFile}_${duplicatedInfo[replacedFile].indexOf(i)}`
-          : replacedFile
-      }: <% next %>`
+    const props: string[] = files
+      .map((file, i) => {
+        const newUrl = `${url}/${file}`
+        const target = path.posix.join(targetDir, file)
+        const replacedFile = replacedFiles[i]
+        const valFn = `${indent}${
+          duplicatedInfo[replacedFile].length > 1
+            ? `${replacedFile}_${duplicatedInfo[replacedFile].indexOf(i)}`
+            : replacedFile
+        }: <% next %>`
 
-      return fs.statSync(target).isFile()
-        ? valFn.replace('<% next %>', `'${newUrl}'`)
-        : fs.statSync(target).isDirectory()
-        ? createPublicString(
-            target,
-            indent,
-            newUrl,
-            valFn.replace('<% next %>', `{\n<% props %>\n${indent}}`)
-          )
-        : ''
-    })
+        return fs.statSync(target).isFile()
+          ? valFn.replace('<% next %>', `'${newUrl}'`)
+          : fs.statSync(target).isDirectory()
+          ? createPublicString(
+              target,
+              indent,
+              newUrl,
+              valFn.replace('<% next %>', `{\n<% props %>\n${indent}}`)
+            )
+          : ''
+      })
+      .filter(Boolean)
 
-    return text.replace('<% props %>', props.filter(Boolean).join(',\n'))
+    return text.replace('<% props %>', props.join(',\n'))
   }
 
   const text = createPublicString(

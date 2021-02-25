@@ -73,14 +73,13 @@ export default (input: string, trailingSlash = false) => {
     text: string,
     methodsOfIndexTsFile?: string
   ) => {
-    const props: string[] = []
-
     indent += '  '
 
-    fs.readdirSync(targetDir)
+    const props: string[] = fs
+      .readdirSync(targetDir)
       .filter(file => !file.startsWith('-'))
       .sort()
-      .forEach((file, _, arr) => {
+      .map((file, _, arr) => {
         const basename = path.basename(file, path.extname(file))
         let valFn = `${indent}${replaceWithUnderscore(basename)}: {\n<% next %>\n${indent}}`
         let newUrl = `${url}/${basename}`
@@ -99,39 +98,34 @@ export default (input: string, trailingSlash = false) => {
         const target = path.posix.join(targetDir, file)
 
         if (fs.statSync(target).isFile() && basename !== 'index' && !arr.includes(basename)) {
-          props.push(
-            valFn.replace(
-              '<% next %>',
-              createMethods(indent, getImportName(target), newUrl, trailingSlash)
-            )
+          return valFn.replace(
+            '<% next %>',
+            createMethods(indent, getImportName(target), newUrl, trailingSlash)
           )
         } else if (fs.statSync(target).isDirectory()) {
           const indexFile = fs
             .readdirSync(target)
             .find(name => path.basename(name, path.extname(name)) === 'index')
-          let methods
 
-          if (indexFile) {
-            methods = createMethods(
-              indent,
-              getImportName(path.posix.join(target, indexFile)),
-              newUrl,
-              trailingSlash
-            )
-          }
-
-          props.push(
-            createPathObjString(
-              target,
-              `${importBasePath}/${file}`,
-              indent,
-              newUrl,
-              valFn.replace('<% next %>', '<% props %>'),
-              methods
-            )
+          return createPathObjString(
+            target,
+            `${importBasePath}/${file}`,
+            indent,
+            newUrl,
+            valFn.replace('<% next %>', '<% props %>'),
+            indexFile &&
+              createMethods(
+                indent,
+                getImportName(path.posix.join(target, indexFile)),
+                newUrl,
+                trailingSlash
+              )
           )
         }
+
+        return ''
       })
+      .filter(Boolean)
 
     return text.replace(
       '<% props %>',
