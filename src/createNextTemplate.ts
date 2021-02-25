@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { parseQueryFromTSX } from './parseQueryFromTSX'
+import { replaceWithUnderscore } from './replaceWithUnderscore'
 
 type Slugs = string[]
 
@@ -41,20 +42,17 @@ export default (input: string) => {
     text: string,
     methodsOfIndexTsFile?: string
   ) => {
-    const props: string[] = []
-
     indent += '  '
 
-    fs.readdirSync(targetDir)
+    const props: string[] = fs
+      .readdirSync(targetDir)
       .filter(file => !file.startsWith('_') && `${url}/${file}` !== '/api')
       .sort()
-      .forEach((file, _, arr) => {
+      .map((file, _, arr) => {
         const newSlugs = [...slugs]
         const basename = path.basename(file, file.endsWith(']') ? '' : path.extname(file))
         const newUrl = `${url}/${basename}`
-        let valFn = `${indent}${basename
-          .replace(/(-|\.|!| |'|\*|\(|\))/g, '_')
-          .replace(/^(\d)/, '$$$1')}: {\n<% next %>\n${indent}}`
+        let valFn = `${indent}${replaceWithUnderscore(basename)}: {\n<% next %>\n${indent}}`
 
         if (basename.startsWith('[') && basename.endsWith(']')) {
           const slug = basename.replace(/[.[\]]/g, '')
@@ -67,39 +65,34 @@ export default (input: string) => {
         const target = path.posix.join(targetDir, file)
 
         if (fs.statSync(target).isFile() && basename !== 'index' && !arr.includes(basename)) {
-          props.push(
-            valFn.replace(
-              '<% next %>',
-              createMethods(indent, getImportName(target), newSlugs, newUrl)
-            )
+          return valFn.replace(
+            '<% next %>',
+            createMethods(indent, getImportName(target), newSlugs, newUrl)
           )
         } else if (fs.statSync(target).isDirectory()) {
           const indexFile = fs
             .readdirSync(target)
             .find(name => path.basename(name, path.extname(name)) === 'index')
-          let methods
 
-          if (indexFile) {
-            methods = createMethods(
-              indent,
-              getImportName(path.posix.join(target, indexFile)),
-              newSlugs,
-              newUrl
-            )
-          }
-
-          props.push(
-            createPathObjString(
-              target,
-              indent,
-              newUrl,
-              newSlugs,
-              valFn.replace('<% next %>', '<% props %>'),
-              methods
-            )
+          return createPathObjString(
+            target,
+            indent,
+            newUrl,
+            newSlugs,
+            valFn.replace('<% next %>', '<% props %>'),
+            indexFile &&
+              createMethods(
+                indent,
+                getImportName(path.posix.join(target, indexFile)),
+                newSlugs,
+                newUrl
+              )
           )
         }
+
+        return ''
       })
+      .filter(Boolean)
 
     return text.replace(
       '<% props %>',
