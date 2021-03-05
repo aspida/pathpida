@@ -12,10 +12,16 @@ export type Config = {
   basepath?: string
 }
 
+const getFrameworkType = (dir: string) => {
+  const packageJson = JSON.parse(fs.readFileSync(path.join(dir, 'package.json'), 'utf8'))
+  const deps = Object.assign(packageJson.devDependencies ?? {}, packageJson.dependencies ?? {})
+
+  return deps.nuxt ? 'nuxtjs' : 'nextjs'
+}
+
 export default async (enableStatic: boolean, dir = process.cwd()): Promise<Config> => {
-  const nuxtjsPath = path.join(dir, 'nuxt.config.js')
   const nuxttsPath = path.join(dir, 'nuxt.config.ts')
-  const type = fs.existsSync(nuxtjsPath) || fs.existsSync(nuxttsPath) ? 'nuxtjs' : 'nextjs'
+  const type = getFrameworkType(dir)
 
   if (type === 'nextjs') {
     const config = loadNextConfig(require('next/constants').PHASE_PRODUCTION_BUILD, dir)
