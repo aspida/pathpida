@@ -2,6 +2,7 @@ import path from 'path'
 import { Config } from './getConfig'
 import createNextTemplate from './createNextTemplate'
 import createNuxtTemplate from './createNuxtTemplate'
+import createSapperTemplate from './createSapperTemplate'
 import createStaticTemplate from './createStaticTemplate'
 
 let prevPagesText = ''
@@ -16,21 +17,21 @@ export default (
   { type, input, staticDir, output, trailingSlash, basepath }: Config,
   mode?: 'pages' | 'static'
 ) => {
-  const isNextJs = type === 'nextjs'
   prevPagesText =
     mode === 'static'
       ? prevPagesText
-      : isNextJs
-      ? createNextTemplate(input)
-      : createNuxtTemplate(input, trailingSlash)
+      : {
+          nextjs: () => createNextTemplate(input),
+          nuxtjs: () => createNuxtTemplate(input, trailingSlash),
+          sapper: () => createSapperTemplate(input)
+        }[type]()
   prevStaticText =
     !staticDir || mode === 'pages' ? prevStaticText : createStaticTemplate(staticDir, basepath)
 
   return {
     text: `${prevPagesText}${prevStaticText}${
-      isNextJs
-        ? ''
-        : `
+      type === 'nuxtjs'
+        ? `
 declare module 'vue/types/vue' {
   interface Vue {
     $pagesPath: PagesPath${prevStaticText ? '\n    $staticPath: StaticPath' : ''}
@@ -59,6 +60,7 @@ const pathPlugin: Plugin = (_, inject) => {
 
 export default pathPlugin
 `
+        : ''
     }`,
     filePath: path.posix.join(output, '$path.ts')
   }

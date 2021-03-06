@@ -4,7 +4,7 @@ import { loadNuxtConfig } from '@nuxt/config'
 import loadNextConfig from 'next/dist/next-server/server/config'
 
 export type Config = {
-  type: 'nextjs' | 'nuxtjs'
+  type: 'nextjs' | 'nuxtjs' | 'sapper'
   input: string
   staticDir?: string
   output: string
@@ -16,19 +16,17 @@ const getFrameworkType = (dir: string) => {
   const packageJson = JSON.parse(fs.readFileSync(path.join(dir, 'package.json'), 'utf8'))
   const deps = Object.assign(packageJson.devDependencies ?? {}, packageJson.dependencies ?? {})
 
-  return deps.nuxt ? 'nuxtjs' : 'nextjs'
+  return deps.sapper ? 'sapper' : deps.nuxt ? 'nuxtjs' : 'nextjs'
 }
 
 export default async (enableStatic: boolean, dir = process.cwd()): Promise<Config> => {
-  const nuxttsPath = path.join(dir, 'nuxt.config.ts')
   const type = getFrameworkType(dir)
 
   if (type === 'nextjs') {
     const config = loadNextConfig(require('next/constants').PHASE_PRODUCTION_BUILD, dir)
     const srcDir = fs.existsSync(path.posix.join(dir, 'pages')) ? dir : path.posix.join(dir, 'src')
-    const nextUtilsPath = path.join(srcDir, 'utils')
-    const nextLibPath = path.join(srcDir, 'lib')
-    const output = fs.existsSync(nextUtilsPath) ? nextUtilsPath : nextLibPath
+    const utilsPath = path.join(srcDir, 'utils')
+    const output = fs.existsSync(utilsPath) ? utilsPath : path.join(srcDir, 'lib')
 
     if (!fs.existsSync(output)) fs.mkdirSync(output)
 
@@ -39,7 +37,8 @@ export default async (enableStatic: boolean, dir = process.cwd()): Promise<Confi
       output,
       basepath: config.basePath
     }
-  } else {
+  } else if (type === 'nuxtjs') {
+    const nuxttsPath = path.join(dir, 'nuxt.config.ts')
     const config = await loadNuxtConfig({
       rootDir: dir,
       configFile: fs.existsSync(nuxttsPath) ? nuxttsPath : undefined
@@ -53,6 +52,15 @@ export default async (enableStatic: boolean, dir = process.cwd()): Promise<Confi
       output: path.posix.join(srcDir, 'plugins'),
       trailingSlash: config.router?.trailingSlash,
       basepath: config.router?.base
+    }
+  } else {
+    const srcDir = path.posix.join(dir, 'src')
+
+    return {
+      type,
+      input: path.posix.join(srcDir, 'routes'),
+      staticDir: enableStatic ? path.posix.join(dir, 'static') : undefined,
+      output: path.join(srcDir, 'node_modules')
     }
   }
 }
