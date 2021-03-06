@@ -463,27 +463,23 @@ src/node_modules/$path.ts // Generated automatically by pathpida
 
 ```html
 <script context="module" lang="ts">
-	import { pagesPath } from '$path'
+  import { pagesPath } from '$path'
 
-	export type Query = {
-		id: number
-	}
-
-	export function preload() {
-		return this.fetch(pagesPath.blog_json.$url()).then((r: { json: () => any; }) => r.json()).then((posts: { slug: string; title: string, html: any }[]) => {
-			return { posts };
-		});
-	}
+  export function preload() {
+    return this.fetch(pagesPath.blog_json.$url()).then((r: { json: () => any; }) => r.json()).then((posts: { slug: string; title: string, html: any }[]) => {
+      return { posts };
+    });
+  }
 </script>
 
 <script lang="ts">
-	export let posts: { slug: string; title: string, html: any }[];
+  export let posts: { slug: string; title: string, html: any }[];
 </script>
 
 <ul>
-	{#each posts as post}
-		<li><a rel="prefetch" href="{pagesPath.blog._slug(post.slug).$url()}">{post.title}</a></li>
-	{/each}
+  {#each posts as post}
+    <li><a rel="prefetch" href="{pagesPath.blog._slug(post.slug).$url()}">{post.title}</a></li>
+  {/each}
 </ul>
 ```
 
@@ -497,12 +493,12 @@ src/node_modules/$path.ts // Generated automatically by pathpida
 import posts from './_posts.js';
 
 export type Query = { // or OptionalQuery
-	id: number
+  id: number
 }
 
 const lookup = new Map();
 posts.forEach(post => {
-	lookup.set(post.slug, JSON.stringify(post));
+  lookup.set(post.slug, JSON.stringify(post));
 });
 ```
 
@@ -510,18 +506,18 @@ posts.forEach(post => {
 
 ```html
 <script context="module" lang="ts">
-	import { pagesPath } from '$path'
+  import { pagesPath } from '$path'
 
-	export async function preload({ params }) {
-		const res = await this.fetch(pagesPath.blog._slug_json(params.slug).$url({ query: { id: 1 }}));
-		const data = await res.json();
+  export async function preload({ params }) {
+    const res = await this.fetch(pagesPath.blog._slug_json(params.slug).$url({ query: { id: 1 }}));
+    const data = await res.json();
 
-		if (res.status === 200) {
-			return { post: data };
-		} else {
-			this.error(res.status, data.message);
-		}
-	}
+    if (res.status === 200) {
+      return { post: data };
+    } else {
+      this.error(res.status, data.message);
+    }
+  }
 </script>
 ```
 
@@ -547,7 +543,7 @@ export type Query = {
 
 const lookup = new Map();
 posts.forEach(post => {
-	lookup.set(post.slug, JSON.stringify(post));
+  lookup.set(post.slug, JSON.stringify(post));
 });
 ```
 
@@ -580,11 +576,11 @@ src/node_modules/$path.ts // Generated automatically by pathpida
 
 ```html
 <script>
-	import { staticPath } from '$path';
+  import { staticPath } from '$path';
 </script>
 
 <figure>
-	<img alt="Logo" src="{staticPath.logo_512_png}">
+  <img alt="Logo" src="{staticPath.logo_512_png}">
 </figure>
 ```
 
