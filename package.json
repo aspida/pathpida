@@ -1,13 +1,13 @@
 {
   "name": "pathpida",
-  "version": "0.13.1",
-  "description": "TypeScript friendly pages path generator for Next.js and Nuxt.js",
+  "version": "0.14.0",
+  "description": "TypeScript friendly pages path generator for Next.js, Nuxt.js and Sapper",
   "author": "Solufa <solufa2020@gmail.com>",
   "license": "MIT",
   "types": "dist/cli.d.ts",
   "bin": "bin/index.js",
   "scripts": {
-    "dev": "npm run build && cd projects/nextjs && node ../../bin/index.js -s && cd ../nextjs-src && node ../../bin/index.js -s && cd ../nuxtjs && node ../../bin/index.js --enableStatic && cd ../nuxtjs-src && node ../../bin/index.js --enableStatic && cd ../nuxtjs-no-slash && node ../../bin/index.js && cd ../nextjs-basepath && node ../../bin/index.js -s && cd ../nuxtjs-basepath && node ../../bin/index.js -s",
+    "dev": "npm run build && cd projects/nextjs && node ../../bin/index.js -s && cd ../nextjs-src && node ../../bin/index.js -s && cd ../nuxtjs && node ../../bin/index.js --enableStatic && cd ../nuxtjs-src && node ../../bin/index.js --enableStatic && cd ../nuxtjs-no-slash && node ../../bin/index.js && cd ../nextjs-basepath && node ../../bin/index.js -s && cd ../nuxtjs-basepath && node ../../bin/index.js -s && cd ../sapper && node ../../bin/index.js -s",
     "build": "npm run rimraf && tsc",
     "rimraf": "node -e \"require('fs').rmdirSync('dist', { recursive: true })\"",
     "release": "standard-version --skip.tag",
@@ -92,10 +92,10 @@
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@types/minimist": "^1.2.1",
-    "@typescript-eslint/eslint-plugin": "^4.15.2",
-    "@typescript-eslint/parser": "^4.15.2",
-    "eslint": "^7.20.0",
-    "eslint-config-prettier": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
+    "eslint": "^7.21.0",
+    "eslint-config-prettier": "^8.1.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.1.5",
@@ -106,7 +106,7 @@
     "jest": "^26.6.3",
     "prettier": "^2.2.1",
     "standard-version": "^9.1.1",
-    "ts-jest": "^26.5.2",
-    "typescript": "^4.2.2"
+    "ts-jest": "^26.5.3",
+    "typescript": "^4.2.3"
   }
 }
