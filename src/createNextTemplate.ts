@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { parseQueryFromTSX } from './parseQueryFromTSX'
+import { parseQueryFromTS } from './parseQueryFromTS'
 import { replaceWithUnderscore } from './replaceWithUnderscore'
 
 type Slugs = string[]
@@ -26,7 +26,7 @@ const createMethods = (
 export default (input: string) => {
   const imports: string[] = []
   const getImportName = (file: string) => {
-    const result = parseQueryFromTSX(input, file, imports.length)
+    const result = parseQueryFromTS(input, file, imports.length)
 
     if (result) {
       imports.push(result.importString)

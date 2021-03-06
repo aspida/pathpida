@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { parseQueryFromTS } from './parseQueryFromTS'
 import { replaceWithUnderscore } from './replaceWithUnderscore'
 
 const createMethods = (
@@ -18,7 +19,7 @@ const createMethods = (
       : ''
   }\${url${importName?.startsWith('Query') ? '' : '?'}.hash ? \`#\${url.hash}\` : ''}\``
 
-const parseQueryFromVue = (file: string, suffix: number) => {
+const parseQueryFromSvelte = (file: string, suffix: number) => {
   const fileData = fs.readFileSync(file, 'utf8')
   const typeName = ['Query', 'OptionalQuery'].find(type =>
     new RegExp(`export (interface ${type} ?{|type ${type} ?= ?{)`).test(fileData)
@@ -56,7 +57,9 @@ const parseQueryFromVue = (file: string, suffix: number) => {
 export default (input: string, trailingSlash = false) => {
   const imports: string[] = []
   const getImportName = (file: string) => {
-    const result = parseQueryFromVue(file, imports.length)
+    const result = path.extname(file).startsWith('.ts')
+      ? parseQueryFromTS(input, file, imports.length)
+      : parseQueryFromSvelte(file, imports.length)
 
     if (result) {
       imports.push(result.importString)
@@ -176,9 +179,12 @@ export default (input: string, trailingSlash = false) => {
   }
 
   const text = createPathObjString(input, '.', rootIndent, '', `{\n<% props %>\n}`, rootMethods)
+  const importsText = imports.filter(i => i.startsWith('import')).join('\n')
+  const queriesText = imports.filter(i => !i.startsWith('import')).join('\n')
 
   return `/* eslint-disable */
-${imports.join('\n')}${
+${importsText}${importsText && queriesText ? '\n' : ''}
+${queriesText}${
     imports.length
       ? `
 const encode = (str: Parameters<typeof encodeURIComponent>[0]) =>

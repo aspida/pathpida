@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { parseQueryFromTSX } from './parseQueryFromTSX'
+import { parseQueryFromTS } from './parseQueryFromTS'
 import { replaceWithUnderscore } from './replaceWithUnderscore'
 
 const createMethods = (
@@ -54,10 +54,9 @@ const parseQueryFromVue = (file: string, suffix: number) => {
 export default (input: string, trailingSlash = false) => {
   const imports: string[] = []
   const getImportName = (file: string) => {
-    const result =
-      path.extname(file) === '.tsx'
-        ? parseQueryFromTSX(input, file, imports.length)
-        : parseQueryFromVue(file, imports.length)
+    const result = path.extname(file).startsWith('.ts')
+      ? parseQueryFromTS(input, file, imports.length)
+      : parseQueryFromVue(file, imports.length)
 
     if (result) {
       imports.push(result.importString)
