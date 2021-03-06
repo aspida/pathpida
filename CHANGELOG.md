@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.14.0](https://github.com/aspida/pathpida/compare/v0.13.1...v0.14.0) (2021-03-06)
+
+
+### Features
+
+* support sapper ([6c72524](https://github.com/aspida/pathpida/commit/6c7252422b385389c357c98547b5b369ad2add00))
+
 ### [0.13.1](https://github.com/aspida/pathpida/compare/v0.13.0...v0.13.1) (2021-02-25)
 
 
