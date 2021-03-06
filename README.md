@@ -19,13 +19,13 @@
   </a>
 </div>
 <br />
-<p align="center">TypeScript friendly internal link client for Next.js and Nuxt.js.</p>
+<p align="center">TypeScript friendly internal link client for Next.js, Nuxt.js and Sapper.</p>
 <br />
 <br />
 
 ## Features
 
-- **Type safety**. Automatically generate type definition files for manipulating internal links in Next.js/Nuxt.js.
+- **Type safety**. Automatically generate type definition files for manipulating internal links in Next.js/Nuxt.js/Sapper.
 - **Zero configuration**. No configuration required can be used immediately after installation.
 - **Zero runtime**. Lightweight because runtime code is not included in the bundle.
 - **Support for static files**. Static files in public/ are also supported, so static assets can be safely referenced.
@@ -41,6 +41,10 @@
 - [Usage - Nuxt.js](#Usage-nuxt)
 - [Define query - Nuxt.js](#Define-query-nuxt)
 - [Generate static files path - Nuxt.js](#Generate-static-files-path-nuxt)
+- [Setup - Sapper](#Setup-sapper)
+- [Usage - Sapper](#Usage-sapper)
+- [Define query - Sapper](#Define-query-sapper)
+- [Generate static files path - Sapper](#Generate-static-files-path-sapper)
 - [License](#License)
 
 ## Install
@@ -422,6 +426,166 @@ import Vue from 'vue'
 
 export default Vue.extend({})
 </script>
+```
+
+<a id="Setup-sapper"></a>
+
+## Setup - Sapper
+
+`package.json`
+
+```json
+{
+  "scripts": {
+    "dev": "run-p dev:*",
+    "dev:sapper": "sapper dev",
+    "dev:path": "pathpida --watch",
+    "build": "pathpida && sapper build --legacy",
+    "export": "pathpida && sapper export --legacy"
+  }
+}
+```
+
+<a id="Usage-sapper"></a>
+
+## Usage - Sapper
+
+```
+src/routes/blog/[slug].json.ts
+src/routes/blog/[slug].svelte
+src/routes/blog/index.json.js
+src/routes/blog/index.svelte
+
+src/node_modules/$path.ts // Generated automatically by pathpida
+```
+
+`src/routes/blog/index.svelte`
+
+```html
+<script context="module" lang="ts">
+	import { pagesPath } from '$path'
+
+	export type Query = {
+		id: number
+	}
+
+	export function preload() {
+		return this.fetch(pagesPath.blog_json.$url()).then((r: { json: () => any; }) => r.json()).then((posts: { slug: string; title: string, html: any }[]) => {
+			return { posts };
+		});
+	}
+</script>
+
+<script lang="ts">
+	export let posts: { slug: string; title: string, html: any }[];
+</script>
+
+<ul>
+	{#each posts as post}
+		<li><a rel="prefetch" href="{pagesPath.blog._slug(post.slug).$url()}">{post.title}</a></li>
+	{/each}
+</ul>
+```
+
+<a id="Define-query-sapper"></a>
+
+## Define query - Sapper
+
+`src/routes/blog/[slug].json.ts`
+
+```ts
+import posts from './_posts.js';
+
+export type Query = { // or OptionalQuery
+	id: number
+}
+
+const lookup = new Map();
+posts.forEach(post => {
+	lookup.set(post.slug, JSON.stringify(post));
+});
+```
+
+`src/routes/blog/[slug].svelte`
+
+```html
+<script context="module" lang="ts">
+	import { pagesPath } from '$path'
+
+	export async function preload({ params }) {
+		const res = await this.fetch(pagesPath.blog._slug_json(params.slug).$url({ query: { id: 1 }}));
+		const data = await res.json();
+
+		if (res.status === 200) {
+			return { post: data };
+		} else {
+			this.error(res.status, data.message);
+		}
+	}
+</script>
+```
+
+### :warning: In the case of .svelte file, Query/OptionalQuery type must not contain any reference types.
+
+This is because due to typescript restrictions, types exported from `.svelte` files cannot be imported in `src/node_modules/$path.ts`.
+If you want to import types from other files, please use [import types](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-9.html#import-types) with absolute paths.
+
+`src/node_modules/types/users.ts`
+
+```ts
+export type UserId = number
+```
+
+`src/routes/blog/[slug].json.ts`
+
+```ts
+import posts from './_posts.js';
+
+export type Query = {
+  id: import('types/users').UserId
+}
+
+const lookup = new Map();
+posts.forEach(post => {
+	lookup.set(post.slug, JSON.stringify(post));
+});
+```
+
+<a id="Generate-static-files-path-sapper"></a>
+
+## Generate static files path - Sapper
+
+`package.json`
+
+```json
+{
+  "scripts": {
+    "dev": "run-p dev:*",
+    "dev:sapper": "sapper dev",
+    "dev:path": "pathpida --enableStatic --watch",
+    "build": "pathpida --enableStatic && sapper build --legacy",
+    "export": "pathpida --enableStatic && sapper export --legacy"
+  }
+}
+```
+
+```
+src/routes/index.svelte
+static/logo-512.png
+
+src/node_modules/$path.ts // Generated automatically by pathpida
+```
+
+`src/routes/index.svelte`
+
+```html
+<script>
+	import { staticPath } from '$path';
+</script>
+
+<figure>
+	<img alt="Logo" src="{staticPath.logo_512_png}">
+</figure>
 ```
 
 ## License
