@@ -87,7 +87,7 @@
     "@nuxt/config": "^2.15.2",
     "chokidar": "^3.5.1",
     "minimist": "^1.2.5",
-    "next": "^10.0.7"
+    "next": "^10.0.9"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
