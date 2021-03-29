@@ -94,7 +94,7 @@
     "@types/minimist": "^1.2.1",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
-    "eslint": "^7.21.0",
+    "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
