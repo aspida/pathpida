@@ -47,7 +47,6 @@
       "standard",
       "plugin:@typescript-eslint/recommended",
       "plugin:jest/recommended",
-      "plugin:prettier/recommended",
       "prettier"
     ],
     "parserOptions": {
@@ -107,6 +106,7 @@
     "prettier": "^2.2.1",
     "standard-version": "^9.1.1",
     "ts-jest": "^26.5.4",
+    "ts-node": "^9.1.1",
     "typescript": "^4.2.3"
   }
 }
