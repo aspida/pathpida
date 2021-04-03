@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.15.0](https://github.com/aspida/pathpida/compare/v0.14.0...v0.15.0) (2021-04-03)
+
+
+### Features
+
+* **nextjs:** ignore scss/css file ([c06a3fc](https://github.com/aspida/pathpida/commit/c06a3fc1c0d0788cbc854d9790c417624b6317fa))
+* update templates for prettier ([b6eb92c](https://github.com/aspida/pathpida/commit/b6eb92cd66af9b9368f5d4f0a51f5a809dd4201f))
+
 ## [0.14.0](https://github.com/aspida/pathpida/compare/v0.13.1...v0.14.0) (2021-03-06)
 
 
