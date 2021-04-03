@@ -10,7 +10,6 @@ export const run = async (args: string[]) => {
     alias: { v: 'version', w: 'watch', s: 'enableStatic' }
   })
 
-  // eslint-disable-next-line no-unused-expressions
   argv.version !== undefined
     ? console.log(`v${require('../package.json').version}`)
     : argv.watch !== undefined

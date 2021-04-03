@@ -23,7 +23,7 @@ export default async (enableStatic: boolean, dir = process.cwd()): Promise<Confi
   const type = getFrameworkType(dir)
 
   if (type === 'nextjs') {
-    const config = loadNextConfig(require('next/constants').PHASE_PRODUCTION_BUILD, dir)
+    const config = await loadNextConfig(require('next/constants').PHASE_PRODUCTION_BUILD, dir)
     const srcDir = fs.existsSync(path.posix.join(dir, 'pages')) ? dir : path.posix.join(dir, 'src')
     const utilsPath = path.join(srcDir, 'utils')
     const output = fs.existsSync(utilsPath) ? utilsPath : path.join(srcDir, 'lib')

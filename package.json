@@ -1,8 +1,8 @@
 {
   "name": "pathpida",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "TypeScript friendly pages path generator for Next.js, Nuxt.js and Sapper",
-  "author": "Solufa <solufa2020@gmail.com>",
+  "author": "Solufa",
   "license": "MIT",
   "types": "dist/cli.d.ts",
   "bin": "bin/index.js",
@@ -14,7 +14,7 @@
     "release:major": "npm run release -- --release-as major",
     "release:minor": "npm run release -- --release-as minor",
     "release:patch": "npm run release -- --release-as patch",
-    "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
+    "lint": "eslint --ext .ts --ignore-path .gitignore . && prettier --check **/*.ts",
     "lint:fix": "npm run lint -- --fix",
     "test": "jest",
     "typecheck": "tsc --noEmit"
@@ -47,7 +47,6 @@
       "standard",
       "plugin:@typescript-eslint/recommended",
       "plugin:jest/recommended",
-      "plugin:prettier/recommended",
       "prettier"
     ],
     "parserOptions": {
@@ -84,21 +83,21 @@
     ]
   },
   "dependencies": {
-    "@nuxt/config": "^2.15.2",
+    "@nuxt/config": "^2.15.4",
     "chokidar": "^3.5.1",
     "minimist": "^1.2.5",
-    "next": "^10.0.7"
+    "next": "^10.1.3"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.20",
+    "@types/jest": "^26.0.22",
     "@types/minimist": "^1.2.1",
-    "@typescript-eslint/eslint-plugin": "^4.16.1",
-    "@typescript-eslint/parser": "^4.16.1",
-    "eslint": "^7.21.0",
+    "@typescript-eslint/eslint-plugin": "^4.20.0",
+    "@typescript-eslint/parser": "^4.20.0",
+    "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jest": "^24.1.5",
+    "eslint-plugin-jest": "^24.3.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-promise": "^4.3.1",
@@ -106,7 +105,8 @@
     "jest": "^26.6.3",
     "prettier": "^2.2.1",
     "standard-version": "^9.1.1",
-    "ts-jest": "^26.5.3",
+    "ts-jest": "^26.5.4",
+    "ts-node": "^9.1.1",
     "typescript": "^4.2.3"
   }
 }

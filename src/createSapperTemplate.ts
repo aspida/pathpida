@@ -182,8 +182,7 @@ export default (input: string, trailingSlash = false) => {
   const importsText = imports.filter(i => i.startsWith('import')).join('\n')
   const queriesText = imports.filter(i => !i.startsWith('import')).join('\n')
 
-  return `/* eslint-disable */
-${importsText}${importsText && queriesText ? '\n' : ''}
+  return `${importsText}${importsText && queriesText ? '\n' : ''}
 ${queriesText}${
     imports.length
       ? `
