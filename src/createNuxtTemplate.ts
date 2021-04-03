@@ -153,8 +153,7 @@ export default (input: string, trailingSlash = false) => {
   const importsText = imports.filter(i => i.startsWith('import')).join('\n')
   const queriesText = imports.filter(i => !i.startsWith('import')).join('\n')
 
-  return `/* eslint-disable */
-import { Plugin } from '@nuxt/types'
+  return `import { Plugin } from '@nuxt/types'
 ${importsText}${importsText && queriesText ? '\n' : ''}
 ${queriesText}${
     imports.length ? '\n' : ''

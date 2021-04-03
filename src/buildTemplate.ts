@@ -29,7 +29,8 @@ export default (
     !staticDir || mode === 'pages' ? prevStaticText : createStaticTemplate(staticDir, basepath)
 
   return {
-    text: `${prevPagesText}${prevStaticText}${
+    text: `/* eslint-disable */
+${prevPagesText}${prevStaticText}${
       type === 'nuxtjs'
         ? `
 declare module 'vue/types/vue' {
@@ -61,7 +62,9 @@ const pathPlugin: Plugin = (_, inject) => {
 export default pathPlugin
 `
         : ''
-    }`,
+    }`
+      .replace(/\n\n/g, '\n\n// prettier-ignore\n')
+      .replace(/\nimport/g, '\n// prettier-ignore\nimport'),
     filePath: path.posix.join(output, '$path.ts')
   }
 }

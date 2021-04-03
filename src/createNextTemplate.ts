@@ -117,8 +117,7 @@ export default (input: string) => {
 
   const text = createPathObjString(input, rootIndent, '', [], `{\n<% props %>\n}`, rootMethods)
 
-  return `/* eslint-disable */
-${imports.join('\n')}${
+  return `${imports.join('\n')}${
     imports.length ? '\n\n' : ''
   }export const pagesPath = ${text}\n\nexport type PagesPath = typeof pagesPath
 `
