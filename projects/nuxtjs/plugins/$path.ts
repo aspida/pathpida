@@ -71,7 +71,6 @@ declare module '@nuxt/types' {
     $staticPath: StaticPath
   }
 
-// prettier-ignore
   interface Context {
     $pagesPath: PagesPath
     $staticPath: StaticPath

@@ -62,9 +62,7 @@ const pathPlugin: Plugin = (_, inject) => {
 export default pathPlugin
 `
         : ''
-    }`
-      .replace(/\n\n/g, '\n\n// prettier-ignore\n')
-      .replace(/\nimport/g, '\n// prettier-ignore\nimport'),
+    }`.replace(/\n([a-z])/g, '\n// prettier-ignore\n$1'),
     filePath: path.posix.join(output, '$path.ts')
   }
 }
