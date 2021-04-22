@@ -52,7 +52,6 @@ declare module '@nuxt/types' {
     $pagesPath: PagesPath
   }
 
-// prettier-ignore
   interface Context {
     $pagesPath: PagesPath
   }
