@@ -87,6 +87,7 @@
     "minimist": "^1.2.5"
   },
   "devDependencies": {
+    "@nuxt/config": "^2.15.4",
     "@types/jest": "^26.0.22",
     "@types/minimist": "^1.2.1",
     "@typescript-eslint/eslint-plugin": "^4.20.0",
@@ -100,6 +101,7 @@
     "eslint-plugin-promise": "^4.3.1",
     "eslint-plugin-standard": "^5.0.0",
     "jest": "^26.6.3",
+    "next": "^10.2.0",
     "prettier": "^2.2.1",
     "standard-version": "^9.1.1",
     "ts-jest": "^26.5.4",
