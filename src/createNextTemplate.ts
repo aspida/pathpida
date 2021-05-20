@@ -64,7 +64,7 @@ export default (input: string) => {
 
         const target = path.posix.join(targetDir, file)
 
-        if (fs.statSync(target).isFile() && basename !== 'index' && !arr.includes(basename)) {
+        if (fs.statSync(target).isFile() && basename !== 'index') {
           return valFn.replace(
             '<% next %>',
             createMethods(indent, getImportName(target), newSlugs, newUrl)
@@ -94,9 +94,29 @@ export default (input: string) => {
       })
       .filter(Boolean)
 
+    const joinedProps = props
+      .reduce<string[]>((accumulator, current) => {
+        const last = accumulator[accumulator.length - 1]
+
+        if (last !== undefined) {
+          const [a, ...b] = last.split('\n')
+          const [x, ...y] = current.split('\n')
+
+          if (a === x) {
+            y.pop()
+            const z = y.pop()
+            const merged = [a, ...y, `${z},`, ...b].join('\n')
+            return [...accumulator.slice(0, -1), merged]
+          }
+        }
+
+        return [...accumulator, current]
+      }, [])
+      .join(',\n')
+
     return text.replace(
       '<% props %>',
-      `${props.join(',\n')}${
+      `${joinedProps}${
         methodsOfIndexTsFile ? `${props.length ? ',\n' : ''}${methodsOfIndexTsFile}` : ''
       }`
     )

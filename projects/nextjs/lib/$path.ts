@@ -40,6 +40,15 @@ export const pagesPath = {
       })
     }
   },
+  x: {
+    $url: (url?: { hash?: string }) => ({ pathname: '/x' as const, hash: url?.hash }),
+    _y: (y: string | number) => ({
+      $url: (url?: { hash?: string }) => ({ pathname: '/x/[y]' as const, query: { y }, hash: url?.hash }),
+      z: {
+        $url: (url?: { hash?: string }) => ({ pathname: '/x/[y]/z' as const, query: { y }, hash: url?.hash })
+      }
+    })
+  },
   $url: (url: { query: Query0, hash?: string }) => ({ pathname: '/' as const, query: url.query, hash: url.hash })
 }
 
