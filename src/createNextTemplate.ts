@@ -48,7 +48,7 @@ export default (input: string) => {
       .readdirSync(targetDir)
       .filter(file => !file.startsWith('_') && !/\.s?css/.test(file) && `${url}/${file}` !== '/api')
       .sort()
-      .map((file, _, arr) => {
+      .map(file => {
         const newSlugs = [...slugs]
         const basename = path.basename(file, file.endsWith(']') ? '' : path.extname(file))
         const newUrl = `${url}/${basename}`
