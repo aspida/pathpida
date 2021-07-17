@@ -15,7 +15,7 @@
     "release:minor": "npm run release -- --release-as minor",
     "release:patch": "npm run release -- --release-as patch",
     "lint": "eslint --ext .ts --ignore-path .gitignore . && prettier --check \"./**/*.ts\"",
-    "lint:fix": "npm run lint -- --fix",
+    "lint:fix": "eslint --ext .ts --ignore-path .gitignore . --fix && prettier --write \"./**/*.ts\"",
     "test": "jest",
     "typecheck": "tsc --noEmit"
   },
