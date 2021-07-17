@@ -1,6 +1,6 @@
 {
   "name": "pathpida",
-  "version": "0.15.2",
+  "version": "0.15.3",
   "description": "TypeScript friendly pages path generator for Next.js, Nuxt.js and Sapper",
   "author": "Solufa",
   "license": "MIT",
@@ -15,7 +15,7 @@
     "release:minor": "npm run release -- --release-as minor",
     "release:patch": "npm run release -- --release-as patch",
     "lint": "eslint --ext .ts --ignore-path .gitignore . && prettier --check \"./**/*.ts\"",
-    "lint:fix": "npm run lint -- --fix",
+    "lint:fix": "eslint --ext .ts --ignore-path .gitignore . --fix && prettier --write \"./**/*.ts\"",
     "test": "jest",
     "typecheck": "tsc --noEmit"
   },
@@ -83,29 +83,29 @@
     ]
   },
   "dependencies": {
-    "@nuxt/config": "^2.15.6",
-    "chokidar": "^3.5.1",
+    "@nuxt/config": "^2.15.7",
+    "chokidar": "^3.5.2",
     "minimist": "^1.2.5",
-    "next": "^10.2.2"
+    "next": "^11.0.1"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.23",
-    "@types/minimist": "^1.2.1",
-    "@typescript-eslint/eslint-plugin": "^4.24.0",
-    "@typescript-eslint/parser": "^4.24.0",
-    "eslint": "^7.27.0",
+    "@types/jest": "^26.0.24",
+    "@types/minimist": "^1.2.2",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
+    "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.23.3",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-standard": "^5.0.0",
-    "jest": "^26.6.3",
-    "prettier": "^2.3.0",
-    "standard-version": "^9.3.0",
-    "ts-jest": "^26.5.6",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.2.4"
+    "jest": "^27.0.6",
+    "prettier": "^2.3.2",
+    "standard-version": "^9.3.1",
+    "ts-jest": "^27.0.3",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
   }
 }
