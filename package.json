@@ -83,12 +83,11 @@
     ]
   },
   "dependencies": {
-    "@nuxt/config": "^2.15.7",
     "chokidar": "^3.5.2",
-    "minimist": "^1.2.5",
-    "next": "^11.0.1"
+    "minimist": "^1.2.5"
   },
   "devDependencies": {
+    "@nuxt/config": "^2.15.7",
     "@types/jest": "^26.0.24",
     "@types/minimist": "^1.2.2",
     "@typescript-eslint/eslint-plugin": "^4.28.4",
@@ -102,6 +101,7 @@
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-standard": "^5.0.0",
     "jest": "^27.0.6",
+    "next": "^11.0.1",
     "prettier": "^2.3.2",
     "standard-version": "^9.3.1",
     "ts-jest": "^27.0.4",
