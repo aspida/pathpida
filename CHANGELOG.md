@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.15.4](https://github.com/aspida/pathpida/compare/v0.15.3...v0.15.4) (2021-07-22)
+
+
+### Bug Fixes
+
+* create plugins dir of nuxt if not exists ([196b11a](https://github.com/aspida/pathpida/commit/196b11abc1afa77728541a9f397138664f2a5a55))
+* move next and nuxt to devDependencies ([2b50643](https://github.com/aspida/pathpida/commit/2b5064383fc5093a438b4faad0738131503e5238))
+
 ### [0.15.3](https://github.com/aspida/pathpida/compare/v0.15.2...v0.15.3) (2021-07-17)
 
 
