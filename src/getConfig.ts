@@ -46,12 +46,15 @@ export default async (enableStatic: boolean, dir = process.cwd()): Promise<Confi
       configFile: fs.existsSync(nuxttsPath) ? nuxttsPath : undefined
     })
     const srcDir = path.posix.join(dir, config.srcDir ?? '')
+    const output = path.posix.join(srcDir, 'plugins')
+
+    if (!fs.existsSync(output)) fs.mkdirSync(output)
 
     return {
       type,
       input: path.posix.join(srcDir, 'pages'),
       staticDir: enableStatic ? path.posix.join(srcDir, 'static') : undefined,
-      output: path.posix.join(srcDir, 'plugins'),
+      output,
       trailingSlash: config.router?.trailingSlash,
       basepath: config.router?.base
     }
