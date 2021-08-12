@@ -77,7 +77,9 @@ export default (input: string, trailingSlash = false) => {
   ) => {
     indent += '  '
 
-    const files = fs.readdirSync(targetDir).filter(file => !file.startsWith('_'))
+    const files = fs
+      .readdirSync(targetDir)
+      .filter(file => !file.startsWith('_') && !/\.s?css(\.d\.ts)?$/.test(file))
     const props: string[] = [
       ...files,
       ...files

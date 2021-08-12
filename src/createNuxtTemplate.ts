@@ -76,7 +76,7 @@ export default (input: string, trailingSlash = false) => {
 
     const props: string[] = fs
       .readdirSync(targetDir)
-      .filter(file => !file.startsWith('-'))
+      .filter(file => !file.startsWith('-') && !/\.s?css(\.d\.ts)?$/.test(file))
       .sort()
       .map((file, _, arr) => {
         const basename = path.basename(file, path.extname(file))
