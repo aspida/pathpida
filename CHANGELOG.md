@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.15.5](https://github.com/aspida/pathpida/compare/v0.15.4...v0.15.5) (2021-08-12)
+
+
+### Bug Fixes
+
+* change next config path for v11.1.0 ([7d85387](https://github.com/aspida/pathpida/commit/7d85387bc142c2cb92a13d9516c2b0b0c5642700))
+* ignore typed-css-modules files ([300c8a3](https://github.com/aspida/pathpida/commit/300c8a3ff40b1a3c5d358619fc0fbd24107825c4))
+
 ### [0.15.4](https://github.com/aspida/pathpida/compare/v0.15.3...v0.15.4) (2021-07-22)
 
 
