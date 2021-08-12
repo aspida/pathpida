@@ -46,7 +46,10 @@ export default (input: string) => {
 
     const props: string[] = fs
       .readdirSync(targetDir)
-      .filter(file => !file.startsWith('_') && !/\.s?css/.test(file) && `${url}/${file}` !== '/api')
+      .filter(
+        file =>
+          !file.startsWith('_') && !/\.s?css(\.d\.ts)?$/.test(file) && `${url}/${file}` !== '/api'
+      )
       .sort()
       .map(file => {
         const newSlugs = [...slugs]

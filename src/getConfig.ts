@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import type { NextConfig } from 'next/dist/next-server/server/config'
+import type { NextConfig } from 'next/dist/server/config'
 
 export type Config = {
   type: 'nextjs' | 'nuxtjs' | 'sapper'
@@ -22,10 +22,22 @@ export default async (enableStatic: boolean, dir = process.cwd()): Promise<Confi
   const type = getFrameworkType(dir)
 
   if (type === 'nextjs') {
-    const config: NextConfig = await require('next/dist/next-server/server/config').default(
-      require('next/constants').PHASE_PRODUCTION_BUILD,
-      dir
-    )
+    let config: NextConfig
+
+    try {
+      // >= v11.1.0
+      config = await require('next/dist/server/config').default(
+        require('next/constants').PHASE_PRODUCTION_BUILD,
+        dir
+      )
+    } catch (e) {
+      // < v11.1.0
+      config = await require('next/dist/next-server/server/config').default(
+        require('next/constants').PHASE_PRODUCTION_BUILD,
+        dir
+      )
+    }
+
     const srcDir = fs.existsSync(path.posix.join(dir, 'pages')) ? dir : path.posix.join(dir, 'src')
     const utilsPath = path.join(srcDir, 'utils')
     const output = fs.existsSync(utilsPath) ? utilsPath : path.join(srcDir, 'lib')
