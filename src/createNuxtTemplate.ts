@@ -51,11 +51,11 @@ const parseQueryFromVue = (file: string, suffix: number) => {
   }
 }
 
-export default (input: string, trailingSlash = false) => {
+export default (input: string, output: string, trailingSlash = false) => {
   const imports: string[] = []
   const getImportName = (file: string) => {
     const result = path.extname(file).startsWith('.ts')
-      ? parseQueryFromTS(input, file, imports.length)
+      ? parseQueryFromTS(output, file, imports.length)
       : parseQueryFromVue(file, imports.length)
 
     if (result) {

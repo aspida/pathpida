@@ -19,11 +19,14 @@ describe('cli test', () => {
 
   test('main', async () => {
     for (const dir of fs.readdirSync('projects')) {
+      if (dir.endsWith('.ts')) continue
+
       resetCache()
 
       const workingDir = path.join(process.cwd(), 'projects', dir)
       const { type, input, staticDir, output, trailingSlash } = await getConfig(
         dir !== 'nuxtjs-no-slash',
+        undefined,
         workingDir
       )
 

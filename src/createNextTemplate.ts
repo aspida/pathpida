@@ -23,10 +23,10 @@ const createMethods = (
       : ''
   }, hash: url${importName?.startsWith('Query') ? '' : '?'}.hash })`
 
-export default (input: string) => {
+export default (input: string, output: string) => {
   const imports: string[] = []
   const getImportName = (file: string) => {
-    const result = parseQueryFromTS(input, file, imports.length)
+    const result = parseQueryFromTS(output, file, imports.length)
 
     if (result) {
       imports.push(result.importString)

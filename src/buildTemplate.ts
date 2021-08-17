@@ -21,9 +21,9 @@ export default (
     mode === 'static'
       ? prevPagesText
       : {
-          nextjs: () => createNextTemplate(input),
-          nuxtjs: () => createNuxtTemplate(input, trailingSlash),
-          sapper: () => createSapperTemplate(input)
+          nextjs: () => createNextTemplate(input, output),
+          nuxtjs: () => createNuxtTemplate(input, output, trailingSlash),
+          sapper: () => createSapperTemplate(input, output)
         }[type]()
   prevStaticText =
     !staticDir || mode === 'pages' ? prevStaticText : createStaticTemplate(staticDir, basepath)

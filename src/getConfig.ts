@@ -18,7 +18,11 @@ const getFrameworkType = (dir: string) => {
   return deps.sapper ? 'sapper' : deps.nuxt ? 'nuxtjs' : 'nextjs'
 }
 
-export default async (enableStatic: boolean, dir = process.cwd()): Promise<Config> => {
+export default async (
+  enableStatic: boolean,
+  output: string | undefined,
+  dir = process.cwd()
+): Promise<Config> => {
   const type = getFrameworkType(dir)
 
   if (type === 'nextjs') {
@@ -39,8 +43,11 @@ export default async (enableStatic: boolean, dir = process.cwd()): Promise<Confi
     }
 
     const srcDir = fs.existsSync(path.posix.join(dir, 'pages')) ? dir : path.posix.join(dir, 'src')
-    const utilsPath = path.join(srcDir, 'utils')
-    const output = fs.existsSync(utilsPath) ? utilsPath : path.join(srcDir, 'lib')
+
+    if (!output) {
+      const utilsPath = path.join(srcDir, 'utils')
+      output = fs.existsSync(utilsPath) ? utilsPath : path.join(srcDir, 'lib')
+    }
 
     if (!fs.existsSync(output)) fs.mkdirSync(output)
 
@@ -58,7 +65,8 @@ export default async (enableStatic: boolean, dir = process.cwd()): Promise<Confi
       configFile: fs.existsSync(nuxttsPath) ? nuxttsPath : undefined
     })
     const srcDir = path.posix.join(dir, config.srcDir ?? '')
-    const output = path.posix.join(srcDir, 'plugins')
+
+    output = output ?? path.posix.join(srcDir, 'plugins')
 
     if (!fs.existsSync(output)) fs.mkdirSync(output)
 
@@ -73,11 +81,15 @@ export default async (enableStatic: boolean, dir = process.cwd()): Promise<Confi
   } else {
     const srcDir = path.posix.join(dir, 'src')
 
+    output = output ?? path.join(srcDir, 'node_modules')
+
+    if (!fs.existsSync(output)) fs.mkdirSync(output)
+
     return {
       type,
       input: path.posix.join(srcDir, 'routes'),
       staticDir: enableStatic ? path.posix.join(dir, 'static') : undefined,
-      output: path.join(srcDir, 'node_modules')
+      output
     }
   }
 }

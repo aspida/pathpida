@@ -1,4 +1,5 @@
 # pathpida
+
 <br />
 <img src="https://aspida.github.io/pathpida/logos/png/logo.png" alt="pathpida" title="pathpida" />
 <div align="center">
@@ -33,6 +34,7 @@
 ## Table of Contents
 
 - [Install](#Install)
+- [Command Line Interface Options](#CLI-options)
 - [Setup - Next.js](#Setup-next)
 - [Usage - Next.js](#Usage-next)
 - [Define query - Next.js](#Define-query-next)
@@ -60,6 +62,50 @@
   ```sh
   $ yarn add pathpida npm-run-all --dev
   ```
+
+<a id="CLI-options"></a>
+
+## Command Line Interface Options
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th width="100%">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td nowrap><code>--enableStatic</code><br /><code>-s</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>Generate static files path in <code>$path.ts</code>.</td>
+    </tr>
+    <tr>
+      <td nowrap><code>--output</code><br /><code>-o</code></td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Specify the output directory for <code>$path.ts</code>.</td>
+    </tr>
+    <tr>
+      <td nowrap><code>--watch</code><br /><code>-w</code></td>
+      <td></td>
+      <td></td>
+      <td>
+        Enable watch mode.<br />
+        Regenerate <code>$path.ts</code>.
+      </td>
+    </tr>
+    <tr>
+      <td nowrap><code>--version</code><br /><code>-v</code></td>
+      <td></td>
+      <td></td>
+      <td>Print pathpida version.</td>
+    </tr>
+  </tbody>
+</table>
 
 <a id="Setup-next"></a>
 
@@ -105,22 +151,24 @@ src/lib/$path.ts or src/utils/$path.ts // Generated automatically by pathpida
 `pages/index.tsx`
 
 ```tsx
-import Link from 'next/link'
-import { pagesPath } from '../lib/$path'
+import Link from "next/link"
+import { pagesPath } from "../lib/$path"
 
 console.log(pagesPath.post.create.$url()) // { pathname: '/post/create' }
 console.log(pagesPath.post._pid(1).$url()) // { pathname: '/post/[pid]', query: { pid: 1 }}
-console.log(pagesPath.post._slug(['a', 'b', 'c']).$url()) // { pathname: '/post//[...slug]', query: { slug: ['a', 'b', 'c'] }}
+console.log(pagesPath.post._slug(["a", "b", "c"]).$url()) // { pathname: '/post//[...slug]', query: { slug: ['a', 'b', 'c'] }}
 
 export default () => {
   const onClick = useCallback(() => {
     router.push(pagesPath.post._pid(1).$url())
   }, [])
 
-  return <>
-    <Link href={pagesPath.post._slug(['a', 'b', 'c']).$url()} />
-    <div onClick={onClick} />
-  </>
+  return (
+    <>
+      <Link href={pagesPath.post._slug(["a", "b", "c"]).$url()} />
+      <div onClick={onClick} />
+    </>
+  )
 }
 ```
 
@@ -153,23 +201,25 @@ export default () => <div />
 `pages/index.tsx`
 
 ```tsx
-import Link from 'next/link'
-import { pagesPath } from '../lib/$path'
+import Link from "next/link"
+import { pagesPath } from "../lib/$path"
 
-console.log(pagesPath.post.create.$url({ query: { userId: 1 }})) // { pathname: '/post/create', query: { userId: 1 }}
+console.log(pagesPath.post.create.$url({ query: { userId: 1 } })) // { pathname: '/post/create', query: { userId: 1 }}
 console.log(pagesPath.post.create.$url()) // type error
 console.log(pagesPath.post._pid(1).$url()) // { pathname: '/post/[pid]', query: { pid: 1 }}
-console.log(pagesPath.post._pid(1).$url({ query: { limit: 10 }, hash: 'sample' })) // { pathname: '/post/[pid]', query: { pid: 1, limit: 10 }, hash: 'sample' }
+console.log(pagesPath.post._pid(1).$url({ query: { limit: 10 }, hash: "sample" })) // { pathname: '/post/[pid]', query: { pid: 1, limit: 10 }, hash: 'sample' }
 
 export default () => {
   const onClick = useCallback(() => {
     router.push(pagesPath.post._pid(1).$url())
   }, [])
 
-  return <>
-    <Link href={pagesPath.post._slug(['a', 'b', 'c']).$url()} />
-    <div onClick={onClick} />
-  </>
+  return (
+    <>
+      <Link href={pagesPath.post._slug(["a", "b", "c"]).$url()} />
+      <div onClick={onClick} />
+    </>
+  )
 }
 ```
 
@@ -219,16 +269,18 @@ src/lib/$path.ts or src/utils/$path.ts // Generated automatically by pathpida
 `pages/index.tsx`
 
 ```tsx
-import Link from 'next/link'
-import { pagesPath, staticPath } from '../lib/$path'
+import Link from "next/link"
+import { pagesPath, staticPath } from "../lib/$path"
 
 console.log(staticPath.aa_json) // /aa.json
 
 export default () => {
-  return <>
-    <Link href={pagesPath.post._slug(['a', 'b', 'c']).$url()} />
-    <img src={staticPath.bb.cc_png} />
-  </>
+  return (
+    <>
+      <Link href={pagesPath.post._slug(["a", "b", "c"]).$url()} />
+      <img src={staticPath.bb.cc_png} />
+    </>
+  )
 }
 ```
 
@@ -284,7 +336,7 @@ plugins/$path.ts // Generated automatically by pathpida
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue"
 
 export default Vue.extend({
   methods: {
@@ -304,15 +356,14 @@ export default Vue.extend({
 
 ```vue
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue"
 
 export type Query = {
   userId: number
   name?: string
 }
 
-export default Vue.extend({
-})
+export default Vue.extend({})
 </script>
 ```
 
@@ -320,15 +371,14 @@ export default Vue.extend({
 
 ```vue
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue"
 
 export type OptionalQuery = {
   limit: number
   label?: string
 }
 
-export default Vue.extend({
-})
+export default Vue.extend({})
 </script>
 ```
 
@@ -337,19 +387,19 @@ export default Vue.extend({
 ```vue
 <template>
   <div>
-    <nuxt-link :to="$pagesPath.post.create.$url({ query: { userId: 1 }})" />
+    <nuxt-link :to="$pagesPath.post.create.$url({ query: { userId: 1 } })" />
     <div @click="onClick" />
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue"
 
 export default Vue.extend({
   methods: {
     onClick() {
       this.$router.push(this.$pagesPath.post._pid(1).$url())
-      this.$router.push(this.$pagesPath.post._pid(1).$url({ query: { limit: 10 }, hash: 'sample' }))
+      this.$router.push(this.$pagesPath.post._pid(1).$url({ query: { limit: 10 }, hash: "sample" }))
     }
   }
 })
@@ -371,15 +421,14 @@ export type UserId = number
 
 ```vue
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue"
 
 export type Query = {
-  userId: import('~/types/users').UserId
+  userId: import("~/types/users").UserId
   name?: string
 }
 
-export default Vue.extend({
-})
+export default Vue.extend({})
 </script>
 ```
 
@@ -416,13 +465,13 @@ plugins/$path.ts // Generated automatically by pathpida
 ```vue
 <template>
   <div>
-    <nuxt-link :to="$pagesPath.post.create.$url({ query: { userId: 1 }})" />
+    <nuxt-link :to="$pagesPath.post.create.$url({ query: { userId: 1 } })" />
     <img :src="$staticPath.bb.cc_png" />
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue"
 
 export default Vue.extend({})
 </script>
@@ -463,22 +512,24 @@ src/node_modules/$path.ts // Generated automatically by pathpida
 
 ```html
 <script context="module" lang="ts">
-  import { pagesPath } from '$path'
+  import { pagesPath } from "$path"
 
   export function preload() {
-    return this.fetch(pagesPath.blog_json.$url()).then((r: { json: () => any; }) => r.json()).then((posts: { slug: string; title: string, html: any }[]) => {
-      return { posts };
-    });
+    return this.fetch(pagesPath.blog_json.$url())
+      .then((r: { json: () => any }) => r.json())
+      .then((posts: { slug: string; title: string; html: any }[]) => {
+        return { posts }
+      })
   }
 </script>
 
 <script lang="ts">
-  export let posts: { slug: string; title: string, html: any }[];
+  export let posts: { slug: string; title: string; html: any }[]
 </script>
 
 <ul>
   {#each posts as post}
-    <li><a rel="prefetch" href="{pagesPath.blog._slug(post.slug).$url()}">{post.title}</a></li>
+  <li><a rel="prefetch" href="{pagesPath.blog._slug(post.slug).$url()}">{post.title}</a></li>
   {/each}
 </ul>
 ```
@@ -490,32 +541,33 @@ src/node_modules/$path.ts // Generated automatically by pathpida
 `src/routes/blog/[slug].json.ts`
 
 ```ts
-import posts from './_posts.js';
+import posts from "./_posts.js"
 
-export type Query = { // or OptionalQuery
+export type Query = {
+  // or OptionalQuery
   id: number
 }
 
-const lookup = new Map();
+const lookup = new Map()
 posts.forEach(post => {
-  lookup.set(post.slug, JSON.stringify(post));
-});
+  lookup.set(post.slug, JSON.stringify(post))
+})
 ```
 
 `src/routes/blog/[slug].svelte`
 
 ```html
 <script context="module" lang="ts">
-  import { pagesPath } from '$path'
+  import { pagesPath } from "$path"
 
   export async function preload({ params }) {
-    const res = await this.fetch(pagesPath.blog._slug_json(params.slug).$url({ query: { id: 1 }}));
-    const data = await res.json();
+    const res = await this.fetch(pagesPath.blog._slug_json(params.slug).$url({ query: { id: 1 } }))
+    const data = await res.json()
 
     if (res.status === 200) {
-      return { post: data };
+      return { post: data }
     } else {
-      this.error(res.status, data.message);
+      this.error(res.status, data.message)
     }
   }
 </script>
@@ -535,16 +587,16 @@ export type UserId = number
 `src/routes/blog/[slug].json.ts`
 
 ```ts
-import posts from './_posts.js';
+import posts from "./_posts.js"
 
 export type Query = {
-  id: import('types/users').UserId
+  id: import("types/users").UserId
 }
 
-const lookup = new Map();
+const lookup = new Map()
 posts.forEach(post => {
-  lookup.set(post.slug, JSON.stringify(post));
-});
+  lookup.set(post.slug, JSON.stringify(post))
+})
 ```
 
 <a id="Generate-static-files-path-sapper"></a>
@@ -576,11 +628,11 @@ src/node_modules/$path.ts // Generated automatically by pathpida
 
 ```html
 <script>
-  import { staticPath } from '$path';
+  import { staticPath } from "$path"
 </script>
 
 <figure>
-  <img alt="Logo" src="{staticPath.logo_512_png}">
+  <img alt="Logo" src="{staticPath.logo_512_png}" />
 </figure>
 ```
 

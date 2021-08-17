@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 
-export const parseQueryFromTS = (input: string, file: string, suffix: number) => {
+export const parseQueryFromTS = (output: string, file: string, suffix: number) => {
   const fileData = fs.readFileSync(file, 'utf8')
   const typeName = ['Query', 'OptionalQuery'].find(type =>
     new RegExp(`export (interface ${type} ?{|type ${type} ?=)`).test(fileData)
@@ -14,7 +14,7 @@ export const parseQueryFromTS = (input: string, file: string, suffix: number) =>
   return {
     importName,
     importString: `import { ${typeName} as ${importName} } from '${path.posix
-      .relative(path.posix.join(input, '../foobar'), file)
+      .relative(output, file)
       .replace(/(\/index)?\.tsx?/, '')}'`
   }
 }
