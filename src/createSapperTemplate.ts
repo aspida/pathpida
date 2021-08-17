@@ -1,4 +1,5 @@
 import fs from 'fs'
+import type { Ignore } from 'ignore'
 import path from 'path'
 import { parseQueryFromTS } from './parseQueryFromTS'
 import { replaceWithUnderscore } from './replaceWithUnderscore'
@@ -54,7 +55,7 @@ const parseQueryFromSvelte = (file: string, suffix: number) => {
   }
 }
 
-export default (input: string, output: string, trailingSlash = false) => {
+export default (input: string, output: string, ig: Ignore | undefined, trailingSlash = false) => {
   const imports: string[] = []
   const getImportName = (file: string) => {
     const result = path.extname(file).startsWith('.ts')
@@ -79,7 +80,12 @@ export default (input: string, output: string, trailingSlash = false) => {
 
     const files = fs
       .readdirSync(targetDir)
-      .filter(file => !file.startsWith('_') && !/\.s?css(\.d\.ts)?$/.test(file))
+      .filter(
+        file =>
+          !file.startsWith('_') &&
+          !/\.s?css(\.d\.ts)?$/.test(file) &&
+          !ig?.ignores(path.posix.join(targetDir, file))
+      )
     const props: string[] = [
       ...files,
       ...files

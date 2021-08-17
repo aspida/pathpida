@@ -1,4 +1,5 @@
 import fs from 'fs'
+import type { Ignore } from 'ignore'
 import path from 'path'
 import { parseQueryFromTS } from './parseQueryFromTS'
 import { replaceWithUnderscore } from './replaceWithUnderscore'
@@ -51,7 +52,7 @@ const parseQueryFromVue = (file: string, suffix: number) => {
   }
 }
 
-export default (input: string, output: string, trailingSlash = false) => {
+export default (input: string, output: string, ig: Ignore | undefined, trailingSlash = false) => {
   const imports: string[] = []
   const getImportName = (file: string) => {
     const result = path.extname(file).startsWith('.ts')
@@ -76,7 +77,12 @@ export default (input: string, output: string, trailingSlash = false) => {
 
     const props: string[] = fs
       .readdirSync(targetDir)
-      .filter(file => !file.startsWith('-') && !/\.s?css(\.d\.ts)?$/.test(file))
+      .filter(
+        file =>
+          !file.startsWith('-') &&
+          !/\.s?css(\.d\.ts)?$/.test(file) &&
+          !ig?.ignores(path.posix.join(targetDir, file))
+      )
       .sort()
       .map((file, _, arr) => {
         const basename = path.basename(file, path.extname(file))

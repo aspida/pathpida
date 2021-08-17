@@ -72,26 +72,27 @@
     <tr>
       <th>Option</th>
       <th>Type</th>
-      <th>Default</th>
       <th width="100%">Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td nowrap><code>--enableStatic</code><br /><code>-s</code></td>
-      <td><code>boolean</code></td>
-      <td><code>false</code></td>
+      <td></td>
       <td>Generate static files path in <code>$path.ts</code>.</td>
+    </tr>
+    <tr>
+      <td nowrap><code>--ignorePath</code><br /><code>-p</code></td>
+      <td><code>string</code></td>
+      <td>Specify the ignore pattern file path.</td>
     </tr>
     <tr>
       <td nowrap><code>--output</code><br /><code>-o</code></td>
       <td><code>string</code></td>
-      <td></td>
       <td>Specify the output directory for <code>$path.ts</code>.</td>
     </tr>
     <tr>
       <td nowrap><code>--watch</code><br /><code>-w</code></td>
-      <td></td>
       <td></td>
       <td>
         Enable watch mode.<br />
@@ -100,7 +101,6 @@
     </tr>
     <tr>
       <td nowrap><code>--version</code><br /><code>-v</code></td>
-      <td></td>
       <td></td>
       <td>Print pathpida version.</td>
     </tr>
@@ -118,8 +118,8 @@
   "scripts": {
     "dev": "run-p dev:*",
     "dev:next": "next dev",
-    "dev:path": "pathpida --watch",
-    "build": "pathpida && next build"
+    "dev:path": "pathpida --ignorePath .gitignore --watch",
+    "build": "pathpida --ignorePath .gitignore && next build"
   }
 }
 ```
@@ -295,8 +295,8 @@ export default () => {
   "scripts": {
     "dev": "run-p dev:*",
     "dev:nuxt": "nuxt-ts",
-    "dev:path": "pathpida --watch",
-    "build": "pathpida && nuxt-ts build"
+    "dev:path": "pathpida --ignorePath .gitignore --watch",
+    "build": "pathpida --ignorePath .gitignore && nuxt-ts build"
   }
 }
 ```
@@ -488,9 +488,9 @@ export default Vue.extend({})
   "scripts": {
     "dev": "run-p dev:*",
     "dev:sapper": "sapper dev",
-    "dev:path": "pathpida --watch",
-    "build": "pathpida && sapper build --legacy",
-    "export": "pathpida && sapper export --legacy"
+    "dev:path": "pathpida --ignorePath .gitignore --watch",
+    "build": "pathpida --ignorePath .gitignore && sapper build --legacy",
+    "export": "pathpida --ignorePath .gitignore && sapper export --legacy"
   }
 }
 ```

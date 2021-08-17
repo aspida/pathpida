@@ -1,4 +1,5 @@
 import fs from 'fs'
+import type { Ignore } from 'ignore'
 import path from 'path'
 import { parseQueryFromTS } from './parseQueryFromTS'
 import { replaceWithUnderscore } from './replaceWithUnderscore'
@@ -23,7 +24,7 @@ const createMethods = (
       : ''
   }, hash: url${importName?.startsWith('Query') ? '' : '?'}.hash })`
 
-export default (input: string, output: string) => {
+export default (input: string, output: string, ig: Ignore | undefined) => {
   const imports: string[] = []
   const getImportName = (file: string) => {
     const result = parseQueryFromTS(output, file, imports.length)
@@ -48,7 +49,10 @@ export default (input: string, output: string) => {
       .readdirSync(targetDir)
       .filter(
         file =>
-          !file.startsWith('_') && !/\.s?css(\.d\.ts)?$/.test(file) && `${url}/${file}` !== '/api'
+          !file.startsWith('_') &&
+          !/\.s?css(\.d\.ts)?$/.test(file) &&
+          `${url}/${file}` !== '/api' &&
+          !ig?.ignores(path.posix.join(targetDir, file))
       )
       .sort()
       .map(file => {

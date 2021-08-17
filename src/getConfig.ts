@@ -1,4 +1,5 @@
 import fs from 'fs'
+import ignore, { Ignore } from 'ignore'
 import type { NextConfig } from 'next/dist/server/config'
 import path from 'path'
 
@@ -7,6 +8,7 @@ export type Config = {
   input: string
   staticDir?: string
   output: string
+  ig?: Ignore
   trailingSlash?: boolean
   basepath?: string
 }
@@ -21,9 +23,12 @@ const getFrameworkType = (dir: string) => {
 export default async (
   enableStatic: boolean,
   output: string | undefined,
+  ignorePath: string | undefined,
   dir = process.cwd()
 ): Promise<Config> => {
   const type = getFrameworkType(dir)
+  const ig =
+    ignorePath === undefined ? undefined : ignore().add(fs.readFileSync(ignorePath).toString())
 
   if (type === 'nextjs') {
     let config: NextConfig
@@ -56,6 +61,7 @@ export default async (
       input: path.posix.join(srcDir, 'pages'),
       staticDir: enableStatic ? path.posix.join(dir, 'public') : undefined,
       output,
+      ig,
       basepath: config.basePath
     }
   } else if (type === 'nuxtjs') {
@@ -75,6 +81,7 @@ export default async (
       input: path.posix.join(srcDir, 'pages'),
       staticDir: enableStatic ? path.posix.join(srcDir, 'static') : undefined,
       output,
+      ig,
       trailingSlash: config.router?.trailingSlash,
       basepath: config.router?.base
     }
@@ -89,7 +96,8 @@ export default async (
       type,
       input: path.posix.join(srcDir, 'routes'),
       staticDir: enableStatic ? path.posix.join(dir, 'static') : undefined,
-      output
+      output,
+      ig
     }
   }
 }

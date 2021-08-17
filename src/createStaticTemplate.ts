@@ -1,13 +1,9 @@
 import fs from 'fs'
+import type { Ignore } from 'ignore'
 import path from 'path'
 import { replaceWithUnderscore } from './replaceWithUnderscore'
 
-const normalizeBasePath = (basepath: string | undefined): string => {
-  if (typeof basepath === 'string') return basepath.replace(/\/+$/, '')
-  return ''
-}
-
-export default (input: string, basepath: string | undefined) => {
+export default (input: string, basepath: string | undefined, ig: Ignore | undefined) => {
   const createPublicString = (targetDir: string, indent: string, url: string, text: string) => {
     indent += '  '
 
@@ -21,6 +17,8 @@ export default (input: string, basepath: string | undefined) => {
       .map((file, i) => {
         const newUrl = `${url}/${file}`
         const target = path.posix.join(targetDir, file)
+        if (ig?.ignores(target)) return ''
+
         const replacedFile = replacedFiles[i]
         const valFn = `${indent}${
           duplicatedInfo[replacedFile].length > 1
@@ -47,7 +45,7 @@ export default (input: string, basepath: string | undefined) => {
   const text = createPublicString(
     input,
     '',
-    normalizeBasePath(basepath),
+    typeof basepath === 'string' ? basepath.replace(/\/+$/, '') : '',
     `{\n<% props %>\n} as const`
   )
 

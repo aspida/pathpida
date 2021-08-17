@@ -14,19 +14,19 @@ export const resetCache = () => {
 }
 
 export default (
-  { type, input, staticDir, output, trailingSlash, basepath }: Config,
+  { type, input, staticDir, output, ig, trailingSlash, basepath }: Config,
   mode?: 'pages' | 'static'
 ) => {
   prevPagesText =
     mode === 'static'
       ? prevPagesText
       : {
-          nextjs: () => createNextTemplate(input, output),
-          nuxtjs: () => createNuxtTemplate(input, output, trailingSlash),
-          sapper: () => createSapperTemplate(input, output)
+          nextjs: () => createNextTemplate(input, output, ig),
+          nuxtjs: () => createNuxtTemplate(input, output, ig, trailingSlash),
+          sapper: () => createSapperTemplate(input, output, ig)
         }[type]()
   prevStaticText =
-    !staticDir || mode === 'pages' ? prevStaticText : createStaticTemplate(staticDir, basepath)
+    !staticDir || mode === 'pages' ? prevStaticText : createStaticTemplate(staticDir, basepath, ig)
 
   return {
     text: `/* eslint-disable */

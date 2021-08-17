@@ -28,6 +28,7 @@ describe('cli test', () => {
       const { type, input, staticDir, output, trailingSlash } = await getConfig(
         project.options.includes('-s') || project.options.includes('--enableStatic'),
         project.output && path.join(workingDir, project.output),
+        undefined,
         workingDir
       )
 
