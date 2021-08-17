@@ -7,7 +7,7 @@
   "types": "dist/cli.d.ts",
   "bin": "bin/index.js",
   "scripts": {
-    "dev": "npm run build && node projects/build.js",
+    "dev": "npm run build && ts-node projects/build.ts",
     "build": "npm run rimraf && tsc",
     "rimraf": "node -e \"require('fs').rmdirSync('dist', { recursive: true })\"",
     "release": "standard-version --skip.tag",

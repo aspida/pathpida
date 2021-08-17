@@ -1,8 +1,4 @@
-const { exec } = require('child_process')
-const { promisify } = require('util')
-
-const ex = promisify(exec)
-const projects = [
+export const projects = [
   { dir: 'nextjs', options: ['-s'], output: 'out/lib' },
   { dir: 'nextjs-basepath', options: ['-s'], output: 'out/lib' },
   { dir: 'nextjs-src', options: ['-s'], output: 'src/out/lib' },
@@ -12,10 +8,3 @@ const projects = [
   { dir: 'nuxtjs-src', options: ['--enableStatic'], output: 'client/plugins/util' },
   { dir: 'sapper', options: ['-s'], output: 'out/lib' }
 ]
-
-Promise.all(
-  projects.flatMap(({ dir, options, output }) => [
-    ex(`cd projects/${dir} && node ../../bin/index.js ${options.join(' ')}`),
-    ex(`cd projects/${dir} && node ../../bin/index.js ${options.join(' ')} -o ${output}`)
-  ])
-)
