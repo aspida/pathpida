@@ -1,8 +1,8 @@
 import minimist from 'minimist'
-import getConfig from './getConfig'
-import write from './writeRouteFile'
-import watch from './watchInputDir'
 import build from './buildTemplate'
+import getConfig from './getConfig'
+import watch from './watchInputDir'
+import write from './writeRouteFile'
 
 export const run = async (args: string[]) => {
   const argv = minimist(args, {

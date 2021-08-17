@@ -1,6 +1,6 @@
 import fs from 'fs'
-import path from 'path'
 import type { NextConfig } from 'next/dist/server/config'
+import path from 'path'
 
 export type Config = {
   type: 'nextjs' | 'nuxtjs' | 'sapper'

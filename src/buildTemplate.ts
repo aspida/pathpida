@@ -1,9 +1,9 @@
 import path from 'path'
-import { Config } from './getConfig'
 import createNextTemplate from './createNextTemplate'
 import createNuxtTemplate from './createNuxtTemplate'
 import createSapperTemplate from './createSapperTemplate'
 import createStaticTemplate from './createStaticTemplate'
+import type { Config } from './getConfig'
 
 let prevPagesText = ''
 let prevStaticText = ''

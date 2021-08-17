@@ -2,8 +2,8 @@ import fs from 'fs'
 import path from 'path'
 import { version } from '../package.json'
 import build, { resetCache } from '../src/buildTemplate'
-import getConfig from '../src/getConfig'
 import { run } from '../src/cli'
+import getConfig from '../src/getConfig'
 
 describe('cli test', () => {
   test('version command', async () => {
