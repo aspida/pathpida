@@ -2,35 +2,36 @@
 // prettier-ignore
 import { Plugin } from '@nuxt/types'
 // prettier-ignore
-import { Query as Query0 } from '../pages'
+import { Query as Query0 } from '../../../pages'
 // prettier-ignore
-import { OptionalQuery as OptionalQuery1 } from '../pages/_pid'
+import { Query as Query2 } from '../../../pages/blog/_slug'
+
 // prettier-ignore
-import { Query as Query2 } from '../pages/blog/_slug'
+type OptionalQuery1 = { hoge: string }
 
 // prettier-ignore
 export const pagesPath = {
   _a: (a: string | number) => ({
     b: {
       _c: (c: string | number) => ({
-        $url: (url?: { hash?: string }) => ({ path: `/${a}/b/${c}`, hash: url?.hash })
+        $url: (url?: { hash?: string }) => ({ path: `/${a}/b/${c}/`, hash: url?.hash })
       })
     }
   }),
   _pid: (pid?: string | number) => ({
-    $url: (url?: { query?: OptionalQuery1, hash?: string }) => ({ path: `${pid !== undefined ? `/${pid}` : ''}`, query: url?.query as any, hash: url?.hash })
+    $url: (url?: { query?: OptionalQuery1, hash?: string }) => ({ path: `${pid !== undefined ? `/${pid}` : ''}/`, query: url?.query as any, hash: url?.hash })
   }),
   aaa: {
     _bbb: (bbb: string | number) => ({
       ccc: {
-        $url: (url?: { hash?: string }) => ({ path: `/aaa/${bbb}/ccc`, hash: url?.hash })
+        $url: (url?: { hash?: string }) => ({ path: `/aaa/${bbb}/ccc/`, hash: url?.hash })
       },
-      $url: (url?: { hash?: string }) => ({ path: `/aaa/${bbb}`, hash: url?.hash })
+      $url: (url?: { hash?: string }) => ({ path: `/aaa/${bbb}/`, hash: url?.hash })
     })
   },
   blog: {
     _slug: (slug?: string | number) => ({
-      $url: (url: { query: Query2, hash?: string }) => ({ path: `/blog${slug !== undefined ? `/${slug}` : ''}`, query: url.query as any, hash: url.hash })
+      $url: (url: { query: Query2, hash?: string }) => ({ path: `/blog${slug !== undefined ? `/${slug}` : ''}/`, query: url.query as any, hash: url.hash })
     })
   },
   $url: (url: { query: Query0, hash?: string }) => ({ path: '/', query: url.query as any, hash: url.hash })

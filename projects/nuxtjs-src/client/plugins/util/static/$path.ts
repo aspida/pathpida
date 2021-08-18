@@ -2,19 +2,18 @@
 // prettier-ignore
 import { Plugin } from '@nuxt/types'
 // prettier-ignore
-import { Query as Query0 } from '../../pages'
+import { Query as Query0 } from '../../../pages'
 // prettier-ignore
-import { Query as Query2 } from '../../pages/blog/_slug'
-
+import { OptionalQuery as OptionalQuery1 } from '../../../pages/_pid'
 // prettier-ignore
-type OptionalQuery1 = { hoge: string }
+import { Query as Query2 } from '../../../pages/blog/_slug'
 
 // prettier-ignore
 export const pagesPath = {
   _a: (a: string | number) => ({
     b: {
-      _c: (c: string | number) => ({
-        $url: (url?: { hash?: string }) => ({ path: `/${a}/b/${c}/`, hash: url?.hash })
+      _c: (c?: string | number) => ({
+        $url: (url?: { hash?: string }) => ({ path: `/${a}/b${c !== undefined ? `/${c}` : ''}/`, hash: url?.hash })
       })
     }
   }),

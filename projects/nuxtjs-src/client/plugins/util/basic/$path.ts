@@ -2,11 +2,11 @@
 // prettier-ignore
 import { Plugin } from '@nuxt/types'
 // prettier-ignore
-import { Query as Query0 } from '../../pages'
+import { Query as Query0 } from '../../../pages'
 // prettier-ignore
-import { OptionalQuery as OptionalQuery1 } from '../../pages/_pid'
+import { OptionalQuery as OptionalQuery1 } from '../../../pages/_pid'
 // prettier-ignore
-import { Query as Query2 } from '../../pages/blog/_slug'
+import { Query as Query2 } from '../../../pages/blog/_slug'
 
 // prettier-ignore
 export const pagesPath = {
@@ -40,26 +40,9 @@ export const pagesPath = {
 export type PagesPath = typeof pagesPath
 
 // prettier-ignore
-export const staticPath = {
-  aa_json: '/aa.json',
-  bb: {
-    cc_png: '/bb/cc.png'
-  },
-  duplicate_json_0: {
-    sample_json: '/duplicate-json/sample.json'
-  },
-  duplicate_json_1: '/duplicate.json',
-  duplicate_json_2: '/duplicate_json'
-} as const
-
-// prettier-ignore
-export type StaticPath = typeof staticPath
-
-// prettier-ignore
 declare module 'vue/types/vue' {
   interface Vue {
     $pagesPath: PagesPath
-    $staticPath: StaticPath
   }
 }
 
@@ -67,12 +50,10 @@ declare module 'vue/types/vue' {
 declare module '@nuxt/types' {
   interface NuxtAppOptions {
     $pagesPath: PagesPath
-    $staticPath: StaticPath
   }
 
   interface Context {
     $pagesPath: PagesPath
-    $staticPath: StaticPath
   }
 }
 
@@ -80,14 +61,12 @@ declare module '@nuxt/types' {
 declare module 'vuex/types/index' {
   interface Store<S> {
     $pagesPath: PagesPath
-    $staticPath: StaticPath
   }
 }
 
 // prettier-ignore
 const pathPlugin: Plugin = (_, inject) => {
   inject('pagesPath', pagesPath)
-  inject('staticPath', staticPath)
 }
 
 // prettier-ignore

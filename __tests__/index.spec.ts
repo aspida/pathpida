@@ -19,14 +19,18 @@ describe('cli test', () => {
   })
 
   test('main', async () => {
-    const pjs = projects.flatMap(project => [{ ...project, output: undefined }, project])
+    const pjs = projects.flatMap(project => [
+      { ...project, output: undefined, enableStatic: true },
+      { ...project, output: `${project.output}/basic`, enableStatic: false },
+      { ...project, output: `${project.output}/static`, enableStatic: true }
+    ])
 
     for (const project of pjs) {
       resetCache()
 
       const workingDir = path.join(process.cwd(), 'projects', project.dir)
       const { type, input, staticDir, output, trailingSlash } = await getConfig(
-        project.options.includes('-s') || project.options.includes('--enableStatic'),
+        project.enableStatic,
         project.output && path.join(workingDir, project.output),
         undefined,
         workingDir

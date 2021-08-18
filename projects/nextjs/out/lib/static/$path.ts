@@ -1,10 +1,10 @@
 /* eslint-disable */
 // prettier-ignore
-import { Query as Query0 } from '../../pages'
+import { Query as Query0 } from '../../../pages'
 // prettier-ignore
-import { OptionalQuery as OptionalQuery1 } from '../../pages/[pid]'
+import { OptionalQuery as OptionalQuery1 } from '../../../pages/[pid]'
 // prettier-ignore
-import { Query as Query2 } from '../../pages/blog/[...slug]'
+import { Query as Query2 } from '../../../pages/blog/[...slug]'
 
 // prettier-ignore
 export const pagesPath = {

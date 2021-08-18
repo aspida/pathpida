@@ -2,11 +2,11 @@
 // prettier-ignore
 import { Plugin } from '@nuxt/types'
 // prettier-ignore
-import { Query as Query0 } from '../pages'
+import { Query as Query0 } from '../../../pages'
 // prettier-ignore
-import { OptionalQuery as OptionalQuery1 } from '../pages/_pid'
+import { OptionalQuery as OptionalQuery1 } from '../../../pages/_pid'
 // prettier-ignore
-import { Query as Query2 } from '../pages/blog/_slug'
+import { Query as Query2 } from '../../../pages/blog/_slug'
 
 // prettier-ignore
 export const pagesPath = {

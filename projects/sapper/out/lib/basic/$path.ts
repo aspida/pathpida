@@ -1,6 +1,6 @@
 /* eslint-disable */
 // prettier-ignore
-import { Query as Query1 } from '../../src/routes/blog/[slug].json'
+import { Query as Query1 } from '../../../src/routes/blog/[slug].json'
 
 // prettier-ignore
 interface OptionalQuery0 {
@@ -56,13 +56,3 @@ export const pagesPath = {
 
 // prettier-ignore
 export type PagesPath = typeof pagesPath
-
-// prettier-ignore
-export const staticPath = {
-  favicon_png: '/favicon.png',
-  global_css: '/global.css',
-  logo_192_png: '/logo-192.png'
-} as const
-
-// prettier-ignore
-export type StaticPath = typeof staticPath

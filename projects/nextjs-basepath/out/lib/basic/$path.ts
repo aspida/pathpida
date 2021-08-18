@@ -1,10 +1,10 @@
 /* eslint-disable */
 // prettier-ignore
-import { Query as Query0 } from '../../pages'
+import { Query as Query0 } from '../../../pages'
 // prettier-ignore
-import { OptionalQuery as OptionalQuery1 } from '../../pages/[pid]'
+import { OptionalQuery as OptionalQuery1 } from '../../../pages/[pid]'
 // prettier-ignore
-import { Query as Query2 } from '../../pages/blog/[...slug]'
+import { Query as Query2 } from '../../../pages/blog/[...slug]'
 
 // prettier-ignore
 export const pagesPath = {
@@ -45,19 +45,3 @@ export const pagesPath = {
 
 // prettier-ignore
 export type PagesPath = typeof pagesPath
-
-// prettier-ignore
-export const staticPath = {
-  aa_json: '/aa.json',
-  bb: {
-    cc_png: '/bb/cc.png'
-  },
-  duplicate_json_0: {
-    sample_json: '/duplicate-json/sample.json'
-  },
-  duplicate_json_1: '/duplicate.json',
-  duplicate_json_2: '/duplicate_json'
-} as const
-
-// prettier-ignore
-export type StaticPath = typeof staticPath

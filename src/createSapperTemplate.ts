@@ -83,7 +83,8 @@ export default (input: string, output: string, ig: Ignore | undefined, trailingS
       .filter(
         file =>
           !file.startsWith('_') &&
-          !/\.s?css(\.d\.ts)?$/.test(file) &&
+          !/\.s?css$/.test(file) &&
+          !file.endsWith('.d.ts') &&
           !ig?.ignores(path.posix.join(targetDir, file))
       )
     const props: string[] = [

@@ -50,7 +50,8 @@ export default (input: string, output: string, ig: Ignore | undefined) => {
       .filter(
         file =>
           !file.startsWith('_') &&
-          !/\.s?css(\.d\.ts)?$/.test(file) &&
+          !/\.s?css$/.test(file) &&
+          !file.endsWith('.d.ts') &&
           `${url}/${file}` !== '/api' &&
           !ig?.ignores(path.posix.join(targetDir, file))
       )

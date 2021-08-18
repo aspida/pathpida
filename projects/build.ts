@@ -5,8 +5,9 @@ import { projects } from './projects'
 const ex = promisify(exec)
 
 Promise.all(
-  projects.flatMap(({ dir, options, output }) => [
-    ex(`cd projects/${dir} && node ../../bin/index.js ${options.join(' ')}`),
-    ex(`cd projects/${dir} && node ../../bin/index.js ${options.join(' ')} -o ${output}`)
+  projects.flatMap(({ dir, output }) => [
+    ex(`cd projects/${dir} && node ../../bin/index.js --enableStatic`),
+    ex(`cd projects/${dir} && node ../../bin/index.js --output ${output}/basic`),
+    ex(`cd projects/${dir} && node ../../bin/index.js --output ${output}/static --enableStatic`)
   ])
 )
