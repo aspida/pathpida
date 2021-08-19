@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.16.0](https://github.com/aspida/pathpida/compare/v0.15.5...v0.16.0) (2021-08-19)
+
+
+### Features
+
+* add ignorePath option ([4fb9d43](https://github.com/aspida/pathpida/commit/4fb9d43d21a655fd0e66f7ce69b429eddc7a3d23))
+* add output option ([97c107c](https://github.com/aspida/pathpida/commit/97c107c820634d39b6864e65103a0ca6ce1ae775))
+
 ### [0.15.5](https://github.com/aspida/pathpida/compare/v0.15.4...v0.15.5) (2021-08-12)
 
 

@@ -1,13 +1,13 @@
 {
   "name": "pathpida",
-  "version": "0.15.5",
+  "version": "0.16.0",
   "description": "TypeScript friendly pages path generator for Next.js, Nuxt.js and Sapper",
   "author": "Solufa",
   "license": "MIT",
   "types": "dist/cli.d.ts",
   "bin": "bin/index.js",
   "scripts": {
-    "dev": "npm run build && cd projects/nextjs && node ../../bin/index.js -s && cd ../nextjs-src && node ../../bin/index.js -s && cd ../nuxtjs && node ../../bin/index.js --enableStatic && cd ../nuxtjs-src && node ../../bin/index.js --enableStatic && cd ../nuxtjs-no-slash && node ../../bin/index.js && cd ../nextjs-basepath && node ../../bin/index.js -s && cd ../nuxtjs-basepath && node ../../bin/index.js -s && cd ../sapper && node ../../bin/index.js -s",
+    "dev": "npm run build && ts-node projects/build.ts",
     "build": "npm run rimraf && tsc",
     "rimraf": "node -e \"require('fs').rmdirSync('dist', { recursive: true })\"",
     "release": "standard-version --skip.tag",
@@ -84,14 +84,15 @@
   },
   "dependencies": {
     "chokidar": "^3.5.2",
+    "ignore": "^5.1.8",
     "minimist": "^1.2.5"
   },
   "devDependencies": {
     "@nuxt/config": "^2.15.8",
-    "@types/jest": "^27.0.0",
+    "@types/jest": "^27.0.1",
     "@types/minimist": "^1.2.2",
-    "@typescript-eslint/eslint-plugin": "^4.29.1",
-    "@typescript-eslint/parser": "^4.29.1",
+    "@typescript-eslint/eslint-plugin": "^4.29.2",
+    "@typescript-eslint/parser": "^4.29.2",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
@@ -103,8 +104,9 @@
     "jest": "^27.0.6",
     "next": "^11.1.0",
     "prettier": "^2.3.2",
+    "prettier-plugin-organize-imports": "^2.3.3",
     "standard-version": "^9.3.1",
-    "ts-jest": "^27.0.4",
+    "ts-jest": "^27.0.5",
     "ts-node": "^10.2.0",
     "typescript": "^4.3.5"
   }

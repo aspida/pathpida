@@ -1,9 +1,10 @@
 import fs from 'fs'
 import path from 'path'
 import { version } from '../package.json'
+import { projects } from '../projects/projects'
 import build, { resetCache } from '../src/buildTemplate'
-import getConfig from '../src/getConfig'
 import { run } from '../src/cli'
+import getConfig from '../src/getConfig'
 
 describe('cli test', () => {
   test('version command', async () => {
@@ -18,18 +19,28 @@ describe('cli test', () => {
   })
 
   test('main', async () => {
-    for (const dir of fs.readdirSync('projects')) {
+    for (const project of projects) {
       resetCache()
 
-      const workingDir = path.join(process.cwd(), 'projects', dir)
-      const { type, input, staticDir, output, trailingSlash } = await getConfig(
-        dir !== 'nuxtjs-no-slash',
+      const workingDir = path.join(process.cwd(), 'projects', project.dir)
+      const { type, input, staticDir, output, ignorePath, trailingSlash } = await getConfig(
+        project.enableStatic,
+        project.output && path.join(workingDir, project.output),
+        project.ignorePath,
         workingDir
       )
 
       const result = fs.readFileSync(`${output}/$path.ts`, 'utf8')
-      const basepath = /-basepath$/.test(dir) ? '/foo/bar' : undefined
-      const { filePath, text } = build({ type, input, staticDir, output, trailingSlash, basepath })
+      const basepath = /-basepath$/.test(project.dir) ? '/foo/bar' : undefined
+      const { filePath, text } = build({
+        type,
+        input,
+        staticDir,
+        output,
+        ignorePath,
+        trailingSlash,
+        basepath
+      })
 
       expect(filePath).toBe(`${output}/$path.ts`)
       expect(

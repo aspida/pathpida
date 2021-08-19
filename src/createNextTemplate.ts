@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { createIg, isIgnored } from './isIgnored'
 import { parseQueryFromTS } from './parseQueryFromTS'
 import { replaceWithUnderscore } from './replaceWithUnderscore'
 
@@ -23,10 +24,11 @@ const createMethods = (
       : ''
   }, hash: url${importName?.startsWith('Query') ? '' : '?'}.hash })`
 
-export default (input: string) => {
+export default (input: string, output: string, ignorePath: string | undefined) => {
+  const ig = createIg(ignorePath)
   const imports: string[] = []
   const getImportName = (file: string) => {
-    const result = parseQueryFromTS(input, file, imports.length)
+    const result = parseQueryFromTS(output, file, imports.length)
 
     if (result) {
       imports.push(result.importString)
@@ -48,7 +50,11 @@ export default (input: string) => {
       .readdirSync(targetDir)
       .filter(
         file =>
-          !file.startsWith('_') && !/\.s?css(\.d\.ts)?$/.test(file) && `${url}/${file}` !== '/api'
+          !file.startsWith('_') &&
+          !/\.s?css$/.test(file) &&
+          !file.endsWith('.d.ts') &&
+          `${url}/${file}` !== '/api' &&
+          !isIgnored(ig, ignorePath, targetDir, file)
       )
       .sort()
       .map(file => {

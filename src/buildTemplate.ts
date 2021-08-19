@@ -1,9 +1,9 @@
 import path from 'path'
-import { Config } from './getConfig'
 import createNextTemplate from './createNextTemplate'
 import createNuxtTemplate from './createNuxtTemplate'
 import createSapperTemplate from './createSapperTemplate'
 import createStaticTemplate from './createStaticTemplate'
+import type { Config } from './getConfig'
 
 let prevPagesText = ''
 let prevStaticText = ''
@@ -14,19 +14,21 @@ export const resetCache = () => {
 }
 
 export default (
-  { type, input, staticDir, output, trailingSlash, basepath }: Config,
+  { type, input, staticDir, output, ignorePath, trailingSlash, basepath }: Config,
   mode?: 'pages' | 'static'
 ) => {
   prevPagesText =
     mode === 'static'
       ? prevPagesText
       : {
-          nextjs: () => createNextTemplate(input),
-          nuxtjs: () => createNuxtTemplate(input, trailingSlash),
-          sapper: () => createSapperTemplate(input)
+          nextjs: () => createNextTemplate(input, output, ignorePath),
+          nuxtjs: () => createNuxtTemplate(input, output, ignorePath, trailingSlash),
+          sapper: () => createSapperTemplate(input, output, ignorePath)
         }[type]()
   prevStaticText =
-    !staticDir || mode === 'pages' ? prevStaticText : createStaticTemplate(staticDir, basepath)
+    !staticDir || mode === 'pages'
+      ? prevStaticText
+      : createStaticTemplate(staticDir, basepath, ignorePath)
 
   return {
     text: `/* eslint-disable */

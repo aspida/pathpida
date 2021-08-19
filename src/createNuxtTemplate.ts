@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { createIg, isIgnored } from './isIgnored'
 import { parseQueryFromTS } from './parseQueryFromTS'
 import { replaceWithUnderscore } from './replaceWithUnderscore'
 
@@ -51,11 +52,17 @@ const parseQueryFromVue = (file: string, suffix: number) => {
   }
 }
 
-export default (input: string, trailingSlash = false) => {
+export default (
+  input: string,
+  output: string,
+  ignorePath: string | undefined,
+  trailingSlash = false
+) => {
+  const ig = createIg(ignorePath)
   const imports: string[] = []
   const getImportName = (file: string) => {
     const result = path.extname(file).startsWith('.ts')
-      ? parseQueryFromTS(input, file, imports.length)
+      ? parseQueryFromTS(output, file, imports.length)
       : parseQueryFromVue(file, imports.length)
 
     if (result) {
@@ -76,7 +83,13 @@ export default (input: string, trailingSlash = false) => {
 
     const props: string[] = fs
       .readdirSync(targetDir)
-      .filter(file => !file.startsWith('-') && !/\.s?css(\.d\.ts)?$/.test(file))
+      .filter(
+        file =>
+          !file.startsWith('-') &&
+          !/\.s?css$/.test(file) &&
+          !file.endsWith('.d.ts') &&
+          !isIgnored(ig, ignorePath, targetDir, file)
+      )
       .sort()
       .map((file, _, arr) => {
         const basename = path.basename(file, path.extname(file))

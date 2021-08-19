@@ -8,6 +8,9 @@ import { Query as Query2 } from '../pages/blog/[...slug]'
 
 // prettier-ignore
 export const pagesPath = {
+  _ignore: {
+    $url: (url?: { hash?: string }) => ({ pathname: '/.ignore' as const, hash: url?.hash })
+  },
   _a: (a: string | number) => ({
     b: {
       _c: (c: string[]) => ({
@@ -50,6 +53,7 @@ export type PagesPath = typeof pagesPath
 export const staticPath = {
   aa_json: '/foo/bar/aa.json',
   bb: {
+    _ignore: '/foo/bar/bb/.ignore',
     cc_png: '/foo/bar/bb/cc.png'
   },
   duplicate_json_0: {
