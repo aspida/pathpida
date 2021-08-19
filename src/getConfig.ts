@@ -22,10 +22,11 @@ const getFrameworkType = (dir: string) => {
 export default async (
   enableStatic: boolean,
   output: string | undefined,
-  ignorePath: string | undefined,
+  igPath: string | undefined,
   dir = process.cwd()
 ): Promise<Config> => {
   const type = getFrameworkType(dir)
+  const ignorePath = igPath && path.join(dir, igPath)
 
   if (type === 'nextjs') {
     let config: NextConfig
@@ -58,7 +59,7 @@ export default async (
       input: path.posix.join(srcDir, 'pages'),
       staticDir: enableStatic ? path.posix.join(dir, 'public') : undefined,
       output,
-      ignorePath: ignorePath && path.join(dir, ignorePath),
+      ignorePath,
       basepath: config.basePath
     }
   } else if (type === 'nuxtjs') {
@@ -78,7 +79,7 @@ export default async (
       input: path.posix.join(srcDir, 'pages'),
       staticDir: enableStatic ? path.posix.join(srcDir, 'static') : undefined,
       output,
-      ignorePath: ignorePath && path.join(dir, ignorePath),
+      ignorePath,
       trailingSlash: config.router?.trailingSlash,
       basepath: config.router?.base
     }
@@ -94,7 +95,7 @@ export default async (
       input: path.posix.join(srcDir, 'routes'),
       staticDir: enableStatic ? path.posix.join(dir, 'static') : undefined,
       output,
-      ignorePath: ignorePath && path.join(dir, ignorePath)
+      ignorePath
     }
   }
 }
