@@ -1,6 +1,6 @@
 import fs from 'fs'
-import type { Ignore } from 'ignore'
 import path from 'path'
+import { createIg, isIgnored } from './isIgnored'
 import { parseQueryFromTS } from './parseQueryFromTS'
 import { replaceWithUnderscore } from './replaceWithUnderscore'
 
@@ -55,7 +55,13 @@ const parseQueryFromSvelte = (file: string, suffix: number) => {
   }
 }
 
-export default (input: string, output: string, ig: Ignore | undefined, trailingSlash = false) => {
+export default (
+  input: string,
+  output: string,
+  ignorePath: string | undefined,
+  trailingSlash = false
+) => {
+  const ig = createIg(ignorePath)
   const imports: string[] = []
   const getImportName = (file: string) => {
     const result = path.extname(file).startsWith('.ts')
@@ -85,7 +91,7 @@ export default (input: string, output: string, ig: Ignore | undefined, trailingS
           !file.startsWith('_') &&
           !/\.s?css$/.test(file) &&
           !file.endsWith('.d.ts') &&
-          !ig?.ignores(path.posix.join(targetDir, file))
+          !isIgnored(ig, ignorePath, targetDir, file)
       )
     const props: string[] = [
       ...files,

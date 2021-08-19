@@ -1,9 +1,10 @@
 import fs from 'fs'
-import type { Ignore } from 'ignore'
 import path from 'path'
+import { createIg, isIgnored } from './isIgnored'
 import { replaceWithUnderscore } from './replaceWithUnderscore'
 
-export default (input: string, basepath: string | undefined, ig: Ignore | undefined) => {
+export default (input: string, basepath: string | undefined, ignorePath: string | undefined) => {
+  const ig = createIg(ignorePath)
   const createPublicString = (targetDir: string, indent: string, url: string, text: string) => {
     indent += '  '
 
@@ -17,7 +18,8 @@ export default (input: string, basepath: string | undefined, ig: Ignore | undefi
       .map((file, i) => {
         const newUrl = `${url}/${file}`
         const target = path.posix.join(targetDir, file)
-        if (ig?.ignores(target)) return ''
+
+        if (isIgnored(ig, ignorePath, targetDir, file)) return ''
 
         const replacedFile = replacedFiles[i]
         const valFn = `${indent}${

@@ -19,26 +19,28 @@ describe('cli test', () => {
   })
 
   test('main', async () => {
-    const pjs = projects.flatMap(project => [
-      { ...project, output: undefined, enableStatic: true },
-      { ...project, output: `${project.output}/basic`, enableStatic: false },
-      { ...project, output: `${project.output}/static`, enableStatic: true }
-    ])
-
-    for (const project of pjs) {
+    for (const project of projects) {
       resetCache()
 
       const workingDir = path.join(process.cwd(), 'projects', project.dir)
-      const { type, input, staticDir, output, trailingSlash } = await getConfig(
+      const { type, input, staticDir, output, ignorePath, trailingSlash } = await getConfig(
         project.enableStatic,
         project.output && path.join(workingDir, project.output),
-        undefined,
+        project.ignorePath,
         workingDir
       )
 
       const result = fs.readFileSync(`${output}/$path.ts`, 'utf8')
       const basepath = /-basepath$/.test(project.dir) ? '/foo/bar' : undefined
-      const { filePath, text } = build({ type, input, staticDir, output, trailingSlash, basepath })
+      const { filePath, text } = build({
+        type,
+        input,
+        staticDir,
+        output,
+        ignorePath,
+        trailingSlash,
+        basepath
+      })
 
       expect(filePath).toBe(`${output}/$path.ts`)
       expect(

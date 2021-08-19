@@ -36,6 +36,9 @@ export const dataToURLString = (data: Record<string, any>) =>
 
 // prettier-ignore
 export const pagesPath = {
+  _ignore: {
+    $url: (url?: { hash?: string }) => `/.ignore${url?.hash ? `#${url.hash}` : ''}`
+  },
   about: {
     $url: (url?: { hash?: string }) => `/about${url?.hash ? `#${url.hash}` : ''}`
   },
@@ -59,6 +62,7 @@ export type PagesPath = typeof pagesPath
 
 // prettier-ignore
 export const staticPath = {
+  _ignore: '/.ignore',
   favicon_png: '/favicon.png',
   global_css: '/global.css',
   logo_192_png: '/logo-192.png'
