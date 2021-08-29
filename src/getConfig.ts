@@ -10,6 +10,7 @@ export type Config = {
   ignorePath: string | undefined
   trailingSlash?: boolean
   basepath?: string
+  pageExtensions?: string[]
 }
 
 const getFrameworkType = (dir: string) => {
@@ -60,6 +61,7 @@ export default async (
       staticDir: enableStatic ? path.posix.join(dir, 'public') : undefined,
       output,
       ignorePath,
+      pageExtensions: config.pageExtensions,
       basepath: config.basePath
     }
   } else if (type === 'nuxtjs') {

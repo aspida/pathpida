@@ -86,12 +86,13 @@ export default (
 
     const files = fs
       .readdirSync(targetDir)
-      .filter(
-        file =>
-          !file.startsWith('_') &&
-          !/\.s?css$/.test(file) &&
-          !file.endsWith('.d.ts') &&
+      .filter(file =>
+        [
+          !file.startsWith('_'),
+          !/\.s?css$/.test(file),
+          !file.endsWith('.d.ts'),
           !isIgnored(ig, ignorePath, targetDir, file)
+        ].every(Boolean)
       )
     const props: string[] = [
       ...files,

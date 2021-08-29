@@ -83,12 +83,13 @@ export default (
 
     const props: string[] = fs
       .readdirSync(targetDir)
-      .filter(
-        file =>
-          !file.startsWith('-') &&
-          !/\.s?css$/.test(file) &&
-          !file.endsWith('.d.ts') &&
+      .filter(file =>
+        [
+          !file.startsWith('-'),
+          !/\.s?css$/.test(file),
+          !file.endsWith('.d.ts'),
           !isIgnored(ig, ignorePath, targetDir, file)
+        ].every(Boolean)
       )
       .sort()
       .map((file, _, arr) => {

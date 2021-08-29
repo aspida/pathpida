@@ -24,8 +24,16 @@ const createMethods = (
       : ''
   }, hash: url${importName?.startsWith('Query') ? '' : '?'}.hash })`
 
-export default (input: string, output: string, ignorePath: string | undefined) => {
+export default (
+  input: string,
+  output: string,
+  ignorePath: string | undefined,
+  pageExtensions = ['tsx', 'ts', 'jsx', 'js']
+) => {
   const ig = createIg(ignorePath)
+  const regExpChunk = `\\.(${pageExtensions.join('|').replace(/\./g, '\\.')})$`
+  const indexPageRegExp = new RegExp(`^index${regExpChunk}`)
+  const pageExtRegExp = new RegExp(regExpChunk)
   const imports: string[] = []
   const getImportName = (file: string) => {
     const result = parseQueryFromTS(output, file, imports.length)
@@ -48,18 +56,20 @@ export default (input: string, output: string, ignorePath: string | undefined) =
 
     const props: string[] = fs
       .readdirSync(targetDir)
-      .filter(
-        file =>
-          !file.startsWith('_') &&
-          !/\.s?css$/.test(file) &&
-          !file.endsWith('.d.ts') &&
-          `${url}/${file}` !== '/api' &&
-          !isIgnored(ig, ignorePath, targetDir, file)
+      .filter(file =>
+        [
+          !file.startsWith('_'),
+          !/\.s?css$/.test(file),
+          !file.endsWith('.d.ts'),
+          `${url}/${file}` !== '/api',
+          !isIgnored(ig, ignorePath, targetDir, file),
+          fs.statSync(path.posix.join(targetDir, file)).isDirectory() || pageExtRegExp.test(file)
+        ].every(Boolean)
       )
       .sort()
       .map(file => {
         const newSlugs = [...slugs]
-        const basename = path.basename(file, file.endsWith(']') ? '' : path.extname(file))
+        const basename = file.replace(pageExtRegExp, '')
         const newUrl = `${url}/${basename}`
         let valFn = `${indent}${replaceWithUnderscore(basename)}: {\n<% next %>\n${indent}}`
 
@@ -79,9 +89,7 @@ export default (input: string, output: string, ignorePath: string | undefined) =
             createMethods(indent, getImportName(target), newSlugs, newUrl)
           )
         } else if (fs.statSync(target).isDirectory()) {
-          const indexFile = fs
-            .readdirSync(target)
-            .find(name => path.basename(name, path.extname(name)) === 'index')
+          const indexFile = fs.readdirSync(target).find(name => indexPageRegExp.test(name))
 
           return createPathObjString(
             target,
@@ -131,7 +139,7 @@ export default (input: string, output: string, ignorePath: string | undefined) =
     )
   }
 
-  const rootIndexFile = fs.readdirSync(input).find(name => name === 'index.tsx')
+  const rootIndexFile = fs.readdirSync(input).find(name => indexPageRegExp.test(name))
   const rootIndent = ''
   let rootMethods
 

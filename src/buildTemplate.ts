@@ -14,21 +14,34 @@ export const resetCache = () => {
 }
 
 export default (
-  { type, input, staticDir, output, ignorePath, trailingSlash, basepath }: Config,
+  { type, input, staticDir, output, ignorePath, trailingSlash, basepath, pageExtensions }: Config,
   mode?: 'pages' | 'static'
 ) => {
-  prevPagesText =
-    mode === 'static'
-      ? prevPagesText
-      : {
-          nextjs: () => createNextTemplate(input, output, ignorePath),
-          nuxtjs: () => createNuxtTemplate(input, output, ignorePath, trailingSlash),
-          sapper: () => createSapperTemplate(input, output, ignorePath)
-        }[type]()
-  prevStaticText =
-    !staticDir || mode === 'pages'
-      ? prevStaticText
-      : createStaticTemplate(staticDir, basepath, ignorePath)
+  const emptyPathRegExp = /\n.+{\n+ +}.*/
+
+  if (mode !== 'static') {
+    let text = {
+      nextjs: () => createNextTemplate(input, output, ignorePath, pageExtensions),
+      nuxtjs: () => createNuxtTemplate(input, output, ignorePath, trailingSlash),
+      sapper: () => createSapperTemplate(input, output, ignorePath)
+    }[type]()
+
+    while (emptyPathRegExp.test(text)) {
+      text = text.replace(emptyPathRegExp, '')
+    }
+
+    prevPagesText = text
+  }
+
+  if (staticDir && mode !== 'pages') {
+    let text = createStaticTemplate(staticDir, basepath, ignorePath)
+
+    while (emptyPathRegExp.test(text)) {
+      text = text.replace(emptyPathRegExp, '')
+    }
+
+    prevStaticText = text
+  }
 
   return {
     text: `/* eslint-disable */

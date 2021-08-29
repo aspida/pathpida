@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.17.0](https://github.com/aspida/pathpida/compare/v0.16.0...v0.17.0) (2021-08-29)
+
+
+### Features
+
+* support pageExtensions for nextjs ([5586235](https://github.com/aspida/pathpida/commit/5586235218f277fb4c122c0879d33959975dfb37))
+
 ## [0.16.0](https://github.com/aspida/pathpida/compare/v0.15.5...v0.16.0) (2021-08-19)
 
 
