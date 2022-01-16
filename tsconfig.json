@@ -6,7 +6,7 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": ["ES2019.Array"],
+    "lib": ["ES2019.Array", "dom"],
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "dist",
