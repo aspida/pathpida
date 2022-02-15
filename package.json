@@ -102,7 +102,7 @@
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-standard": "^5.0.0",
     "jest": "^27.1.0",
-    "next": "^11.1.0",
+    "next": "^12.0.10",
     "prettier": "^2.3.2",
     "prettier-plugin-organize-imports": "^2.3.3",
     "standard-version": "^9.3.1",
