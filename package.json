@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "npm run build && ts-node projects/build.ts",
     "build": "npm run rimraf && tsc",
-    "rimraf": "node -e \"require('fs').rmdirSync('dist', { recursive: true })\"",
+    "rimraf": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "release": "standard-version --skip.tag",
     "release:major": "npm run release -- --release-as major",
     "release:minor": "npm run release -- --release-as minor",
