@@ -6,6 +6,8 @@ import build, { resetCache } from '../src/buildTemplate'
 import { run } from '../src/cli'
 import getConfig from '../src/getConfig'
 
+jest.setTimeout(30000)
+
 describe('cli test', () => {
   test('version command', async () => {
     const spyLog = jest.spyOn(console, 'log').mockImplementation(x => x)
