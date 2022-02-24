@@ -24,6 +24,11 @@
 <br />
 <br />
 
+## Breaking change :warning:
+
+### 2022/02/24
+Since pathpida >= `0.18.0` , requires TypeSciprt 3.8 or higher for Type-Only Imports.
+
 ## Features
 
 - **Type safety**. Automatically generate type definition files for manipulating internal links in Next.js/Nuxt.js/Sapper.

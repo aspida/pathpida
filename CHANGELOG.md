@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.18.0](https://github.com/aspida/pathpida/compare/v0.17.0...v0.18.0) (2022-02-24)
+
+
+### Features
+
+* use type-only imports for types (https://github.com/aspida/pathpida/pull/113)
+
 ## [0.17.0](https://github.com/aspida/pathpida/compare/v0.16.0...v0.17.0) (2021-08-29)
 
 
