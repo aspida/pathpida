@@ -1,6 +1,6 @@
 /* eslint-disable */
 // prettier-ignore
-import { Plugin } from '@nuxt/types'
+import type { Plugin } from '@nuxt/types'
 
 // prettier-ignore
 type Query0 = { hoge: string }

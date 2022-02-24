@@ -1,10 +1,10 @@
 /* eslint-disable */
 // prettier-ignore
-import { Plugin } from '@nuxt/types'
+import type { Plugin } from '@nuxt/types'
 // prettier-ignore
-import { Query as Query0 } from '../pages'
+import type { Query as Query0 } from '../pages'
 // prettier-ignore
-import { Query as Query2 } from '../pages/blog/_slug'
+import type { Query as Query2 } from '../pages/blog/_slug'
 
 // prettier-ignore
 type OptionalQuery1 = { hoge: string }
