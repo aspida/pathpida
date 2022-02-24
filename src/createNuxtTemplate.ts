@@ -167,7 +167,7 @@ export default (
   const importsText = imports.filter(i => i.startsWith('import')).join('\n')
   const queriesText = imports.filter(i => !i.startsWith('import')).join('\n')
 
-  return `import { Plugin } from '@nuxt/types'
+  return `import type { Plugin } from '@nuxt/types'
 ${importsText}${importsText && queriesText ? '\n' : ''}
 ${queriesText}${
     imports.length ? '\n' : ''

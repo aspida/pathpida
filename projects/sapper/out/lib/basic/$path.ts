@@ -1,6 +1,6 @@
 /* eslint-disable */
 // prettier-ignore
-import { Query as Query1 } from '../../../src/routes/blog/[slug].json'
+import type { Query as Query1 } from '../../../src/routes/blog/[slug].json'
 
 // prettier-ignore
 interface OptionalQuery0 {

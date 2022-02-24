@@ -13,7 +13,7 @@ export const parseQueryFromTS = (output: string, file: string, suffix: number) =
 
   return {
     importName,
-    importString: `import { ${typeName} as ${importName} } from '${path
+    importString: `import type { ${typeName} as ${importName} } from '${path
       .relative(output, file)
       .replace(/\\/g, '/')
       .replace(/(\/index)?\.tsx?$/, '')}'`
