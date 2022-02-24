@@ -1,14 +1,8 @@
-/* eslint-disable */
-// prettier-ignore
 import type { Plugin } from '@nuxt/types'
-// prettier-ignore
 import type { Query as Query0 } from '../../../pages'
-// prettier-ignore
 import type { OptionalQuery as OptionalQuery1 } from '../../../pages/_pid'
-// prettier-ignore
 import type { Query as Query2 } from '../../../pages/blog/_slug'
 
-// prettier-ignore
 export const pagesPath = {
   _a: (a: string | number) => ({
     b: {
@@ -36,17 +30,14 @@ export const pagesPath = {
   $url: (url: { query: Query0, hash?: string }) => ({ path: '/', query: url.query as any, hash: url.hash })
 }
 
-// prettier-ignore
 export type PagesPath = typeof pagesPath
 
-// prettier-ignore
 declare module 'vue/types/vue' {
   interface Vue {
     $pagesPath: PagesPath
   }
 }
 
-// prettier-ignore
 declare module '@nuxt/types' {
   interface NuxtAppOptions {
     $pagesPath: PagesPath
@@ -57,17 +48,14 @@ declare module '@nuxt/types' {
   }
 }
 
-// prettier-ignore
 declare module 'vuex/types/index' {
   interface Store<S> {
     $pagesPath: PagesPath
   }
 }
 
-// prettier-ignore
 const pathPlugin: Plugin = (_, inject) => {
   inject('pagesPath', pagesPath)
 }
 
-// prettier-ignore
 export default pathPlugin

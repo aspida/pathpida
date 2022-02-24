@@ -1,5 +1,3 @@
-/* eslint-disable */
-// prettier-ignore
 export const pagesPath = {
   custom_ext: {
     hello: {
@@ -13,10 +11,8 @@ export const pagesPath = {
   },
 }
 
-// prettier-ignore
 export type PagesPath = typeof pagesPath
 
-// prettier-ignore
 export const staticPath = {
   aa_json: '/aa.json',
   bb: {
@@ -29,5 +25,4 @@ export const staticPath = {
   duplicate_json_2: '/duplicate_json'
 } as const
 
-// prettier-ignore
 export type StaticPath = typeof staticPath

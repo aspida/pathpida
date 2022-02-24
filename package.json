@@ -1,6 +1,6 @@
 {
   "name": "pathpida",
-  "version": "0.17.0",
+  "version": "0.0.0",
   "description": "TypeScript friendly pages path generator for Next.js, Nuxt.js and Sapper",
   "author": "Solufa",
   "license": "MIT",
@@ -10,12 +10,8 @@
     "dev": "npm run build && ts-node projects/build.ts",
     "build": "npm run rimraf && tsc",
     "rimraf": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
-    "release": "standard-version --skip.tag",
-    "release:major": "npm run release -- --release-as major",
-    "release:minor": "npm run release -- --release-as minor",
-    "release:patch": "npm run release -- --release-as patch",
-    "lint": "eslint --ext .ts --ignore-path .gitignore . && prettier --check \"./**/*.ts\"",
-    "lint:fix": "eslint --ext .ts --ignore-path .gitignore . --fix && prettier --write \"./**/*.ts\"",
+    "lint": "eslint --ext .ts . && prettier --check \"./**/*.ts\"",
+    "lint:fix": "eslint --ext .ts . --fix && prettier --write \"./**/*.ts\"",
     "test": "jest",
     "typecheck": "tsc --noEmit"
   },
@@ -105,7 +101,6 @@
     "next": "^11.1.0",
     "prettier": "^2.3.2",
     "prettier-plugin-organize-imports": "^2.3.3",
-    "standard-version": "^9.3.1",
     "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.2"
