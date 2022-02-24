@@ -44,8 +44,7 @@ export default (
   }
 
   return {
-    text: `/* eslint-disable */
-${prevPagesText}${prevStaticText}${
+    text: `${prevPagesText}${prevStaticText}${
       type === 'nuxtjs'
         ? `
 declare module 'vue/types/vue' {
@@ -77,7 +76,7 @@ const pathPlugin: Plugin = (_, inject) => {
 export default pathPlugin
 `
         : ''
-    }`.replace(/\n([a-z])/g, '\n// prettier-ignore\n$1'),
+    }`,
     filePath: path.posix.join(output, '$path.ts')
   }
 }

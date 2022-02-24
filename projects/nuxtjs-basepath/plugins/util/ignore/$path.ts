@@ -1,14 +1,9 @@
-/* eslint-disable */
-// prettier-ignore
 import type { Plugin } from '@nuxt/types'
 
-// prettier-ignore
 type Query0 = { hoge: string }
 
-// prettier-ignore
 type OptionalQuery1 = { hoge: string }
 
-// prettier-ignore
 type Query2 = {
   hoge: string
   fuga: {
@@ -17,7 +12,6 @@ type Query2 = {
   }
 }
 
-// prettier-ignore
 export const pagesPath = {
   _a: (a: string | number) => ({
     b: {
@@ -45,10 +39,8 @@ export const pagesPath = {
   $url: (url: { query: Query0, hash?: string }) => ({ path: '/', query: url.query as any, hash: url.hash })
 }
 
-// prettier-ignore
 export type PagesPath = typeof pagesPath
 
-// prettier-ignore
 export const staticPath = {
   aa_json: '/foo/bar/aa.json',
   bb: {
@@ -61,10 +53,8 @@ export const staticPath = {
   duplicate_json_2: '/foo/bar/duplicate_json'
 } as const
 
-// prettier-ignore
 export type StaticPath = typeof staticPath
 
-// prettier-ignore
 declare module 'vue/types/vue' {
   interface Vue {
     $pagesPath: PagesPath
@@ -72,7 +62,6 @@ declare module 'vue/types/vue' {
   }
 }
 
-// prettier-ignore
 declare module '@nuxt/types' {
   interface NuxtAppOptions {
     $pagesPath: PagesPath
@@ -85,7 +74,6 @@ declare module '@nuxt/types' {
   }
 }
 
-// prettier-ignore
 declare module 'vuex/types/index' {
   interface Store<S> {
     $pagesPath: PagesPath
@@ -93,11 +81,9 @@ declare module 'vuex/types/index' {
   }
 }
 
-// prettier-ignore
 const pathPlugin: Plugin = (_, inject) => {
   inject('pagesPath', pagesPath)
   inject('staticPath', staticPath)
 }
 
-// prettier-ignore
 export default pathPlugin

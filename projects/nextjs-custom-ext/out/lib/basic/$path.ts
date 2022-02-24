@@ -1,5 +1,3 @@
-/* eslint-disable */
-// prettier-ignore
 export const pagesPath = {
   custom_ext: {
     hello: {
@@ -13,5 +11,4 @@ export const pagesPath = {
   },
 }
 
-// prettier-ignore
 export type PagesPath = typeof pagesPath

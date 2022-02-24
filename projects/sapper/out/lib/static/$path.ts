@@ -1,13 +1,9 @@
-/* eslint-disable */
-// prettier-ignore
 import type { Query as Query1 } from '../../../src/routes/blog/[slug].json'
 
-// prettier-ignore
 interface OptionalQuery0 {
 	name: string
 }
 
-// prettier-ignore
 const encode = (str: Parameters<typeof encodeURIComponent>[0]) =>
   encodeURIComponent(str).replace(
     /[!'()~]|%20|%00/g,
@@ -23,7 +19,6 @@ const encode = (str: Parameters<typeof encodeURIComponent>[0]) =>
       } as Record<string, string>)[match])
   )
 
-// prettier-ignore
 export const dataToURLString = (data: Record<string, any>) =>
   Object.keys(data)
     .filter(key => data[key] != null)
@@ -34,7 +29,6 @@ export const dataToURLString = (data: Record<string, any>) =>
     )
     .join('&')
 
-// prettier-ignore
 export const pagesPath = {
   _ignore: {
     $url: (url?: { hash?: string }) => `/.ignore${url?.hash ? `#${url.hash}` : ''}`
@@ -57,10 +51,8 @@ export const pagesPath = {
   $url: (url?: { hash?: string }) => `/${url?.hash ? `#${url.hash}` : ''}`
 }
 
-// prettier-ignore
 export type PagesPath = typeof pagesPath
 
-// prettier-ignore
 export const staticPath = {
   _ignore: '/.ignore',
   favicon_png: '/favicon.png',
@@ -68,5 +60,4 @@ export const staticPath = {
   logo_192_png: '/logo-192.png'
 } as const
 
-// prettier-ignore
 export type StaticPath = typeof staticPath

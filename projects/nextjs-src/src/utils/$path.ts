@@ -1,12 +1,7 @@
-/* eslint-disable */
-// prettier-ignore
 import type { Query as Query0 } from '../pages'
-// prettier-ignore
 import type { OptionalQuery as OptionalQuery1 } from '../pages/[pid]'
-// prettier-ignore
 import type { Query as Query2 } from '../pages/blog/[...slug]'
 
-// prettier-ignore
 export const pagesPath = {
   _ignore: {
     $url: (url?: { hash?: string }) => ({ pathname: '/.ignore' as const, hash: url?.hash })
@@ -46,10 +41,8 @@ export const pagesPath = {
   $url: (url: { query: Query0, hash?: string }) => ({ pathname: '/' as const, query: url.query, hash: url.hash })
 }
 
-// prettier-ignore
 export type PagesPath = typeof pagesPath
 
-// prettier-ignore
 export const staticPath = {
   aa_json: '/aa.json',
   bb: {
@@ -63,5 +56,4 @@ export const staticPath = {
   duplicate_json_2: '/duplicate_json'
 } as const
 
-// prettier-ignore
 export type StaticPath = typeof staticPath
