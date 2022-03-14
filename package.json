@@ -79,7 +79,7 @@
     ]
   },
   "dependencies": {
-    "chokidar": "^3.5.2",
+    "chokidar": "^3.5.3",
     "ignore": "^5.1.8",
     "minimist": "^1.2.5"
   },
