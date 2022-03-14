@@ -80,7 +80,7 @@
   },
   "dependencies": {
     "chokidar": "^3.5.3",
-    "ignore": "^5.1.8",
+    "ignore": "^5.2.0",
     "minimist": "^1.2.5"
   },
   "devDependencies": {
