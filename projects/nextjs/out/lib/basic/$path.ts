@@ -3,6 +3,9 @@ import type { OptionalQuery as OptionalQuery1 } from '../../../pages/[pid]'
 import type { Query as Query2 } from '../../../pages/blog/[...slug]'
 
 export const pagesPath = {
+  "%E6%97%A5%E6%9C%AC%E8%AA%9E": {
+    $url: (url?: { hash?: string }) => ({ pathname: '/%E6%97%A5%E6%9C%AC%E8%AA%9E' as const, hash: url?.hash })
+  },
   _a: (a: string | number) => ({
     "b": {
       _c: (c: string[]) => ({
