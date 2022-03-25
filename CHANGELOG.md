@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file. See [standa
 ## [0.18.1](https://github.com/aspida/pathpida/compare/v0.18.0...v0.18.1) (2022-03-25)
 
 
+### Features
+
+* feat: add "or undefined" explicitly to support exactOptionalPropertyTypes (https://github.com/aspida/pathpida/pull/129)
+
+
 ### Bug Fixes
 
 * fix: stringify to enclose path name into quotations (https://github.com/aspida/pathpida/pull/127)
