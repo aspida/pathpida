@@ -14,32 +14,32 @@ type Query2 = {
 
 export const pagesPath = {
   _ignore: {
-    $url: (url?: { hash?: string }) => ({ path: '/.ignore/', hash: url?.hash })
+    $url: (url?: { hash?: string | undefined } | undefined) => ({ path: '/.ignore/', hash: url?.hash })
   },
   _a: (a: string | number) => ({
     b: {
-      _c: (c?: string | number) => ({
-        $url: (url?: { hash?: string }) => ({ path: `/${a}/b${c !== undefined ? `/${c}` : ''}/`, hash: url?.hash })
+      _c: (c?: string | number | undefined) => ({
+        $url: (url?: { hash?: string | undefined } | undefined) => ({ path: `/${a}/b${c !== undefined ? `/${c}` : ''}/`, hash: url?.hash })
       })
     }
   }),
-  _pid: (pid?: string | number) => ({
-    $url: (url?: { query?: OptionalQuery1, hash?: string }) => ({ path: `${pid !== undefined ? `/${pid}` : ''}/`, query: url?.query as any, hash: url?.hash })
+  _pid: (pid?: string | number | undefined) => ({
+    $url: (url?: { query?: OptionalQuery1 | undefined, hash?: string | undefined } | undefined) => ({ path: `${pid !== undefined ? `/${pid}` : ''}/`, query: url?.query as any, hash: url?.hash })
   }),
   aaa: {
     _bbb: (bbb: string | number) => ({
       ccc: {
-        $url: (url?: { hash?: string }) => ({ path: `/aaa/${bbb}/ccc/`, hash: url?.hash })
+        $url: (url?: { hash?: string | undefined } | undefined) => ({ path: `/aaa/${bbb}/ccc/`, hash: url?.hash })
       },
-      $url: (url?: { hash?: string }) => ({ path: `/aaa/${bbb}/`, hash: url?.hash })
+      $url: (url?: { hash?: string | undefined } | undefined) => ({ path: `/aaa/${bbb}/`, hash: url?.hash })
     })
   },
   blog: {
-    _slug: (slug?: string | number) => ({
-      $url: (url: { query: Query2, hash?: string }) => ({ path: `/blog${slug !== undefined ? `/${slug}` : ''}/`, query: url.query as any, hash: url.hash })
+    _slug: (slug?: string | number | undefined) => ({
+      $url: (url: { query: Query2, hash?: string | undefined }) => ({ path: `/blog${slug !== undefined ? `/${slug}` : ''}/`, query: url.query as any, hash: url.hash })
     })
   },
-  $url: (url: { query: Query0, hash?: string }) => ({ path: '/', query: url.query as any, hash: url.hash })
+  $url: (url: { query: Query0, hash?: string | undefined }) => ({ path: '/', query: url.query as any, hash: url.hash })
 }
 
 export type PagesPath = typeof pagesPath

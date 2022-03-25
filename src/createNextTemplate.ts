@@ -12,9 +12,12 @@ const createMethods = (
   slugs: Slugs,
   pathname: string
 ) =>
-  `${indent}  $url: (url${importName?.startsWith('Query') ? '' : '?'}: { ${
-    importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}, ` : ''
-  }hash?: string }) => ({ pathname: '${pathname}' as const${
+  `${indent}  $url: ` +
+  (opt =>
+    `(url${opt ? '?' : ''}: { ${
+      importName ? `query${opt ? '?' : ''}: ${importName}${opt ? ' | undefined' : ''}, ` : ''
+    }hash?: string | undefined }${opt ? ' | undefined' : ''})`)(!importName?.startsWith('Query')) +
+  ` => ({ pathname: '${pathname}' as const${
     slugs.length
       ? `, query: { ${slugs.join(', ')}${
           importName ? `, ...url${importName.startsWith('Query') ? '' : '?'}.query` : ''
@@ -77,8 +80,11 @@ export default (
 
         if (basename.startsWith('[') && basename.endsWith(']')) {
           const slug = basename.replace(/[.[\]]/g, '')
-          valFn = `${indent}${`_${slug}`}: (${slug}${basename.startsWith('[[') ? '?' : ''}: ${
-            /\[\./.test(basename) ? 'string[]' : 'string | number'
+          const opt = basename.startsWith('[[')
+          valFn = `${indent}${`_${slug}`}: (${slug}${opt ? '?' : ''}: ${
+            /\[\./.test(basename)
+              ? `string[]${opt ? ' | undefined' : ''}`
+              : `string | number${opt ? ' | undefined' : ''}`
           }) => ({\n<% next %>\n${indent}})`
           newSlugs.push(slug)
         }

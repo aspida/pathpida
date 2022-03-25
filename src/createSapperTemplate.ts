@@ -10,9 +10,12 @@ const createMethods = (
   pathname: string,
   trailingSlash: boolean
 ) =>
-  `${indent}  $url: (url${importName?.startsWith('Query') ? '' : '?'}: { ${
-    importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}, ` : ''
-  }hash?: string }) => \`${pathname}${trailingSlash || pathname === '' ? '/' : ''}${
+  `${indent}  $url: ` +
+  (opt =>
+    `(url${opt ? '?' : ''}: { ${
+      importName ? `query${opt ? '?' : ''}: ${importName}${opt ? ' | undefined' : ''}, ` : ''
+    }hash?: string | undefined }${opt ? ' | undefined' : ''})`)(!importName?.startsWith('Query')) +
+  ` => \`${pathname}${trailingSlash || pathname === '' ? '/' : ''}${
     importName
       ? importName.startsWith('Query')
         ? `?\${dataToURLString(url.query)}`

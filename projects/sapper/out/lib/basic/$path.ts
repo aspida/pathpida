@@ -31,21 +31,21 @@ export const dataToURLString = (data: Record<string, any>) =>
 
 export const pagesPath = {
   about: {
-    $url: (url?: { hash?: string }) => `/about${url?.hash ? `#${url.hash}` : ''}`
+    $url: (url?: { hash?: string | undefined } | undefined) => `/about${url?.hash ? `#${url.hash}` : ''}`
   },
   blog: {
     _slug_json: (slug: string | number) => ({
-      $url: (url: { query: Query1, hash?: string }) => `/blog/${slug}.json?${dataToURLString(url.query)}${url.hash ? `#${url.hash}` : ''}`
+      $url: (url: { query: Query1, hash?: string | undefined }) => `/blog/${slug}.json?${dataToURLString(url.query)}${url.hash ? `#${url.hash}` : ''}`
     }),
     _slug: (slug: string | number) => ({
-      $url: (url?: { hash?: string }) => `/blog/${slug}${url?.hash ? `#${url.hash}` : ''}`
+      $url: (url?: { hash?: string | undefined } | undefined) => `/blog/${slug}${url?.hash ? `#${url.hash}` : ''}`
     }),
-    $url: (url?: { query?: OptionalQuery0, hash?: string }) => `/blog${url?.query ? `?${dataToURLString(url.query)}` : ''}${url?.hash ? `#${url.hash}` : ''}`
+    $url: (url?: { query?: OptionalQuery0 | undefined, hash?: string | undefined } | undefined) => `/blog${url?.query ? `?${dataToURLString(url.query)}` : ''}${url?.hash ? `#${url.hash}` : ''}`
   },
   blog_json: {
-    $url: (url?: { hash?: string }) => `/blog.json${url?.hash ? `#${url.hash}` : ''}`
+    $url: (url?: { hash?: string | undefined } | undefined) => `/blog.json${url?.hash ? `#${url.hash}` : ''}`
   },
-  $url: (url?: { hash?: string }) => `/${url?.hash ? `#${url.hash}` : ''}`
+  $url: (url?: { hash?: string | undefined } | undefined) => `/${url?.hash ? `#${url.hash}` : ''}`
 }
 
 export type PagesPath = typeof pagesPath
