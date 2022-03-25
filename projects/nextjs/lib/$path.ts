@@ -3,11 +3,14 @@ import type { OptionalQuery as OptionalQuery1 } from '../pages/[pid]'
 import type { Query as Query2 } from '../pages/blog/[...slug]'
 
 export const pagesPath = {
-  _ignore: {
+  "%E6%97%A5%E6%9C%AC%E8%AA%9E": {
+    $url: (url?: { hash?: string }) => ({ pathname: '/%E6%97%A5%E6%9C%AC%E8%AA%9E' as const, hash: url?.hash })
+  },
+  "_ignore": {
     $url: (url?: { hash?: string }) => ({ pathname: '/.ignore' as const, hash: url?.hash })
   },
   _a: (a: string | number) => ({
-    b: {
+    "b": {
       _c: (c: string[]) => ({
         $url: (url?: { hash?: string }) => ({ pathname: '/[a]/b/[...c]' as const, query: { a, c }, hash: url?.hash })
       })
@@ -16,33 +19,33 @@ export const pagesPath = {
   _pid: (pid: string | number) => ({
     $url: (url?: { query?: OptionalQuery1, hash?: string }) => ({ pathname: '/[pid]' as const, query: { pid, ...url?.query }, hash: url?.hash })
   }),
-  aaa: {
+  "aaa": {
     _bbb: (bbb: string[]) => ({
-      ccc: {
+      "ccc": {
         $url: (url?: { hash?: string }) => ({ pathname: '/aaa/[...bbb]/ccc' as const, query: { bbb }, hash: url?.hash })
       }
     }),
-    api: {
-      samples: {
+    "api": {
+      "samples": {
         $url: (url?: { hash?: string }) => ({ pathname: '/aaa/api/samples' as const, hash: url?.hash })
       }
     }
   },
-  blog: {
+  "blog": {
     _slug: (slug: string[]) => ({
       $url: (url: { query: Query2, hash?: string }) => ({ pathname: '/blog/[...slug]' as const, query: { slug, ...url.query }, hash: url.hash })
     }),
-    hoge: {
+    "hoge": {
       _fuga: (fuga?: string[]) => ({
         $url: (url?: { hash?: string }) => ({ pathname: '/blog/hoge/[[...fuga]]' as const, query: { fuga }, hash: url?.hash })
       })
     }
   },
-  x: {
+  "x": {
     $url: (url?: { hash?: string }) => ({ pathname: '/x' as const, hash: url?.hash }),
     _y: (y: string | number) => ({
       $url: (url?: { hash?: string }) => ({ pathname: '/x/[y]' as const, query: { y }, hash: url?.hash }),
-      z: {
+      "z": {
         $url: (url?: { hash?: string }) => ({ pathname: '/x/[y]/z' as const, query: { y }, hash: url?.hash })
       }
     })
