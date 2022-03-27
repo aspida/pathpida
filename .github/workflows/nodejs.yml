@@ -28,6 +28,7 @@ jobs:
         if: steps.yarn-cache.outputs.cache-hit != 'true'
       - run: yarn lint
         if: matrix.os != 'windows-latest'
+      - run: yarn build
       - run: yarn typecheck
       - run: yarn test --coverage
       - run: npx codecov
