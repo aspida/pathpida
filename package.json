@@ -8,7 +8,7 @@
   "bin": "bin/index.js",
   "scripts": {
     "dev": "npm run build && ts-node projects/build.ts",
-    "build": "npm run rimraf && tsc",
+    "build": "npm run rimraf && tsc && node ./buildConstructAsPath.js",
     "rimraf": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "lint": "eslint --ext .ts . && prettier --check \"./**/*.ts\"",
     "lint:fix": "eslint --ext .ts . --fix && prettier --write \"./**/*.ts\"",
@@ -80,6 +80,8 @@
   },
   "dependencies": {
     "chokidar": "^3.5.3",
+    "esbuild": "^0.14.27",
+    "esbuild-node-externals": "^1.4.1",
     "ignore": "^5.2.0",
     "minimist": "^1.2.5"
   },

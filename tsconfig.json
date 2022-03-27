@@ -15,5 +15,6 @@
     "strictPropertyInitialization": false,
     "target": "es5"
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["src/constructAsPath.ts"]
 }

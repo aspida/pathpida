@@ -6,40 +6,6 @@ import { replaceWithUnderscore } from './replaceWithUnderscore'
 
 type Slugs = string[]
 
-const asPathMethodsText = `const omitParmsFromQuery = (query: ParsedUrlQuery, params: string[]) => {
-  const filteredQuery: ParsedUrlQuery = {};
-
-  Object.keys(query).forEach((key) => {
-    if (!params.includes(key)) {
-      filteredQuery[key] = query[key];
-    }
-  });
-  return filteredQuery;
-}
-
-const objToAsPath = (url: UrlObject) => {
-  let interpolatedAs = '';
-
-  const { result, params } = interpolateAs(
-    url.pathname,
-    url.pathname,
-    url.query as ParsedUrlQuery,
-  );
-
-  if (result) {
-    interpolatedAs = formatUrl({
-      pathname: result,
-      hash: url.hash,
-      query:
-        url.query && typeof url.query !== 'string'
-          ? omitParmsFromQuery(url.query as ParsedUrlQuery, params)
-          : url.query,
-    });
-  }
-
-  return interpolatedAs;
-};`
-
 const createMethods = (
   indent: string,
   importName: string | undefined,
@@ -80,12 +46,7 @@ export default (
   const regExpChunk = `\\.(${pageExtensions.join('|').replace(/\./g, '\\.')})$`
   const indexPageRegExp = new RegExp(`^index${regExpChunk}`)
   const pageExtRegExp = new RegExp(regExpChunk)
-  const imports: string[] = [
-    `import { formatUrl } from 'next/dist/shared/lib/router/utils/format-url';`,
-    `import { interpolateAs } from 'next/dist/shared/lib/router/router';`,
-    `import type { ParsedUrlQuery } from 'querystring';`,
-    `import type { UrlObject } from 'url';`
-  ]
+  const imports: string[] = ["import type { UrlObject } from 'url'"]
   const getImportName = (file: string) => {
     const result = parseQueryFromTS(output, file, imports.length)
 
@@ -205,8 +166,11 @@ export default (
 
   const text = createPathObjString(input, rootIndent, '', [], `{\n<% props %>\n}`, rootMethods)
 
-  return `${imports.join('\n')}\n\n${asPathMethodsText}${
+  const fileData = fs.readFileSync(path.resolve(__dirname, '../dist/outConstructAsPath.js'), 'utf8')
+  const objToAsPath = `let objToAsPath:(arg: UrlObject) => string;\n// @ts-ignore\n// eslint-disable-next-line\n// prettier-ignore\n${fileData}`
+
+  return `${imports.join('\n')}${
     imports.length ? '\n\n' : ''
-  }export const pagesPath = ${text}\n\nexport type PagesPath = typeof pagesPath
+  }${objToAsPath}\n\nexport const pagesPath = ${text}\n\nexport type PagesPath = typeof pagesPath
 `
 }
