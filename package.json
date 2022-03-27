@@ -8,10 +8,12 @@
   "bin": "bin/index.js",
   "scripts": {
     "dev": "npm run build && ts-node projects/build.ts",
-    "build": "npm run rimraf && tsc",
+    "build": "npm run rimraf && tsc && npm run build:asPath",
+    "build:asPath": "node ./buildConstructAsPath.js",
     "rimraf": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "lint": "eslint --ext .ts . && prettier --check \"./**/*.ts\"",
     "lint:fix": "eslint --ext .ts . --fix && prettier --write \"./**/*.ts\"",
+    "pretest": "npm run build:asPath",
     "test": "jest",
     "typecheck": "tsc --noEmit"
   },
@@ -89,6 +91,7 @@
     "@types/minimist": "^1.2.2",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",
+    "esbuild": "^0.14.28",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.4.0",
     "eslint-config-standard": "^16.0.3",

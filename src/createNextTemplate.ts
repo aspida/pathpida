@@ -22,7 +22,19 @@ const createMethods = (
       : importName
       ? `, query: url${importName.startsWith('Query') ? '' : '?'}.query`
       : ''
-  }, hash: url${importName?.startsWith('Query') ? '' : '?'}.hash })`
+  }, hash: url${importName?.startsWith('Query') ? '' : '?'}.hash }),\n${indent}  $asPath: (url${
+    importName?.startsWith('Query') ? '' : '?'
+  }: { ${
+    importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}, ` : ''
+  }hash?: string }) => (objToAsPath({ pathname: '${pathname}' as const${
+    slugs.length
+      ? `, query: { ${slugs.join(', ')}${
+          importName ? `, ...url${importName.startsWith('Query') ? '' : '?'}.query` : ''
+        } }`
+      : importName
+      ? `, query: url${importName.startsWith('Query') ? '' : '?'}.query`
+      : ''
+  }, hash: url${importName?.startsWith('Query') ? '' : '?'}.hash }))`
 
 export default (
   input: string,
@@ -34,7 +46,7 @@ export default (
   const regExpChunk = `\\.(${pageExtensions.join('|').replace(/\./g, '\\.')})$`
   const indexPageRegExp = new RegExp(`^index${regExpChunk}`)
   const pageExtRegExp = new RegExp(regExpChunk)
-  const imports: string[] = []
+  const imports: string[] = ["import type { UrlObject } from 'url'"]
   const getImportName = (file: string) => {
     const result = parseQueryFromTS(output, file, imports.length)
 
@@ -156,8 +168,11 @@ export default (
 
   const text = createPathObjString(input, rootIndent, '', [], `{\n<% props %>\n}`, rootMethods)
 
+  const fileData = fs.readFileSync(path.resolve(__dirname, '../dist/outConstructAsPath.js'), 'utf8')
+  const objToAsPath = `let objToAsPath:(arg: UrlObject) => string;\n// @ts-ignore\n// eslint-disable-next-line\n// prettier-ignore\n${fileData}`
+
   return `${imports.join('\n')}${
     imports.length ? '\n\n' : ''
-  }export const pagesPath = ${text}\n\nexport type PagesPath = typeof pagesPath
+  }${objToAsPath}\n\nexport const pagesPath = ${text}\n\nexport type PagesPath = typeof pagesPath
 `
 }
