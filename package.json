@@ -80,8 +80,6 @@
   },
   "dependencies": {
     "chokidar": "^3.5.3",
-    "esbuild": "^0.14.27",
-    "esbuild-node-externals": "^1.4.1",
     "ignore": "^5.2.0",
     "minimist": "^1.2.5"
   },
@@ -91,6 +89,7 @@
     "@types/minimist": "^1.2.2",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",
+    "esbuild": "^0.14.28",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.4.0",
     "eslint-config-standard": "^16.0.3",
