@@ -8,12 +8,12 @@ let objToAsPath:(arg: UrlObject) => string;
 
 
 export const pagesPath = {
-  custom_ext: {
-    hello: {
+  "custom_ext": {
+    "hello": {
       $url: (url?: { hash?: string }) => ({ pathname: '/custom-ext/hello' as const, hash: url?.hash }),
       $asPath: (url?: { hash?: string }) => (objToAsPath({ pathname: '/custom-ext/hello' as const, hash: url?.hash }))
     },
-    post: {
+    "post": {
       _id: (id: string | number) => ({
         $url: (url?: { hash?: string }) => ({ pathname: '/custom-ext/post/[id]' as const, query: { id }, hash: url?.hash }),
         $asPath: (url?: { hash?: string }) => (objToAsPath({ pathname: '/custom-ext/post/[id]' as const, query: { id }, hash: url?.hash }))

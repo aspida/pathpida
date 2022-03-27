@@ -11,12 +11,16 @@ let objToAsPath:(arg: UrlObject) => string;
 
 
 export const pagesPath = {
-  _ignore: {
+  "%E6%97%A5%E6%9C%AC%E8%AA%9E": {
+    $url: (url?: { hash?: string }) => ({ pathname: '/%E6%97%A5%E6%9C%AC%E8%AA%9E' as const, hash: url?.hash }),
+    $asPath: (url?: { hash?: string }) => (objToAsPath({ pathname: '/%E6%97%A5%E6%9C%AC%E8%AA%9E' as const, hash: url?.hash }))
+  },
+  "_ignore": {
     $url: (url?: { hash?: string }) => ({ pathname: '/.ignore' as const, hash: url?.hash }),
     $asPath: (url?: { hash?: string }) => (objToAsPath({ pathname: '/.ignore' as const, hash: url?.hash }))
   },
   _a: (a: string | number) => ({
-    b: {
+    "b": {
       _c: (c: string[]) => ({
         $url: (url?: { hash?: string }) => ({ pathname: '/[a]/b/[...c]' as const, query: { a, c }, hash: url?.hash }),
         $asPath: (url?: { hash?: string }) => (objToAsPath({ pathname: '/[a]/b/[...c]' as const, query: { a, c }, hash: url?.hash }))
@@ -27,39 +31,39 @@ export const pagesPath = {
     $url: (url?: { query?: OptionalQuery2, hash?: string }) => ({ pathname: '/[pid]' as const, query: { pid, ...url?.query }, hash: url?.hash }),
     $asPath: (url?: { query?: OptionalQuery2, hash?: string }) => (objToAsPath({ pathname: '/[pid]' as const, query: { pid, ...url?.query }, hash: url?.hash }))
   }),
-  aaa: {
+  "aaa": {
     _bbb: (bbb: string[]) => ({
-      ccc: {
+      "ccc": {
         $url: (url?: { hash?: string }) => ({ pathname: '/aaa/[...bbb]/ccc' as const, query: { bbb }, hash: url?.hash }),
         $asPath: (url?: { hash?: string }) => (objToAsPath({ pathname: '/aaa/[...bbb]/ccc' as const, query: { bbb }, hash: url?.hash }))
       }
     }),
-    api: {
-      samples: {
+    "api": {
+      "samples": {
         $url: (url?: { hash?: string }) => ({ pathname: '/aaa/api/samples' as const, hash: url?.hash }),
         $asPath: (url?: { hash?: string }) => (objToAsPath({ pathname: '/aaa/api/samples' as const, hash: url?.hash }))
       }
     }
   },
-  blog: {
+  "blog": {
     _slug: (slug: string[]) => ({
       $url: (url: { query: Query3, hash?: string }) => ({ pathname: '/blog/[...slug]' as const, query: { slug, ...url.query }, hash: url.hash }),
       $asPath: (url: { query: Query3, hash?: string }) => (objToAsPath({ pathname: '/blog/[...slug]' as const, query: { slug, ...url.query }, hash: url.hash }))
     }),
-    hoge: {
+    "hoge": {
       _fuga: (fuga?: string[]) => ({
         $url: (url?: { hash?: string }) => ({ pathname: '/blog/hoge/[[...fuga]]' as const, query: { fuga }, hash: url?.hash }),
         $asPath: (url?: { hash?: string }) => (objToAsPath({ pathname: '/blog/hoge/[[...fuga]]' as const, query: { fuga }, hash: url?.hash }))
       })
     }
   },
-  x: {
+  "x": {
     $url: (url?: { hash?: string }) => ({ pathname: '/x' as const, hash: url?.hash }),
     $asPath: (url?: { hash?: string }) => (objToAsPath({ pathname: '/x' as const, hash: url?.hash })),
     _y: (y: string | number) => ({
       $url: (url?: { hash?: string }) => ({ pathname: '/x/[y]' as const, query: { y }, hash: url?.hash }),
       $asPath: (url?: { hash?: string }) => (objToAsPath({ pathname: '/x/[y]' as const, query: { y }, hash: url?.hash })),
-      z: {
+      "z": {
         $url: (url?: { hash?: string }) => ({ pathname: '/x/[y]/z' as const, query: { y }, hash: url?.hash }),
         $asPath: (url?: { hash?: string }) => (objToAsPath({ pathname: '/x/[y]/z' as const, query: { y }, hash: url?.hash }))
       }
