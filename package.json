@@ -95,7 +95,7 @@
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-jest": "^26.1.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-promise": "^5.2.0",
     "eslint-plugin-standard": "^5.0.0",
     "jest": "^27.1.0",
     "next": "^11.1.0",
