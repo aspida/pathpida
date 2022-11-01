@@ -81,7 +81,7 @@
   "dependencies": {
     "chokidar": "^3.5.3",
     "ignore": "^5.2.0",
-    "minimist": "^1.2.5"
+    "minimist": "^1.2.7"
   },
   "devDependencies": {
     "@nuxt/config": "^2.15.8",
