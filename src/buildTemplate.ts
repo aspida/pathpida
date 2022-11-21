@@ -30,11 +30,19 @@ export default (
   const emptyPathRegExp = /\n.+{\n+ +}.*/
 
   if (mode !== 'static') {
-    let text = {
-      nextjs: () => createNextTemplate(input, output, ignorePath, appDir, pageExtensions),
-      nuxtjs: () => createNuxtTemplate(input, output, ignorePath, trailingSlash),
-      sapper: () => createSapperTemplate(input, output, ignorePath)
-    }[type]()
+    let text = ''
+
+    switch (type) {
+      case 'nextjs':
+        text = createNextTemplate(input, output, ignorePath, appDir, pageExtensions)
+        break
+      case 'nuxtjs':
+        text = createNuxtTemplate(input, output, ignorePath, trailingSlash)
+        break
+      case 'sapper':
+        text = createSapperTemplate(input, output, ignorePath)
+        break
+    }
 
     while (emptyPathRegExp.test(text)) {
       text = text.replace(emptyPathRegExp, '')

@@ -39,17 +39,30 @@ describe('cli test', () => {
 
       const result = fs.readFileSync(`${output}/$path.ts`, 'utf8')
       const basepath = /-basepath$/.test(project.dir) ? '/foo/bar' : undefined
-      const { filePath, text } = build({
-        type,
-        input,
-        staticDir,
-        output,
-        ignorePath,
-        pageExtensions,
-        trailingSlash,
-        appDir,
-        basepath
-      })
+      const { filePath, text } = build(
+        type === 'nextjs'
+          ? {
+              type,
+              input,
+              staticDir,
+              output,
+              ignorePath,
+              pageExtensions,
+              trailingSlash,
+              appDir,
+              basepath
+            }
+          : {
+              type,
+              input,
+              staticDir,
+              output,
+              ignorePath,
+              pageExtensions,
+              trailingSlash,
+              basepath
+            }
+      )
 
       expect(filePath).toBe(`${output}/$path.ts`)
       expect(
