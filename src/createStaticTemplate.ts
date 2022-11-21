@@ -3,7 +3,11 @@ import path from 'path'
 import { createIg, isIgnored } from './isIgnored'
 import { replaceWithUnderscore } from './replaceWithUnderscore'
 
-export default (input: string, basepath: string | undefined, ignorePath: string | undefined) => {
+export const createStaticTemplate = (
+  input: string,
+  basepath: string | undefined,
+  ignorePath: string | undefined
+) => {
   const ig = createIg(ignorePath)
   const createPublicString = (targetDir: string, indent: string, url: string, text: string) => {
     indent += '  '
@@ -48,7 +52,7 @@ export default (input: string, basepath: string | undefined, ignorePath: string 
     input,
     '',
     typeof basepath === 'string' ? basepath.replace(/\/+$/, '') : '',
-    `{\n<% props %>\n} as const`
+    '{\n<% props %>\n} as const'
   )
 
   return `\nexport const staticPath = ${text}\n\nexport type StaticPath = typeof staticPath\n`

@@ -1,9 +1,9 @@
 import path from 'path'
-import createNextTemplate from './createNextTemplate'
-import createNuxtTemplate from './createNuxtTemplate'
-import createSapperTemplate from './createSapperTemplate'
-import createStaticTemplate from './createStaticTemplate'
+import { createNuxtTemplate } from './createNuxtTemplate'
+import { createSapperTemplate } from './createSapperTemplate'
+import { createStaticTemplate } from './createStaticTemplate'
 import type { Config } from './getConfig'
+import { createNextTemplate } from './nextjs/createNextTemplate'
 
 let prevPagesText = ''
 let prevStaticText = ''
@@ -14,14 +14,24 @@ export const resetCache = () => {
 }
 
 export default (
-  { type, input, staticDir, output, ignorePath, trailingSlash, basepath, pageExtensions }: Config,
+  {
+    type,
+    input,
+    staticDir,
+    output,
+    ignorePath,
+    trailingSlash,
+    basepath,
+    pageExtensions,
+    appDir
+  }: Config,
   mode?: 'pages' | 'static'
 ) => {
   const emptyPathRegExp = /\n.+{\n+ +}.*/
 
   if (mode !== 'static') {
     let text = {
-      nextjs: () => createNextTemplate(input, output, ignorePath, pageExtensions),
+      nextjs: () => createNextTemplate(input, output, ignorePath, appDir, pageExtensions),
       nuxtjs: () => createNuxtTemplate(input, output, ignorePath, trailingSlash),
       sapper: () => createSapperTemplate(input, output, ignorePath)
     }[type]()

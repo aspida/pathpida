@@ -55,7 +55,7 @@ const parseQueryFromSvelte = (file: string, suffix: number) => {
   }
 }
 
-export default (
+export const createSapperTemplate = (
   input: string,
   output: string,
   ignorePath: string | undefined,
@@ -194,7 +194,7 @@ export default (
     )
   }
 
-  const text = createPathObjString(input, '.', rootIndent, '', `{\n<% props %>\n}`, rootMethods)
+  const text = createPathObjString(input, '.', rootIndent, '', '{\n<% props %>\n}', rootMethods)
   const importsText = imports.filter(i => i.startsWith('import')).join('\n')
   const queriesText = imports.filter(i => !i.startsWith('import')).join('\n')
 

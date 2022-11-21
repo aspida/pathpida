@@ -1,5 +1,5 @@
 import fs from 'fs'
-import type { NextConfig } from 'next/dist/server/config'
+// import type { NextConfig } from 'next/dist/server/config'
 import path from 'path'
 
 export type Config = {
@@ -8,6 +8,7 @@ export type Config = {
   staticDir: string | undefined
   output: string
   ignorePath: string | undefined
+  appDir?: { input: string }
   trailingSlash?: boolean
   basepath?: string
   pageExtensions?: string[]
@@ -30,7 +31,7 @@ export default async (
   const ignorePath = igPath && path.join(dir, igPath)
 
   if (type === 'nextjs') {
-    let config: NextConfig
+    let config /*: NextConfig */
 
     try {
       // >= v11.1.0
@@ -61,6 +62,7 @@ export default async (
       staticDir: enableStatic ? path.posix.join(dir, 'public') : undefined,
       output,
       ignorePath,
+      appDir: config.experimental?.appDir ? { input: path.posix.join(srcDir, 'app') } : undefined,
       pageExtensions: config.pageExtensions,
       basepath: config.basePath
     }
