@@ -1,12 +1,12 @@
 import fs from 'fs'
 import path from 'path'
-import { createIg, isIgnored } from './isIgnored'
-import { parseQueryFromTS } from './parseQueryFromTS'
-import { replaceWithUnderscore } from './replaceWithUnderscore'
+import { createIg, isIgnored } from '../isIgnored'
+import { parseQueryFromTS } from '../parseQueryFromTS'
+import { replaceWithUnderscore } from '../replaceWithUnderscore'
 
-type Slugs = string[]
+export type Slugs = string[]
 
-const createMethods = (
+export const createMethods = (
   indent: string,
   importName: string | undefined,
   slugs: Slugs,
@@ -24,19 +24,20 @@ const createMethods = (
       : ''
   }, hash: url${importName?.startsWith('Query') ? '' : '?'}.hash })`
 
-export default (
+export const parsePagesDir = (
   input: string,
   output: string,
   ignorePath: string | undefined,
-  pageExtensions = ['tsx', 'ts', 'jsx', 'js']
-) => {
+  pageExtensions = ['tsx', 'ts', 'jsx', 'js'],
+  appDirQueryLength: number
+): { imports: string[]; text: string } => {
   const ig = createIg(ignorePath)
   const regExpChunk = `\\.(${pageExtensions.join('|').replace(/\./g, '\\.')})$`
   const indexPageRegExp = new RegExp(`^index${regExpChunk}`)
   const pageExtRegExp = new RegExp(regExpChunk)
   const imports: string[] = []
   const getImportName = (file: string) => {
-    const result = parseQueryFromTS(output, file, imports.length)
+    const result = parseQueryFromTS(output, file, appDirQueryLength + imports.length)
 
     if (result) {
       imports.push(result.importString)
@@ -59,7 +60,6 @@ export default (
       .filter(file =>
         [
           !file.startsWith('_'),
-          !/\.s?css$/.test(file),
           !file.endsWith('.d.ts'),
           `${url}/${file}` !== '/api',
           !isIgnored(ig, ignorePath, targetDir, file),
@@ -154,10 +154,7 @@ export default (
     )
   }
 
-  const text = createPathObjString(input, rootIndent, '', [], `{\n<% props %>\n}`, rootMethods)
+  const text = createPathObjString(input, rootIndent, '', [], '<% props %>', rootMethods)
 
-  return `${imports.join('\n')}${
-    imports.length ? '\n\n' : ''
-  }export const pagesPath = ${text}\n\nexport type PagesPath = typeof pagesPath
-`
+  return { imports, text }
 }
