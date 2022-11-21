@@ -62,7 +62,7 @@ export default async (
       staticDir: enableStatic ? path.posix.join(dir, 'public') : undefined,
       output,
       ignorePath,
-      appDir: config.experimental?.appDir ? { input: path.posix.join(srcDir, 'app') } : undefined,
+      appDir: config.experimental?.appDir ? { input: path.posix.join(dir, 'app') } : undefined,
       pageExtensions: config.pageExtensions,
       basepath: config.basePath
     }
