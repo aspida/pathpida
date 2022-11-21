@@ -2,63 +2,66 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [0.18.1](https://github.com/aspida/pathpida/compare/v0.18.0...v0.18.1) (2022-03-25)
-
+## [0.19.1](https://github.com/aspida/pathpida/compare/v0.19.0...v0.19.1) (2022-11-22)
 
 ### Bug Fixes
 
-* fix: stringify to enclose path name into quotations (https://github.com/aspida/pathpida/pull/127)
+- input path of appDir (https://github.com/aspida/pathpida/pull/148)
 
+## [0.19.0](https://github.com/aspida/pathpida/compare/v0.18.1...v0.19.0) (2022-11-22)
+
+### Features
+
+- support appDir of Nextjs (https://github.com/aspida/pathpida/pull/146)
+
+## [0.18.1](https://github.com/aspida/pathpida/compare/v0.18.0...v0.18.1) (2022-03-25)
+
+### Bug Fixes
+
+- fix: stringify to enclose path name into quotations (https://github.com/aspida/pathpida/pull/127)
 
 ## [0.18.0](https://github.com/aspida/pathpida/compare/v0.17.0...v0.18.0) (2022-02-24)
 
-
 ### Features
 
-* use type-only imports for types (https://github.com/aspida/pathpida/pull/113)
-
+- use type-only imports for types (https://github.com/aspida/pathpida/pull/113)
 
 ### Refactoring
 
-* remove eslint-disable and prettier-ignore directives. please add `$*.ts` pattern to your `.prettierignore` and `.eslintignore` by yourself. (https://github.com/aspida/pathpida/pull/116)
+- remove eslint-disable and prettier-ignore directives. please add `$*.ts` pattern to your `.prettierignore` and `.eslintignore` by yourself. (https://github.com/aspida/pathpida/pull/116)
 
 ## [0.17.0](https://github.com/aspida/pathpida/compare/v0.16.0...v0.17.0) (2021-08-29)
 
-
 ### Features
 
-* support pageExtensions for nextjs ([5586235](https://github.com/aspida/pathpida/commit/5586235218f277fb4c122c0879d33959975dfb37))
+- support pageExtensions for nextjs ([5586235](https://github.com/aspida/pathpida/commit/5586235218f277fb4c122c0879d33959975dfb37))
 
 ## [0.16.0](https://github.com/aspida/pathpida/compare/v0.15.5...v0.16.0) (2021-08-19)
 
-
 ### Features
 
-* add ignorePath option ([4fb9d43](https://github.com/aspida/pathpida/commit/4fb9d43d21a655fd0e66f7ce69b429eddc7a3d23))
-* add output option ([97c107c](https://github.com/aspida/pathpida/commit/97c107c820634d39b6864e65103a0ca6ce1ae775))
+- add ignorePath option ([4fb9d43](https://github.com/aspida/pathpida/commit/4fb9d43d21a655fd0e66f7ce69b429eddc7a3d23))
+- add output option ([97c107c](https://github.com/aspida/pathpida/commit/97c107c820634d39b6864e65103a0ca6ce1ae775))
 
 ### [0.15.5](https://github.com/aspida/pathpida/compare/v0.15.4...v0.15.5) (2021-08-12)
 
-
 ### Bug Fixes
 
-* change next config path for v11.1.0 ([7d85387](https://github.com/aspida/pathpida/commit/7d85387bc142c2cb92a13d9516c2b0b0c5642700))
-* ignore typed-css-modules files ([300c8a3](https://github.com/aspida/pathpida/commit/300c8a3ff40b1a3c5d358619fc0fbd24107825c4))
+- change next config path for v11.1.0 ([7d85387](https://github.com/aspida/pathpida/commit/7d85387bc142c2cb92a13d9516c2b0b0c5642700))
+- ignore typed-css-modules files ([300c8a3](https://github.com/aspida/pathpida/commit/300c8a3ff40b1a3c5d358619fc0fbd24107825c4))
 
 ### [0.15.4](https://github.com/aspida/pathpida/compare/v0.15.3...v0.15.4) (2021-07-22)
 
-
 ### Bug Fixes
 
-* create plugins dir of nuxt if not exists ([196b11a](https://github.com/aspida/pathpida/commit/196b11abc1afa77728541a9f397138664f2a5a55))
-* move next and nuxt to devDependencies ([2b50643](https://github.com/aspida/pathpida/commit/2b5064383fc5093a438b4faad0738131503e5238))
+- create plugins dir of nuxt if not exists ([196b11a](https://github.com/aspida/pathpida/commit/196b11abc1afa77728541a9f397138664f2a5a55))
+- move next and nuxt to devDependencies ([2b50643](https://github.com/aspida/pathpida/commit/2b5064383fc5093a438b4faad0738131503e5238))
 
 ### [0.15.3](https://github.com/aspida/pathpida/compare/v0.15.2...v0.15.3) (2021-07-17)
 
-
 ### Bug Fixes
 
-* update dependencies ([990d42a](https://github.com/aspida/pathpida/commit/990d42ac031e5be17e37b543a720d8c074d7a0bb))
+- update dependencies ([990d42a](https://github.com/aspida/pathpida/commit/990d42ac031e5be17e37b543a720d8c074d7a0bb))
 
 ### [0.15.2](https://github.com/aspida/pathpida/compare/v0.15.1...v0.15.2) (2021-05-22)
 
