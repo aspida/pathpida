@@ -20,7 +20,14 @@ export const run = async (args: string[]) => {
           argv.ignorePath
         )
         write(build(config))
-        watch(config.input, () => write(build(config, 'pages')))
+
+        if (config.type === 'nextjs') {
+          config.input && watch(config.input, () => write(build(config, 'pages')))
+          config.appDir && watch(config.appDir.input, () => write(build(config, 'pages')))
+        } else {
+          watch(config.input, () => write(build(config, 'pages')))
+        }
+
         config.staticDir && watch(config.staticDir, () => write(build(config, 'static')))
       })()
     : write(build(await getConfig(argv.enableStatic !== undefined, argv.output, argv.ignorePath)))

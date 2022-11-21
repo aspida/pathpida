@@ -2,13 +2,13 @@ import fs from 'fs'
 // import type { NextConfig } from 'next/dist/server/config'
 import path from 'path'
 
-export type Config = {
-  type: 'nextjs' | 'nuxtjs' | 'sapper'
-  input: string
+export type Config = (
+  | { type: 'nextjs'; input: string | undefined; appDir?: { input: string } }
+  | { type: 'nuxtjs' | 'sapper'; input: string; appDir?: undefined }
+) & {
   staticDir: string | undefined
   output: string
   ignorePath: string | undefined
-  appDir?: { input: string }
   trailingSlash?: boolean
   basepath?: string
   pageExtensions?: string[]
@@ -58,9 +58,11 @@ export default async (
 
     if (!fs.existsSync(output)) fs.mkdirSync(output)
 
+    const inputDir = path.posix.join(srcDir, 'pages')
+
     return {
       type,
-      input: path.posix.join(srcDir, 'pages'),
+      input: fs.existsSync(inputDir) ? inputDir : undefined,
       staticDir: enableStatic ? path.posix.join(dir, 'public') : undefined,
       output,
       ignorePath,

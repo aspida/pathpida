@@ -1,24 +1,19 @@
-import { Config } from '../getConfig'
 import { parseAppDir } from './parseAppDir'
 import { parsePagesDir } from './parsePagesDir'
 
 export const createNextTemplate = (
-  input: string,
+  input: string | undefined,
   output: string,
   ignorePath: string | undefined,
-  appDir: Config['appDir'],
+  appDir: { input: string } | undefined,
   pageExtensions = ['tsx', 'ts', 'jsx', 'js']
 ): string => {
   const appDirData = appDir
     ? parseAppDir(appDir.input, output, ignorePath)
     : { imports: [], text: '' }
-  const pagesDir = parsePagesDir(
-    input,
-    output,
-    ignorePath,
-    pageExtensions,
-    appDirData.imports.length
-  )
+  const pagesDir = input
+    ? parsePagesDir(input, output, ignorePath, pageExtensions, appDirData.imports.length)
+    : { imports: [], text: '' }
   const imports = [...appDirData.imports, ...pagesDir.imports]
 
   return `${imports.join('\n')}${imports.length ? '\n\n' : ''}export const pagesPath = {\n${
