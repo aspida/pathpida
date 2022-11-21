@@ -47,7 +47,9 @@ export default async (
       )
     }
 
-    const srcDir = fs.existsSync(path.posix.join(dir, 'pages')) ? dir : path.posix.join(dir, 'src')
+    const srcDir = fs.existsSync(path.posix.join(dir, 'src/pages'))
+      ? path.posix.join(dir, 'src')
+      : dir
 
     if (!output) {
       const utilsPath = path.join(srcDir, 'utils')
