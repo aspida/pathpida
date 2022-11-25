@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.20.0](https://github.com/aspida/pathpida/compare/v0.19.3...v0.20.0) (2022-11-25)
+
+### Features
+
+- remove sapper (https://github.com/aspida/pathpida/pull/151)
+
 ## [0.19.3](https://github.com/aspida/pathpida/compare/v0.19.2...v0.19.3) (2022-11-22)
 
 ### Bug Fixes
