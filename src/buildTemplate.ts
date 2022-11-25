@@ -1,6 +1,5 @@
 import path from 'path'
 import { createNuxtTemplate } from './createNuxtTemplate'
-import { createSapperTemplate } from './createSapperTemplate'
 import { createStaticTemplate } from './createStaticTemplate'
 import type { Config } from './getConfig'
 import { createNextTemplate } from './nextjs/createNextTemplate'
@@ -38,9 +37,6 @@ export default (
         break
       case 'nuxtjs':
         text = createNuxtTemplate(input, output, ignorePath, trailingSlash)
-        break
-      case 'sapper':
-        text = createSapperTemplate(input, output, ignorePath)
         break
     }
 

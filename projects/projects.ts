@@ -7,8 +7,7 @@ export const projects = [
   { dir: 'nuxtjs', output: 'plugins/util', nodeVer: 14 },
   { dir: 'nuxtjs-basepath', output: 'plugins/util', nodeVer: 14 },
   { dir: 'nuxtjs-no-slash', output: 'plugins/util', nodeVer: 14 },
-  { dir: 'nuxtjs-src', output: 'client/plugins/util', nodeVer: 14 },
-  { dir: 'sapper', output: 'out/lib', nodeVer: 14 }
+  { dir: 'nuxtjs-src', output: 'client/plugins/util', nodeVer: 14 }
 ].flatMap(
   (
     project

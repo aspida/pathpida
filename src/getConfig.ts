@@ -4,7 +4,7 @@ import path from 'path'
 
 export type Config = (
   | { type: 'nextjs'; input: string | undefined; appDir?: { input: string } }
-  | { type: 'nuxtjs' | 'sapper'; input: string; appDir?: undefined }
+  | { type: 'nuxtjs'; input: string; appDir?: undefined }
 ) & {
   staticDir: string | undefined
   output: string
@@ -18,7 +18,7 @@ const getFrameworkType = (dir: string) => {
   const packageJson = JSON.parse(fs.readFileSync(path.join(dir, 'package.json'), 'utf8'))
   const deps = Object.assign(packageJson.devDependencies ?? {}, packageJson.dependencies ?? {})
 
-  return deps.sapper ? 'sapper' : deps.nuxt ? 'nuxtjs' : 'nextjs'
+  return deps.nuxt ? 'nuxtjs' : 'nextjs'
 }
 
 export default async (
@@ -70,7 +70,7 @@ export default async (
       pageExtensions: config.pageExtensions,
       basepath: config.basePath
     }
-  } else if (type === 'nuxtjs') {
+  } else {
     const nuxttsPath = path.join(dir, 'nuxt.config.ts')
     const config = await require('@nuxt/config').loadNuxtConfig({
       rootDir: dir,
@@ -90,20 +90,6 @@ export default async (
       ignorePath,
       trailingSlash: config.router?.trailingSlash,
       basepath: config.router?.base
-    }
-  } else {
-    const srcDir = path.posix.join(dir, 'src')
-
-    output = output ?? path.join(srcDir, 'node_modules')
-
-    if (!fs.existsSync(output)) fs.mkdirSync(output)
-
-    return {
-      type,
-      input: path.posix.join(srcDir, 'routes'),
-      staticDir: enableStatic ? path.posix.join(dir, 'static') : undefined,
-      output,
-      ignorePath
     }
   }
 }
