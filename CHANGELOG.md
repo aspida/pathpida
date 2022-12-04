@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.20.1](https://github.com/aspida/pathpida/compare/v0.20.0...v0.20.1) (2022-12-04)
+
+### Bug Fixes
+
+- support for nextjs app dir inside src dir (https://github.com/aspida/pathpida/pull/158)
+
 ## [0.20.0](https://github.com/aspida/pathpida/compare/v0.19.3...v0.20.0) (2022-11-25)
 
 ### Features
