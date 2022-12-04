@@ -47,9 +47,11 @@ export default async (
       )
     }
 
-    const srcDir = fs.existsSync(path.posix.join(dir, 'src/pages'))
-      ? path.posix.join(dir, 'src')
-      : dir
+    const srcDir =
+      fs.existsSync(path.posix.join(dir, 'src/pages')) ||
+      fs.existsSync(path.posix.join(dir, 'src/app'))
+        ? path.posix.join(dir, 'src')
+        : dir
 
     if (!output) {
       const utilsPath = path.join(srcDir, 'utils')
@@ -66,7 +68,7 @@ export default async (
       staticDir: enableStatic ? path.posix.join(dir, 'public') : undefined,
       output,
       ignorePath,
-      appDir: config.experimental?.appDir ? { input: path.posix.join(dir, 'app') } : undefined,
+      appDir: config.experimental?.appDir ? { input: path.posix.join(srcDir, 'app') } : undefined,
       pageExtensions: config.pageExtensions,
       basepath: config.basePath
     }

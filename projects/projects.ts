@@ -1,6 +1,7 @@
 export const projects = [
   { dir: 'nextjs', output: 'out/lib', nodeVer: 14 },
   { dir: 'nextjs-appdir', output: 'out/lib', nodeVer: 16 },
+  { dir: 'nextjs-src-appdir', output: 'src/out/lib', nodeVer: 16 },
   { dir: 'nextjs-basepath', output: 'out/lib', nodeVer: 14 },
   { dir: 'nextjs-custom-ext', output: 'out/lib', nodeVer: 14 },
   { dir: 'nextjs-src', output: 'src/out/lib', nodeVer: 14 },
