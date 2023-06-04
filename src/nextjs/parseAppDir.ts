@@ -3,7 +3,27 @@ import path from 'path'
 import { createIg, isIgnored } from '../isIgnored'
 import { parseQueryFromTS } from '../parseQueryFromTS'
 import { replaceWithUnderscore } from '../replaceWithUnderscore'
-import { createMethods, Slugs } from './parsePagesDir'
+import { Slugs } from './parsePagesDir'
+
+export const createMethods = (
+  indent: string,
+  importName: string | undefined,
+  slugs: Slugs,
+  pathname: string
+) =>
+  `${indent}  $url: (url${importName?.startsWith('Query') ? '' : '?'}: { ${
+    importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}, ` : ''
+  }hash?: string }) => ({ pathname: '${pathname}' as const${
+    slugs.length
+      ? `, query: { ${slugs.join(', ')}${
+          importName ? `, ...url${importName.startsWith('Query') ? '' : '?'}.query` : ''
+        } }`
+      : importName
+      ? `, query: url${importName.startsWith('Query') ? '' : '?'}.query`
+      : ''
+  }, hash: url${importName?.startsWith('Query') ? '' : '?'}.hash, path: \`${pathname
+    .replace(/\[\[?\.\.\.(.*?)\]\]?/g, `\${$1?.join('/')}`)
+    .replace(/\[(.*?)\]/g, `\${$1}`)}\${buildSuffix(url)}\` })`
 
 export const parseAppDir = (
   input: string,
@@ -122,6 +142,6 @@ export const parseAppDir = (
   }
 
   const text = createPathObjString(input, rootIndent, '', [], '<% props %>', rootMethods)
-
+  // console.log({ input, rootIndent, rootMethods, text })
   return { imports, text }
 }
