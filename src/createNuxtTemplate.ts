@@ -10,9 +10,12 @@ const createMethods = (
   pathname: string,
   trailingSlash: boolean
 ) =>
-  `${indent}  $url: (url${importName?.startsWith('Query') ? '' : '?'}: { ${
-    importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}, ` : ''
-  }hash?: string }) => ({ path: ${/\${/.test(pathname) ? '`' : "'"}${pathname}${
+  `${indent}  $url: ` +
+  (opt =>
+    `(url${opt ? '?' : ''}: { ${
+      importName ? `query${opt ? '?' : ''}: ${importName}${opt ? ' | undefined' : ''}, ` : ''
+    }hash?: string | undefined }${opt ? ' | undefined' : ''})`)(!importName?.startsWith('Query')) +
+  ` => ({ path: ${/\${/.test(pathname) ? '`' : "'"}${pathname}${
     trailingSlash || pathname === '' ? '/' : ''
   }${/\${/.test(pathname) ? '`' : "'"}${
     importName ? `, query: url${importName.startsWith('Query') ? '' : '?'}.query as any` : ''
@@ -100,9 +103,9 @@ export const createNuxtTemplate = (
         if (basename.startsWith('_')) {
           const slug = basename.slice(1)
           const isPassValNullable = basename !== file
-          valFn = `${indent}_${slug}: (${slug}${
-            isPassValNullable ? '?' : ''
-          }: string | number) => ({\n<% next %>\n${indent}})`
+          valFn = `${indent}_${slug}: (${slug}${isPassValNullable ? '?' : ''}: string | number${
+            isPassValNullable ? ' | undefined' : ''
+          }) => ({\n<% next %>\n${indent}})`
           newUrl = `${url}${
             isPassValNullable ? `\${${slug} !== undefined ? \`/\${${slug}}\` : ''}` : `/\${${slug}}`
           }`
