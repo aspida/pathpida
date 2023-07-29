@@ -3,15 +3,15 @@ import fs from 'fs'
 import path from 'path'
 
 export type Config = (
-  | { type: 'nextjs'; input: string | undefined; appDir?: { input: string } }
+  | { type: 'nextjs'; input: string | undefined; appDir: { input: string } | undefined }
   | { type: 'nuxtjs'; input: string; appDir?: undefined }
 ) & {
   staticDir: string | undefined
   output: string
   ignorePath: string | undefined
-  trailingSlash?: boolean
-  basepath?: string
-  pageExtensions?: string[]
+  trailingSlash?: boolean | undefined
+  basepath?: string | undefined
+  pageExtensions?: string[] | undefined
 }
 
 const getFrameworkType = (dir: string) => {
