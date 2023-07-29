@@ -1,7 +1,7 @@
 {
   "name": "pathpida",
   "version": "0.0.0",
-  "description": "TypeScript friendly pages path generator for Next.js, Nuxt.js and Sapper",
+  "description": "TypeScript friendly pages path generator for Next.js and Nuxt.js",
   "author": "Solufa",
   "license": "MIT",
   "types": "dist/cli.d.ts",
@@ -9,10 +9,10 @@
   "scripts": {
     "dev": "npm run build && ts-node projects/build.ts",
     "build": "npm run rimraf && tsc",
-    "rimraf": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
+    "rimraf": "node -e \"require('fs').existsSync('dist') && require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "lint": "eslint --ext .ts . && prettier --check \"./**/*.ts\"",
     "lint:fix": "eslint --ext .ts . --fix && prettier --write \"./**/*.ts\"",
-    "test": "jest",
+    "test": "cross-env __NEXT_TEST_MODE=jest jest",
     "typecheck": "tsc --noEmit"
   },
   "homepage": "https://github.com/aspida/pathpida#readme",
@@ -80,29 +80,33 @@
   },
   "dependencies": {
     "chokidar": "^3.5.3",
-    "ignore": "^5.2.0",
-    "minimist": "^1.2.5"
+    "ignore": "^5.2.4",
+    "minimist": "^1.2.8"
   },
   "devDependencies": {
     "@nuxt/config": "^2.15.8",
-    "@types/jest": "^27.0.1",
+    "@types/jest": "^29.5.3",
     "@types/minimist": "^1.2.2",
-    "@typescript-eslint/eslint-plugin": "^4.29.3",
-    "@typescript-eslint/parser": "^4.29.3",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.4.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.24.2",
-    "eslint-plugin-jest": "^26.1.1",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.9",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.46.0",
+    "eslint-config-prettier": "^8.9.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.28.0",
+    "eslint-plugin-jest": "^27.2.3",
+    "eslint-plugin-n": "^16.0.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-standard": "^5.0.0",
-    "jest": "^27.1.0",
-    "next": "^11.1.0",
-    "prettier": "^2.3.2",
-    "prettier-plugin-organize-imports": "^2.3.4",
-    "ts-jest": "^27.0.5",
-    "ts-node": "^10.2.1",
-    "typescript": "^4.4.2"
+    "jest": "^29.6.2",
+    "next": "^13.4.12",
+    "prettier": "^2.8.8",
+    "prettier-plugin-organize-imports": "^3.2.3",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
   }
 }

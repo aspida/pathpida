@@ -1,10 +1,11 @@
 import fs from 'fs'
-import type { NextConfig } from 'next/dist/server/config'
+// import type { NextConfig } from 'next/dist/server/config'
 import path from 'path'
 
-export type Config = {
-  type: 'nextjs' | 'nuxtjs' | 'sapper'
-  input: string
+export type Config = (
+  | { type: 'nextjs'; input: string | undefined; appDir?: { input: string } }
+  | { type: 'nuxtjs'; input: string; appDir?: undefined }
+) & {
   staticDir: string | undefined
   output: string
   ignorePath: string | undefined
@@ -17,7 +18,7 @@ const getFrameworkType = (dir: string) => {
   const packageJson = JSON.parse(fs.readFileSync(path.join(dir, 'package.json'), 'utf8'))
   const deps = Object.assign(packageJson.devDependencies ?? {}, packageJson.dependencies ?? {})
 
-  return deps.sapper ? 'sapper' : deps.nuxt ? 'nuxtjs' : 'nextjs'
+  return deps.nuxt ? 'nuxtjs' : 'nextjs'
 }
 
 export default async (
@@ -30,7 +31,7 @@ export default async (
   const ignorePath = igPath && path.join(dir, igPath)
 
   if (type === 'nextjs') {
-    let config: NextConfig
+    let config /*: NextConfig */
 
     try {
       // >= v11.1.0
@@ -46,7 +47,13 @@ export default async (
       )
     }
 
-    const srcDir = fs.existsSync(path.posix.join(dir, 'pages')) ? dir : path.posix.join(dir, 'src')
+    const srcDir =
+      fs.existsSync(path.posix.join(dir, 'src/pages')) ||
+      fs.existsSync(path.posix.join(dir, 'src/app'))
+        ? path.posix.join(dir, 'src')
+        : dir
+
+    const isAppDirUsed = fs.existsSync(path.posix.join(srcDir, 'app'))
 
     if (!output) {
       const utilsPath = path.join(srcDir, 'utils')
@@ -55,16 +62,19 @@ export default async (
 
     if (!fs.existsSync(output)) fs.mkdirSync(output)
 
+    const inputDir = path.posix.join(srcDir, 'pages')
+
     return {
       type,
-      input: path.posix.join(srcDir, 'pages'),
+      input: fs.existsSync(inputDir) ? inputDir : undefined,
       staticDir: enableStatic ? path.posix.join(dir, 'public') : undefined,
       output,
       ignorePath,
+      appDir: isAppDirUsed ? { input: path.posix.join(srcDir, 'app') } : undefined,
       pageExtensions: config.pageExtensions,
       basepath: config.basePath
     }
-  } else if (type === 'nuxtjs') {
+  } else {
     const nuxttsPath = path.join(dir, 'nuxt.config.ts')
     const config = await require('@nuxt/config').loadNuxtConfig({
       rootDir: dir,
@@ -84,20 +94,6 @@ export default async (
       ignorePath,
       trailingSlash: config.router?.trailingSlash,
       basepath: config.router?.base
-    }
-  } else {
-    const srcDir = path.posix.join(dir, 'src')
-
-    output = output ?? path.join(srcDir, 'node_modules')
-
-    if (!fs.existsSync(output)) fs.mkdirSync(output)
-
-    return {
-      type,
-      input: path.posix.join(srcDir, 'routes'),
-      staticDir: enableStatic ? path.posix.join(dir, 'static') : undefined,
-      output,
-      ignorePath
     }
   }
 }

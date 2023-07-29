@@ -8,6 +8,8 @@ import getConfig from '../src/getConfig'
 
 jest.setTimeout(30000)
 
+const nodeVer = +process.versions.node.split('.')[0]
+
 describe('cli test', () => {
   test('version command', async () => {
     const spyLog = jest.spyOn(console, 'log').mockImplementation(x => x)
@@ -22,10 +24,12 @@ describe('cli test', () => {
 
   test('main', async () => {
     for (const project of projects) {
+      if (nodeVer < project.nodeVer) continue
+
       resetCache()
 
       const workingDir = path.join(process.cwd(), 'projects', project.dir)
-      const { type, input, staticDir, output, ignorePath, trailingSlash, pageExtensions } =
+      const { type, input, staticDir, output, ignorePath, trailingSlash, pageExtensions, appDir } =
         await getConfig(
           project.enableStatic,
           project.output && path.join(workingDir, project.output),
@@ -35,16 +39,30 @@ describe('cli test', () => {
 
       const result = fs.readFileSync(`${output}/$path.ts`, 'utf8')
       const basepath = /-basepath$/.test(project.dir) ? '/foo/bar' : undefined
-      const { filePath, text } = build({
-        type,
-        input,
-        staticDir,
-        output,
-        ignorePath,
-        pageExtensions,
-        trailingSlash,
-        basepath
-      })
+      const { filePath, text } = build(
+        type === 'nextjs'
+          ? {
+              type,
+              input,
+              staticDir,
+              output,
+              ignorePath,
+              pageExtensions,
+              trailingSlash,
+              appDir,
+              basepath
+            }
+          : {
+              type,
+              input,
+              staticDir,
+              output,
+              ignorePath,
+              pageExtensions,
+              trailingSlash,
+              basepath
+            }
+      )
 
       expect(filePath).toBe(`${output}/$path.ts`)
       expect(
