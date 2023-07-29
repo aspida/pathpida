@@ -12,9 +12,6 @@
   <a href="https://github.com/aspida/pathpida/actions?query=workflow%3A%22Node.js+CI%22">
     <img src="https://github.com/aspida/pathpida/workflows/Node.js%20CI/badge.svg?branch=master" alt="Node.js CI" />
   </a>
-  <a href="https://codecov.io/gh/aspida/pathpida">
-    <img src="https://img.shields.io/codecov/c/github/aspida/pathpida.svg" alt="Codecov" />
-  </a>
   <a href="https://lgtm.com/projects/g/aspida/pathpida/context:javascript">
     <img src="https://img.shields.io/lgtm/grade/javascript/g/aspida/pathpida.svg" alt="Language grade: JavaScript" />
   </a>
