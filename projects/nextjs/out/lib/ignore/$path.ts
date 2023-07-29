@@ -1,6 +1,6 @@
-import type { Query as Query0 } from '../../../pages'
-import type { OptionalQuery as OptionalQuery1 } from '../../../pages/[pid]'
-import type { Query as Query2 } from '../../../pages/blog/[...slug]'
+import type { Query as Query0 } from '../../../pages';
+import type { OptionalQuery as OptionalQuery1 } from '../../../pages/[pid]';
+import type { Query as Query2 } from '../../../pages/blog/[...slug]';
 
 export const pagesPath = {
   "%E6%97%A5%E6%9C%AC%E8%AA%9E": {
@@ -48,9 +48,9 @@ export const pagesPath = {
     })
   },
   $url: (url: { query: Query0, hash?: string | undefined }) => ({ pathname: '/' as const, query: url.query, hash: url.hash })
-}
+};
 
-export type PagesPath = typeof pagesPath
+export type PagesPath = typeof pagesPath;
 
 export const staticPath = {
   aa_json: '/aa.json',
@@ -62,6 +62,6 @@ export const staticPath = {
   },
   duplicate_json_1: '/duplicate.json',
   duplicate_json_2: '/duplicate_json'
-} as const
+} as const;
 
-export type StaticPath = typeof staticPath
+export type StaticPath = typeof staticPath;

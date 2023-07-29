@@ -1,8 +1,8 @@
-import fs from 'fs'
-import path from 'path'
-import { createIg, isIgnored } from './isIgnored'
-import { parseQueryFromTS } from './parseQueryFromTS'
-import { replaceWithUnderscore } from './replaceWithUnderscore'
+import fs from 'fs';
+import path from 'path';
+import { createIg, isIgnored } from './isIgnored';
+import { parseQueryFromTS } from './parseQueryFromTS';
+import { replaceWithUnderscore } from './replaceWithUnderscore';
 
 const createMethods = (
   indent: string,
@@ -19,41 +19,41 @@ const createMethods = (
     trailingSlash || pathname === '' ? '/' : ''
   }${/\${/.test(pathname) ? '`' : "'"}${
     importName ? `, query: url${importName.startsWith('Query') ? '' : '?'}.query as any` : ''
-  }, hash: url${importName?.startsWith('Query') ? '' : '?'}.hash })`
+  }, hash: url${importName?.startsWith('Query') ? '' : '?'}.hash })`;
 
 const parseQueryFromVue = (file: string, suffix: number) => {
-  const fileData = fs.readFileSync(file, 'utf8')
+  const fileData = fs.readFileSync(file, 'utf8');
   const typeName = ['Query', 'OptionalQuery'].find(type =>
     new RegExp(`export (interface ${type} ?{|type ${type} ?= ?{)`).test(fileData)
-  )
+  );
 
-  if (!typeName) return
+  if (!typeName) return;
 
-  const queryRegExp = new RegExp(`export (interface ${typeName} ?{|type ${typeName} ?= ?{)`)
-  const [, typeText, targetText] = fileData.split(queryRegExp)
-  const { length } = targetText
-  let cursor = 0
-  let depth = 1
+  const queryRegExp = new RegExp(`export (interface ${typeName} ?{|type ${typeName} ?= ?{)`);
+  const [, typeText, targetText] = fileData.split(queryRegExp);
+  const { length } = targetText;
+  let cursor = 0;
+  let depth = 1;
 
   while (depth && cursor <= length) {
     if (targetText[cursor] === '}') {
-      depth -= 1
+      depth -= 1;
     } else if (targetText[cursor] === '{') {
-      depth += 1
+      depth += 1;
     }
 
-    cursor += 1
+    cursor += 1;
   }
 
-  const importName = `${typeName}${suffix}`
+  const importName = `${typeName}${suffix}`;
 
   return {
     importName,
     importString: `${typeText.replace(typeName, importName)}${targetText
       .slice(0, cursor)
-      .replace(/\r/g, '')}\n`
-  }
-}
+      .replace(/\r/g, '')};\n`
+  };
+};
 
 export const createNuxtTemplate = (
   input: string,
@@ -61,18 +61,18 @@ export const createNuxtTemplate = (
   ignorePath: string | undefined,
   trailingSlash = false
 ) => {
-  const ig = createIg(ignorePath)
-  const imports: string[] = []
+  const ig = createIg(ignorePath);
+  const imports: string[] = [];
   const getImportName = (file: string) => {
     const result = path.extname(file).startsWith('.ts')
       ? parseQueryFromTS(output, file, imports.length)
-      : parseQueryFromVue(file, imports.length)
+      : parseQueryFromVue(file, imports.length);
 
     if (result) {
-      imports.push(result.importString)
-      return result.importName
+      imports.push(result.importString);
+      return result.importName;
     }
-  }
+  };
 
   const createPathObjString = (
     targetDir: string,
@@ -82,7 +82,7 @@ export const createNuxtTemplate = (
     text: string,
     methodsOfIndexTsFile?: string
   ) => {
-    indent += '  '
+    indent += '  ';
 
     const props: string[] = fs
       .readdirSync(targetDir)
@@ -96,32 +96,32 @@ export const createNuxtTemplate = (
       )
       .sort()
       .map((file, _, arr) => {
-        const basename = path.basename(file, path.extname(file))
-        let valFn = `${indent}${replaceWithUnderscore(basename)}: {\n<% next %>\n${indent}}`
-        let newUrl = `${url}/${basename}`
+        const basename = path.basename(file, path.extname(file));
+        let valFn = `${indent}${replaceWithUnderscore(basename)}: {\n<% next %>\n${indent}}`;
+        let newUrl = `${url}/${basename}`;
 
         if (basename.startsWith('_')) {
-          const slug = basename.slice(1)
-          const isPassValNullable = basename !== file
+          const slug = basename.slice(1);
+          const isPassValNullable = basename !== file;
           valFn = `${indent}_${slug}: (${slug}${isPassValNullable ? '?' : ''}: string | number${
             isPassValNullable ? ' | undefined' : ''
-          }) => ({\n<% next %>\n${indent}})`
+          }) => ({\n<% next %>\n${indent}})`;
           newUrl = `${url}${
             isPassValNullable ? `\${${slug} !== undefined ? \`/\${${slug}}\` : ''}` : `/\${${slug}}`
-          }`
+          }`;
         }
 
-        const target = path.posix.join(targetDir, file)
+        const target = path.posix.join(targetDir, file);
 
         if (fs.statSync(target).isFile() && basename !== 'index' && !arr.includes(basename)) {
           return valFn.replace(
             '<% next %>',
             createMethods(indent, getImportName(target), newUrl, trailingSlash)
-          )
+          );
         } else if (fs.statSync(target).isDirectory()) {
           const indexFile = fs
             .readdirSync(target)
-            .find(name => path.basename(name, path.extname(name)) === 'index')
+            .find(name => path.basename(name, path.extname(name)) === 'index');
 
           return createPathObjString(
             target,
@@ -136,26 +136,26 @@ export const createNuxtTemplate = (
                 newUrl,
                 trailingSlash
               )
-          )
+          );
         }
 
-        return ''
+        return '';
       })
-      .filter(Boolean)
+      .filter(Boolean);
 
     return text.replace(
       '<% props %>',
       `${props.join(',\n')}${
         methodsOfIndexTsFile ? `${props.length ? ',\n' : ''}${methodsOfIndexTsFile}` : ''
       }`
-    )
-  }
+    );
+  };
 
   const rootIndexFile = fs
     .readdirSync(input)
-    .find(name => path.basename(name, path.extname(name)) === 'index')
-  const rootIndent = ''
-  let rootMethods
+    .find(name => path.basename(name, path.extname(name)) === 'index');
+  const rootIndent = '';
+  let rootMethods;
 
   if (rootIndexFile) {
     rootMethods = createMethods(
@@ -163,17 +163,17 @@ export const createNuxtTemplate = (
       getImportName(path.posix.join(input, rootIndexFile)),
       '',
       trailingSlash
-    )
+    );
   }
 
-  const text = createPathObjString(input, '.', rootIndent, '', '{\n<% props %>\n}', rootMethods)
-  const importsText = imports.filter(i => i.startsWith('import')).join('\n')
-  const queriesText = imports.filter(i => !i.startsWith('import')).join('\n')
+  const text = createPathObjString(input, '.', rootIndent, '', '{\n<% props %>\n}', rootMethods);
+  const importsText = imports.filter(i => i.startsWith('import')).join('\n');
+  const queriesText = imports.filter(i => !i.startsWith('import')).join('\n');
 
-  return `import type { Plugin } from '@nuxt/types'
+  return `import type { Plugin } from '@nuxt/types';
 ${importsText}${importsText && queriesText ? '\n' : ''}
 ${queriesText}${
     imports.length ? '\n' : ''
-  }export const pagesPath = ${text}\n\nexport type PagesPath = typeof pagesPath
-`
-}
+  }export const pagesPath = ${text};\n\nexport type PagesPath = typeof pagesPath;
+`;
+};

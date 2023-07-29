@@ -1,8 +1,8 @@
-import type { Plugin } from '@nuxt/types'
+import type { Plugin } from '@nuxt/types';
 
-type Query0 = { hoge: string }
+type Query0 = { hoge: string };
 
-type OptionalQuery1 = { hoge: string }
+type OptionalQuery1 = { hoge: string };
 
 type Query2 = {
   hoge: string
@@ -10,7 +10,7 @@ type Query2 = {
     a: number
     b: { c: string }[]
   }
-}
+};
 
 export const pagesPath = {
   _a: (a: string | number) => ({
@@ -37,15 +37,15 @@ export const pagesPath = {
     })
   },
   $url: (url: { query: Query0, hash?: string | undefined }) => ({ path: '/', query: url.query as any, hash: url.hash })
-}
+};
 
-export type PagesPath = typeof pagesPath
+export type PagesPath = typeof pagesPath;
 
 declare module 'vue/types/vue' {
   interface Vue {
     $pagesPath: PagesPath
   }
-}
+};
 
 declare module '@nuxt/types' {
   interface NuxtAppOptions {
@@ -55,16 +55,16 @@ declare module '@nuxt/types' {
   interface Context {
     $pagesPath: PagesPath
   }
-}
+};
 
 declare module 'vuex/types/index' {
   interface Store<S> {
     $pagesPath: PagesPath
   }
-}
+};
 
 const pathPlugin: Plugin = (_, inject) => {
-  inject('pagesPath', pagesPath)
-}
+  inject('pagesPath', pagesPath);
+};
 
-export default pathPlugin
+export default pathPlugin;

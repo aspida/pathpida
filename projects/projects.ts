@@ -14,11 +14,11 @@ export const projects = [
   (
     project
   ): {
-    dir: string
-    output: string | undefined
-    enableStatic: boolean
-    ignorePath: string | undefined
-    nodeVer: number
+    dir: string;
+    output: string | undefined;
+    enableStatic: boolean;
+    ignorePath: string | undefined;
+    nodeVer: number;
   }[] => [
     { ...project, output: undefined, enableStatic: true, ignorePath: undefined },
     {
@@ -40,4 +40,4 @@ export const projects = [
       ignorePath: '.pathpidaignore'
     }
   ]
-)
+);

@@ -1,6 +1,6 @@
-import type { Query as Query0 } from '../../../pages'
-import type { OptionalQuery as OptionalQuery1 } from '../../../pages/[pid]'
-import type { Query as Query2 } from '../../../pages/blog/[...slug]'
+import type { Query as Query0 } from '../../../pages';
+import type { OptionalQuery as OptionalQuery1 } from '../../../pages/[pid]';
+import type { Query as Query2 } from '../../../pages/blog/[...slug]';
 
 export const pagesPath = {
   _a: (a: string | number) => ({
@@ -36,6 +36,6 @@ export const pagesPath = {
     }
   },
   $url: (url: { query: Query0, hash?: string | undefined }) => ({ pathname: '/' as const, query: url.query, hash: url.hash })
-}
+};
 
-export type PagesPath = typeof pagesPath
+export type PagesPath = typeof pagesPath;

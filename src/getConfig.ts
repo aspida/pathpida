@@ -1,25 +1,25 @@
-import fs from 'fs'
+import fs from 'fs';
 // import type { NextConfig } from 'next/dist/server/config'
-import path from 'path'
+import path from 'path';
 
 export type Config = (
   | { type: 'nextjs'; input: string | undefined; appDir: { input: string } | undefined }
   | { type: 'nuxtjs'; input: string; appDir?: undefined }
 ) & {
-  staticDir: string | undefined
-  output: string
-  ignorePath: string | undefined
-  trailingSlash?: boolean | undefined
-  basepath?: string | undefined
-  pageExtensions?: string[] | undefined
-}
+  staticDir: string | undefined;
+  output: string;
+  ignorePath: string | undefined;
+  trailingSlash?: boolean | undefined;
+  basepath?: string | undefined;
+  pageExtensions?: string[] | undefined;
+};
 
 const getFrameworkType = (dir: string) => {
-  const packageJson = JSON.parse(fs.readFileSync(path.join(dir, 'package.json'), 'utf8'))
-  const deps = Object.assign(packageJson.devDependencies ?? {}, packageJson.dependencies ?? {})
+  const packageJson = JSON.parse(fs.readFileSync(path.join(dir, 'package.json'), 'utf8'));
+  const deps = Object.assign(packageJson.devDependencies ?? {}, packageJson.dependencies ?? {});
 
-  return deps.nuxt ? 'nuxtjs' : 'nextjs'
-}
+  return deps.nuxt ? 'nuxtjs' : 'nextjs';
+};
 
 export default async (
   enableStatic: boolean,
@@ -27,42 +27,42 @@ export default async (
   igPath: string | undefined,
   dir = process.cwd()
 ): Promise<Config> => {
-  const type = getFrameworkType(dir)
-  const ignorePath = igPath && path.join(dir, igPath)
+  const type = getFrameworkType(dir);
+  const ignorePath = igPath && path.join(dir, igPath);
 
   if (type === 'nextjs') {
-    let config /*: NextConfig */
+    let config; /*: NextConfig */
 
     try {
       // >= v11.1.0
       config = await require('next/dist/server/config').default(
         require('next/constants').PHASE_PRODUCTION_BUILD,
         dir
-      )
+      );
     } catch (e) {
       // < v11.1.0
       config = await require('next/dist/next-server/server/config').default(
         require('next/constants').PHASE_PRODUCTION_BUILD,
         dir
-      )
+      );
     }
 
     const srcDir =
       fs.existsSync(path.posix.join(dir, 'src/pages')) ||
       fs.existsSync(path.posix.join(dir, 'src/app'))
         ? path.posix.join(dir, 'src')
-        : dir
+        : dir;
 
-    const isAppDirUsed = fs.existsSync(path.posix.join(srcDir, 'app'))
+    const isAppDirUsed = fs.existsSync(path.posix.join(srcDir, 'app'));
 
     if (!output) {
-      const utilsPath = path.join(srcDir, 'utils')
-      output = fs.existsSync(utilsPath) ? utilsPath : path.join(srcDir, 'lib')
+      const utilsPath = path.join(srcDir, 'utils');
+      output = fs.existsSync(utilsPath) ? utilsPath : path.join(srcDir, 'lib');
     }
 
-    if (!fs.existsSync(output)) fs.mkdirSync(output)
+    if (!fs.existsSync(output)) fs.mkdirSync(output);
 
-    const inputDir = path.posix.join(srcDir, 'pages')
+    const inputDir = path.posix.join(srcDir, 'pages');
 
     return {
       type,
@@ -73,18 +73,18 @@ export default async (
       appDir: isAppDirUsed ? { input: path.posix.join(srcDir, 'app') } : undefined,
       pageExtensions: config.pageExtensions,
       basepath: config.basePath
-    }
+    };
   } else {
-    const nuxttsPath = path.join(dir, 'nuxt.config.ts')
+    const nuxttsPath = path.join(dir, 'nuxt.config.ts');
     const config = await require('@nuxt/config').loadNuxtConfig({
       rootDir: dir,
       configFile: fs.existsSync(nuxttsPath) ? nuxttsPath : undefined
-    })
-    const srcDir = path.posix.join(dir, config.srcDir ?? '')
+    });
+    const srcDir = path.posix.join(dir, config.srcDir ?? '');
 
-    output = output ?? path.posix.join(srcDir, 'plugins')
+    output = output ?? path.posix.join(srcDir, 'plugins');
 
-    if (!fs.existsSync(output)) fs.mkdirSync(output)
+    if (!fs.existsSync(output)) fs.mkdirSync(output);
 
     return {
       type,
@@ -94,6 +94,6 @@ export default async (
       ignorePath,
       trailingSlash: config.router?.trailingSlash,
       basepath: config.router?.base
-    }
+    };
   }
-}
+};

@@ -9,9 +9,9 @@ export const pagesPath = {
       })
     }
   },
-}
+};
 
-export type PagesPath = typeof pagesPath
+export type PagesPath = typeof pagesPath;
 
 export const staticPath = {
   aa_json: '/aa.json',
@@ -23,6 +23,6 @@ export const staticPath = {
   },
   duplicate_json_1: '/duplicate.json',
   duplicate_json_2: '/duplicate_json'
-} as const
+} as const;
 
-export type StaticPath = typeof staticPath
+export type StaticPath = typeof staticPath;

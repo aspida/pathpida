@@ -1,16 +1,16 @@
-import path from 'path'
-import { createNuxtTemplate } from './createNuxtTemplate'
-import { createStaticTemplate } from './createStaticTemplate'
-import type { Config } from './getConfig'
-import { createNextTemplate } from './nextjs/createNextTemplate'
+import path from 'path';
+import { createNuxtTemplate } from './createNuxtTemplate';
+import { createStaticTemplate } from './createStaticTemplate';
+import type { Config } from './getConfig';
+import { createNextTemplate } from './nextjs/createNextTemplate';
 
-let prevPagesText = ''
-let prevStaticText = ''
+let prevPagesText = '';
+let prevStaticText = '';
 
 export const resetCache = () => {
-  prevPagesText = ''
-  prevStaticText = ''
-}
+  prevPagesText = '';
+  prevStaticText = '';
+};
 
 export default (
   {
@@ -26,35 +26,35 @@ export default (
   }: Config,
   mode?: 'pages' | 'static'
 ) => {
-  const emptyPathRegExp = /\n.+{\n+ +}.*/
+  const emptyPathRegExp = /\n.+{\n+ +}.*/;
 
   if (mode !== 'static') {
-    let text = ''
+    let text = '';
 
     switch (type) {
       case 'nextjs':
-        text = createNextTemplate(input, output, ignorePath, appDir, pageExtensions)
-        break
+        text = createNextTemplate(input, output, ignorePath, appDir, pageExtensions);
+        break;
       case 'nuxtjs':
-        text = createNuxtTemplate(input, output, ignorePath, trailingSlash)
-        break
+        text = createNuxtTemplate(input, output, ignorePath, trailingSlash);
+        break;
     }
 
     while (emptyPathRegExp.test(text)) {
-      text = text.replace(emptyPathRegExp, '')
+      text = text.replace(emptyPathRegExp, '');
     }
 
-    prevPagesText = text
+    prevPagesText = text;
   }
 
   if (staticDir && mode !== 'pages') {
-    let text = createStaticTemplate(staticDir, basepath, ignorePath)
+    let text = createStaticTemplate(staticDir, basepath, ignorePath);
 
     while (emptyPathRegExp.test(text)) {
-      text = text.replace(emptyPathRegExp, '')
+      text = text.replace(emptyPathRegExp, '');
     }
 
-    prevStaticText = text
+    prevStaticText = text;
   }
 
   return {
@@ -65,7 +65,7 @@ declare module 'vue/types/vue' {
   interface Vue {
     $pagesPath: PagesPath${prevStaticText ? '\n    $staticPath: StaticPath' : ''}
   }
-}
+};
 
 declare module '@nuxt/types' {
   interface NuxtAppOptions {
@@ -75,22 +75,22 @@ declare module '@nuxt/types' {
   interface Context {
     $pagesPath: PagesPath${prevStaticText ? '\n    $staticPath: StaticPath' : ''}
   }
-}
+};
 
 declare module 'vuex/types/index' {
   interface Store<S> {
     $pagesPath: PagesPath${prevStaticText ? '\n    $staticPath: StaticPath' : ''}
   }
-}
+};
 
 const pathPlugin: Plugin = (_, inject) => {
-  inject('pagesPath', pagesPath)${prevStaticText ? "\n  inject('staticPath', staticPath)" : ''}
-}
+  inject('pagesPath', pagesPath);${prevStaticText ? "\n  inject('staticPath', staticPath);" : ''}
+};
 
-export default pathPlugin
+export default pathPlugin;
 `
         : ''
     }`,
     filePath: path.posix.join(output, '$path.ts')
-  }
-}
+  };
+};

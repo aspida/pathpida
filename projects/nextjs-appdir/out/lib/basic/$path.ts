@@ -1,16 +1,16 @@
-import type { Query as Query0 } from '../../../app/page'
-import type { OptionalQuery as OptionalQuery1 } from '../../../app/(group1)/[pid]/page'
-import type { Query as Query2 } from '../../../app/(group1)/blog/[...slug]/page'
-import type { OptionalQuery as OptionalQuery3 } from '../../../pages/children/[pid]'
-import type { Query as Query4 } from '../../../pages/children/blog/[...slug]'
+import type { Query as Query0 } from '../../../app/page';
+import type { OptionalQuery as OptionalQuery1 } from '../../../app/(group1)/[pid]/page';
+import type { Query as Query2 } from '../../../app/(group1)/blog/[...slug]/page';
+import type { OptionalQuery as OptionalQuery3 } from '../../../pages/children/[pid]';
+import type { Query as Query4 } from '../../../pages/children/blog/[...slug]';
 
 const buildSuffix = (url?: {query?: Record<string, string>, hash?: string}) => {
-  const query = url?.query
-  const hash = url?.hash
-  if (!query && !hash) return ''
-  const search = query ? `?${new URLSearchParams(query)}` : ''
-  return `${search}${hash ? `#${hash}` : ''}`
-}
+  const query = url?.query;
+  const hash = url?.hash;
+  if (!query && !hash) return '';
+  const search = query ? `?${new URLSearchParams(query)}` : '';
+  return `${search}${hash ? `#${hash}` : ''}`;
+};
 
 export const pagesPath = {
   "%E6%97%A5%E6%9C%AC%E8%AA%9E": {
@@ -103,6 +103,6 @@ export const pagesPath = {
       })
     }
   }
-}
+};
 
-export type PagesPath = typeof pagesPath
+export type PagesPath = typeof pagesPath;

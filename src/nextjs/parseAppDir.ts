@@ -1,9 +1,9 @@
-import fs from 'fs'
-import path from 'path'
-import { createIg, isIgnored } from '../isIgnored'
-import { parseQueryFromTS } from '../parseQueryFromTS'
-import { replaceWithUnderscore } from '../replaceWithUnderscore'
-import { Slugs } from './parsePagesDir'
+import fs from 'fs';
+import path from 'path';
+import { createIg, isIgnored } from '../isIgnored';
+import { parseQueryFromTS } from '../parseQueryFromTS';
+import { replaceWithUnderscore } from '../replaceWithUnderscore';
+import { Slugs } from './parsePagesDir';
 
 export const createMethods = (
   indent: string,
@@ -23,24 +23,24 @@ export const createMethods = (
       : ''
   }, hash: url${importName?.startsWith('Query') ? '' : '?'}.hash, path: \`${pathname
     .replace(/\[\[?\.\.\.(.*?)\]\]?/g, `\${$1?.join('/')}`)
-    .replace(/\[(.*?)\]/g, `\${$1}`)}\${buildSuffix(url)}\` })`
+    .replace(/\[(.*?)\]/g, `\${$1}`)}\${buildSuffix(url)}\` })`;
 
 export const parseAppDir = (
   input: string,
   output: string,
   ignorePath: string | undefined
 ): { imports: string[]; text: string } => {
-  const ig = createIg(ignorePath)
-  const pageFileNames = ['page.tsx', 'page.jsx', 'page.js']
-  const imports: string[] = []
+  const ig = createIg(ignorePath);
+  const pageFileNames = ['page.tsx', 'page.jsx', 'page.js'];
+  const imports: string[] = [];
   const getImportName = (file: string) => {
-    const result = parseQueryFromTS(output, file, imports.length)
+    const result = parseQueryFromTS(output, file, imports.length);
 
     if (result) {
-      imports.push(result.importString)
-      return result.importName
+      imports.push(result.importString);
+      return result.importName;
     }
-  }
+  };
 
   const createPathObjString = (
     targetDir: string,
@@ -50,7 +50,7 @@ export const parseAppDir = (
     text: string,
     methodsOfIndexTsFile?: string
   ) => {
-    indent += '  '
+    indent += '  ';
 
     const props: string[] = fs
       .readdirSync(targetDir)
@@ -62,26 +62,26 @@ export const parseAppDir = (
       )
       .sort()
       .map(file => {
-        const newSlugs = [...slugs]
-        const target = path.posix.join(targetDir, file)
+        const newSlugs = [...slugs];
+        const target = path.posix.join(targetDir, file);
         if (file.startsWith('(') && file.endsWith(')')) {
-          return createPathObjString(target, indent.slice(2), url, newSlugs, '<% props %>')
+          return createPathObjString(target, indent.slice(2), url, newSlugs, '<% props %>');
         }
 
-        const newUrl = `${url}/${file}`
+        const newUrl = `${url}/${file}`;
         let valFn = `${indent}${JSON.stringify(
           replaceWithUnderscore(file)
-        )}: {\n<% next %>\n${indent}}`
+        )}: {\n<% next %>\n${indent}}`;
 
         if (file.startsWith('[') && file.endsWith(']')) {
-          const slug = file.replace(/[.[\]]/g, '')
+          const slug = file.replace(/[.[\]]/g, '');
           valFn = `${indent}${`_${slug}`}: (${slug}${file.startsWith('[[') ? '?' : ''}: ${
             /\[\./.test(file) ? 'string[]' : 'string | number'
-          }) => ({\n<% next %>\n${indent}})`
-          newSlugs.push(slug)
+          }) => ({\n<% next %>\n${indent}})`;
+          newSlugs.push(slug);
         }
 
-        const indexFile = fs.readdirSync(target).find(name => pageFileNames.includes(name))
+        const indexFile = fs.readdirSync(target).find(name => pageFileNames.includes(name));
 
         return createPathObjString(
           target,
@@ -96,41 +96,41 @@ export const parseAppDir = (
               newSlugs,
               newUrl
             )
-        )
+        );
       })
-      .filter(Boolean)
+      .filter(Boolean);
 
     const joinedProps = props
       .reduce<string[]>((accumulator, current) => {
-        const last = accumulator[accumulator.length - 1]
+        const last = accumulator[accumulator.length - 1];
 
         if (last !== undefined) {
-          const [a, ...b] = last.split('\n')
-          const [x, ...y] = current.split('\n')
+          const [a, ...b] = last.split('\n');
+          const [x, ...y] = current.split('\n');
 
           if (a === x) {
-            y.pop()
-            const z = y.pop()
-            const merged = [a, ...y, `${z},`, ...b].join('\n')
-            return [...accumulator.slice(0, -1), merged]
+            y.pop();
+            const z = y.pop();
+            const merged = [a, ...y, `${z},`, ...b].join('\n');
+            return [...accumulator.slice(0, -1), merged];
           }
         }
 
-        return [...accumulator, current]
+        return [...accumulator, current];
       }, [])
-      .join(',\n')
+      .join(',\n');
 
     return text.replace(
       '<% props %>',
       `${joinedProps}${
         methodsOfIndexTsFile ? `${props.length ? ',\n' : ''}${methodsOfIndexTsFile}` : ''
       }`
-    )
-  }
+    );
+  };
 
-  const rootIndexFile = fs.readdirSync(input).find(name => pageFileNames.includes(name))
-  const rootIndent = ''
-  let rootMethods
+  const rootIndexFile = fs.readdirSync(input).find(name => pageFileNames.includes(name));
+  const rootIndent = '';
+  let rootMethods;
 
   if (rootIndexFile) {
     rootMethods = createMethods(
@@ -138,10 +138,10 @@ export const parseAppDir = (
       getImportName(path.posix.join(input, rootIndexFile)),
       [],
       '/'
-    )
+    );
   }
 
-  const text = createPathObjString(input, rootIndent, '', [], '<% props %>', rootMethods)
+  const text = createPathObjString(input, rootIndent, '', [], '<% props %>', rootMethods);
   // console.log({ input, rootIndent, rootMethods, text })
-  return { imports, text }
-}
+  return { imports, text };
+};
