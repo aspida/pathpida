@@ -3,17 +3,15 @@
     "declaration": true,
     "declarationMap": true,
     "downlevelIteration": true,
-    "experimentalDecorators": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": ["dom", "ES2019.Array"],
-    "module": "commonjs",
+    "lib": ["dom", "es2020"],
     "moduleResolution": "node",
     "sourceMap": true,
     "strict": true,
     "strictPropertyInitialization": false,
     "exactOptionalPropertyTypes": true,
-    "target": "es5"
+    "target": "es2020"
   },
   "exclude": ["projects/**/*"]
 }

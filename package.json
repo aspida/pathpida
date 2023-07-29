@@ -4,7 +4,6 @@
   "description": "TypeScript friendly pages path generator for Next.js and Nuxt.js",
   "author": "Solufa",
   "license": "MIT",
-  "types": "dist/cli.d.ts",
   "bin": "bin/index.js",
   "scripts": {
     "dev": "npm run build && ts-node projects/build.ts",
