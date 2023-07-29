@@ -20,24 +20,24 @@ export const projects = [
     ignorePath: string | undefined
     nodeVer: number
   }[] => [
-      { ...project, output: undefined, enableStatic: true, ignorePath: undefined },
-      {
-        ...project,
-        output: `${project.output}/basic`,
-        enableStatic: false,
-        ignorePath: '.pathpidaignore'
-      },
-      {
-        ...project,
-        output: `${project.output}/static`,
-        enableStatic: true,
-        ignorePath: undefined
-      },
-      {
-        ...project,
-        output: `${project.output}/ignore`,
-        enableStatic: true,
-        ignorePath: '.pathpidaignore'
-      }
-    ]
+    { ...project, output: undefined, enableStatic: true, ignorePath: undefined },
+    {
+      ...project,
+      output: `${project.output}/basic`,
+      enableStatic: false,
+      ignorePath: '.pathpidaignore'
+    },
+    {
+      ...project,
+      output: `${project.output}/static`,
+      enableStatic: true,
+      ignorePath: undefined
+    },
+    {
+      ...project,
+      output: `${project.output}/ignore`,
+      enableStatic: true,
+      ignorePath: '.pathpidaignore'
+    }
+  ]
 )
