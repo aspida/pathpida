@@ -1,7 +1,7 @@
 import type { Plugin } from '@nuxt/types';
-import type { Query as Query0 } from '../pages';
-import type { OptionalQuery as OptionalQuery1 } from '../pages/_pid';
-import type { Query as Query2 } from '../pages/blog/_slug';
+import type { Query as Query_1d3p916 } from '../pages';
+import type { OptionalQuery as OptionalQuery_pwc3wd } from '../pages/_pid';
+import type { Query as Query_1oiv2jy } from '../pages/blog/_slug';
 
 export const pagesPath = {
   _ignore: {
@@ -15,7 +15,7 @@ export const pagesPath = {
     }
   }),
   _pid: (pid?: string | number | undefined) => ({
-    $url: (url?: { query?: OptionalQuery1 | undefined, hash?: string | undefined } | undefined) => ({ path: `${pid !== undefined ? `/${pid}` : ''}/`, query: url?.query as any, hash: url?.hash })
+    $url: (url?: { query?: OptionalQuery_pwc3wd | undefined, hash?: string | undefined } | undefined) => ({ path: `${pid !== undefined ? `/${pid}` : ''}/`, query: url?.query as any, hash: url?.hash })
   }),
   aaa: {
     _bbb: (bbb: string | number) => ({
@@ -27,10 +27,10 @@ export const pagesPath = {
   },
   blog: {
     _slug: (slug?: string | number | undefined) => ({
-      $url: (url: { query: Query2, hash?: string | undefined }) => ({ path: `/blog${slug !== undefined ? `/${slug}` : ''}/`, query: url.query as any, hash: url.hash })
+      $url: (url: { query: Query_1oiv2jy, hash?: string | undefined }) => ({ path: `/blog${slug !== undefined ? `/${slug}` : ''}/`, query: url.query as any, hash: url.hash })
     })
   },
-  $url: (url: { query: Query0, hash?: string | undefined }) => ({ path: '/', query: url.query as any, hash: url.hash })
+  $url: (url: { query: Query_1d3p916, hash?: string | undefined }) => ({ path: '/', query: url.query as any, hash: url.hash })
 };
 
 export type PagesPath = typeof pagesPath;

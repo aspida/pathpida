@@ -1,6 +1,6 @@
-import type { Query as Query0 } from '../app/page';
-import type { OptionalQuery as OptionalQuery1 } from '../app/(group1)/[pid]/page';
-import type { Query as Query2 } from '../app/(group1)/blog/[...slug]/page';
+import type { Query as Query_1j04kwd } from '../app/page';
+import type { OptionalQuery as OptionalQuery_1qd20e9 } from '../app/(group1)/[pid]/page';
+import type { Query as Query_g05ywg } from '../app/(group1)/blog/[...slug]/page';
 
 const buildSuffix = (url?: {query?: Record<string, string>, hash?: string}) => {
   const query = url?.query;
@@ -15,11 +15,11 @@ export const pagesPath = {
     $url: (url?: { hash?: string }) => ({ pathname: '/%E6%97%A5%E6%9C%AC%E8%AA%9E' as const, hash: url?.hash, path: `/%E6%97%A5%E6%9C%AC%E8%AA%9E${buildSuffix(url)}` })
   },
   _pid: (pid: string | number) => ({
-    $url: (url?: { query?: OptionalQuery1, hash?: string }) => ({ pathname: '/[pid]' as const, query: { pid, ...url?.query }, hash: url?.hash, path: `/${pid}${buildSuffix(url)}` })
+    $url: (url?: { query?: OptionalQuery_1qd20e9, hash?: string }) => ({ pathname: '/[pid]' as const, query: { pid, ...url?.query }, hash: url?.hash, path: `/${pid}${buildSuffix(url)}` })
   }),
   "blog": {
     _slug: (slug: string[]) => ({
-      $url: (url: { query: Query2, hash?: string }) => ({ pathname: '/blog/[...slug]' as const, query: { slug, ...url.query }, hash: url.hash, path: `/blog/${slug?.join('/')}${buildSuffix(url)}` })
+      $url: (url: { query: Query_g05ywg, hash?: string }) => ({ pathname: '/blog/[...slug]' as const, query: { slug, ...url.query }, hash: url.hash, path: `/blog/${slug?.join('/')}${buildSuffix(url)}` })
     }),
     "hoge": {
       _fuga: (fuga?: string[]) => ({
@@ -53,7 +53,7 @@ export const pagesPath = {
       })
     }
   }),
-  $url: (url: { query: Query0, hash?: string }) => ({ pathname: '/' as const, query: url.query, hash: url.hash, path: `/${buildSuffix(url)}` })
+  $url: (url: { query: Query_1j04kwd, hash?: string }) => ({ pathname: '/' as const, query: url.query, hash: url.hash, path: `/${buildSuffix(url)}` })
 };
 
 export type PagesPath = typeof pagesPath;

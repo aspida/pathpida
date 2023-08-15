@@ -1,6 +1,6 @@
-import type { Query as Query0 } from '../pages';
-import type { OptionalQuery as OptionalQuery1 } from '../pages/[pid]';
-import type { Query as Query2 } from '../pages/blog/[...slug]';
+import type { Query as Query_1d3p916 } from '../pages';
+import type { OptionalQuery as OptionalQuery_4ked3w } from '../pages/[pid]';
+import type { Query as Query_1v65l5d } from '../pages/blog/[...slug]';
 
 export const pagesPath = {
   "%E6%97%A5%E6%9C%AC%E8%AA%9E": {
@@ -17,7 +17,7 @@ export const pagesPath = {
     }
   }),
   _pid: (pid: string | number) => ({
-    $url: (url?: { query?: OptionalQuery1 | undefined, hash?: string | undefined } | undefined) => ({ pathname: '/[pid]' as const, query: { pid, ...url?.query }, hash: url?.hash })
+    $url: (url?: { query?: OptionalQuery_4ked3w | undefined, hash?: string | undefined } | undefined) => ({ pathname: '/[pid]' as const, query: { pid, ...url?.query }, hash: url?.hash })
   }),
   "aaa": {
     _bbb: (bbb: string[]) => ({
@@ -33,7 +33,7 @@ export const pagesPath = {
   },
   "blog": {
     _slug: (slug: string[]) => ({
-      $url: (url: { query: Query2, hash?: string | undefined }) => ({ pathname: '/blog/[...slug]' as const, query: { slug, ...url.query }, hash: url.hash })
+      $url: (url: { query: Query_1v65l5d, hash?: string | undefined }) => ({ pathname: '/blog/[...slug]' as const, query: { slug, ...url.query }, hash: url.hash })
     }),
     "hoge": {
       _fuga: (fuga?: string[] | undefined) => ({
@@ -50,7 +50,7 @@ export const pagesPath = {
       }
     })
   },
-  $url: (url: { query: Query0, hash?: string | undefined }) => ({ pathname: '/' as const, query: url.query, hash: url.hash })
+  $url: (url: { query: Query_1d3p916, hash?: string | undefined }) => ({ pathname: '/' as const, query: url.query, hash: url.hash })
 };
 
 export type PagesPath = typeof pagesPath;

@@ -34,7 +34,7 @@ export const parseAppDir = (
   const pageFileNames = ['page.tsx', 'page.jsx', 'page.js'];
   const imports: string[] = [];
   const getImportName = (file: string) => {
-    const result = parseQueryFromTS(output, file, imports.length);
+    const result = parseQueryFromTS(output, file);
 
     if (result) {
       imports.push(result.importString);

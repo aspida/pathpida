@@ -1,10 +1,10 @@
 import type { Plugin } from '@nuxt/types';
 
-type Query0 = { hoge: string };
+type Query_lh4zpu = { hoge: string };
 
-type OptionalQuery1 = { hoge: string };
+type OptionalQuery_lh4zpu = { hoge: string };
 
-type Query2 = {
+type Query_1hxie1v = {
   hoge: string
   fuga: {
     a: number
@@ -21,7 +21,7 @@ export const pagesPath = {
     }
   }),
   _pid: (pid?: string | number | undefined) => ({
-    $url: (url?: { query?: OptionalQuery1 | undefined, hash?: string | undefined } | undefined) => ({ path: `${pid !== undefined ? `/${pid}` : ''}/`, query: url?.query as any, hash: url?.hash })
+    $url: (url?: { query?: OptionalQuery_lh4zpu | undefined, hash?: string | undefined } | undefined) => ({ path: `${pid !== undefined ? `/${pid}` : ''}/`, query: url?.query as any, hash: url?.hash })
   }),
   aaa: {
     _bbb: (bbb: string | number) => ({
@@ -33,10 +33,10 @@ export const pagesPath = {
   },
   blog: {
     _slug: (slug?: string | number | undefined) => ({
-      $url: (url: { query: Query2, hash?: string | undefined }) => ({ path: `/blog${slug !== undefined ? `/${slug}` : ''}/`, query: url.query as any, hash: url.hash })
+      $url: (url: { query: Query_1hxie1v, hash?: string | undefined }) => ({ path: `/blog${slug !== undefined ? `/${slug}` : ''}/`, query: url.query as any, hash: url.hash })
     })
   },
-  $url: (url: { query: Query0, hash?: string | undefined }) => ({ path: '/', query: url.query as any, hash: url.hash })
+  $url: (url: { query: Query_lh4zpu, hash?: string | undefined }) => ({ path: '/', query: url.query as any, hash: url.hash })
 };
 
 export type PagesPath = typeof pagesPath;

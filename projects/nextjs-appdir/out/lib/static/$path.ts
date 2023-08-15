@@ -1,8 +1,8 @@
-import type { Query as Query0 } from '../../../app/page';
-import type { OptionalQuery as OptionalQuery1 } from '../../../app/(group1)/[pid]/page';
-import type { Query as Query2 } from '../../../app/(group1)/blog/[...slug]/page';
-import type { OptionalQuery as OptionalQuery3 } from '../../../pages/children/[pid]';
-import type { Query as Query4 } from '../../../pages/children/blog/[...slug]';
+import type { Query as Query_1yksaqv } from '../../../app/page';
+import type { OptionalQuery as OptionalQuery_a6l6vr } from '../../../app/(group1)/[pid]/page';
+import type { Query as Query_46sa06 } from '../../../app/(group1)/blog/[...slug]/page';
+import type { OptionalQuery as OptionalQuery_1b52tdg } from '../../../pages/children/[pid]';
+import type { Query as Query_9ixms9 } from '../../../pages/children/blog/[...slug]';
 
 const buildSuffix = (url?: {query?: Record<string, string>, hash?: string}) => {
   const query = url?.query;
@@ -17,11 +17,11 @@ export const pagesPath = {
     $url: (url?: { hash?: string }) => ({ pathname: '/%E6%97%A5%E6%9C%AC%E8%AA%9E' as const, hash: url?.hash, path: `/%E6%97%A5%E6%9C%AC%E8%AA%9E${buildSuffix(url)}` })
   },
   _pid: (pid: string | number) => ({
-    $url: (url?: { query?: OptionalQuery1, hash?: string }) => ({ pathname: '/[pid]' as const, query: { pid, ...url?.query }, hash: url?.hash, path: `/${pid}${buildSuffix(url)}` })
+    $url: (url?: { query?: OptionalQuery_a6l6vr, hash?: string }) => ({ pathname: '/[pid]' as const, query: { pid, ...url?.query }, hash: url?.hash, path: `/${pid}${buildSuffix(url)}` })
   }),
   "blog": {
     _slug: (slug: string[]) => ({
-      $url: (url: { query: Query2, hash?: string }) => ({ pathname: '/blog/[...slug]' as const, query: { slug, ...url.query }, hash: url.hash, path: `/blog/${slug?.join('/')}${buildSuffix(url)}` })
+      $url: (url: { query: Query_46sa06, hash?: string }) => ({ pathname: '/blog/[...slug]' as const, query: { slug, ...url.query }, hash: url.hash, path: `/blog/${slug?.join('/')}${buildSuffix(url)}` })
     }),
     "hoge": {
       _fuga: (fuga?: string[]) => ({
@@ -55,7 +55,7 @@ export const pagesPath = {
       })
     }
   }),
-  $url: (url: { query: Query0, hash?: string }) => ({ pathname: '/' as const, query: url.query, hash: url.hash, path: `/${buildSuffix(url)}` }),
+  $url: (url: { query: Query_1yksaqv, hash?: string }) => ({ pathname: '/' as const, query: url.query, hash: url.hash, path: `/${buildSuffix(url)}` }),
   "children": {
     "%E6%97%A5%E6%9C%AC%E8%AA%9E": {
       $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/children/%E6%97%A5%E6%9C%AC%E8%AA%9E' as const, hash: url?.hash })
@@ -71,7 +71,7 @@ export const pagesPath = {
       }
     }),
     _pid: (pid: string | number) => ({
-      $url: (url?: { query?: OptionalQuery3 | undefined, hash?: string | undefined } | undefined) => ({ pathname: '/children/[pid]' as const, query: { pid, ...url?.query }, hash: url?.hash })
+      $url: (url?: { query?: OptionalQuery_1b52tdg | undefined, hash?: string | undefined } | undefined) => ({ pathname: '/children/[pid]' as const, query: { pid, ...url?.query }, hash: url?.hash })
     }),
     "aaa": {
       _bbb: (bbb: string[]) => ({
@@ -92,7 +92,7 @@ export const pagesPath = {
     },
     "blog": {
       _slug: (slug: string[]) => ({
-        $url: (url: { query: Query4, hash?: string | undefined }) => ({ pathname: '/children/blog/[...slug]' as const, query: { slug, ...url.query }, hash: url.hash })
+        $url: (url: { query: Query_9ixms9, hash?: string | undefined }) => ({ pathname: '/children/blog/[...slug]' as const, query: { slug, ...url.query }, hash: url.hash })
       }),
       "hoge": {
         _fuga: (fuga?: string[] | undefined) => ({

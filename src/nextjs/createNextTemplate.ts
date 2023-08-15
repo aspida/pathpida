@@ -12,7 +12,7 @@ export const createNextTemplate = (
     ? parseAppDir(appDir.input, output, ignorePath)
     : { imports: [], text: '' };
   const pagesDir = input
-    ? parsePagesDir(input, output, ignorePath, pageExtensions, appDirData.imports.length)
+    ? parsePagesDir(input, output, ignorePath, pageExtensions)
     : { imports: [], text: '' };
   const imports = [...appDirData.imports, ...pagesDir.imports];
 
