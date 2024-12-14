@@ -1,15 +1,11 @@
 export const projects = [
-  { dir: 'nextjs', output: 'out/lib', nodeVer: 14 },
-  { dir: 'nextjs-appdir', output: 'out/lib', nodeVer: 16 },
-  { dir: 'nextjs-src-appdir', output: 'src/out/lib', nodeVer: 16 },
-  { dir: 'nextjs-basepath', output: 'out/lib', nodeVer: 14 },
-  { dir: 'nextjs-custom-ext', output: 'out/lib', nodeVer: 14 },
-  { dir: 'nextjs-src', output: 'src/out/lib', nodeVer: 14 },
-  { dir: 'nextjs-stable-appdir', output: 'out/lib', nodeVer: 16 },
-  { dir: 'nuxtjs', output: 'plugins/util', nodeVer: 14 },
-  { dir: 'nuxtjs-basepath', output: 'plugins/util', nodeVer: 14 },
-  { dir: 'nuxtjs-no-slash', output: 'plugins/util', nodeVer: 14 },
-  { dir: 'nuxtjs-src', output: 'client/plugins/util', nodeVer: 14 }
+  { dir: 'nextjs', output: 'out/lib' },
+  { dir: 'nextjs-appdir', output: 'out/lib' },
+  { dir: 'nextjs-src-appdir', output: 'src/out/lib' },
+  { dir: 'nextjs-basepath', output: 'out/lib' },
+  { dir: 'nextjs-custom-ext', output: 'out/lib' },
+  { dir: 'nextjs-src', output: 'src/out/lib' },
+  { dir: 'nextjs-stable-appdir', output: 'out/lib' }
 ].flatMap(
   (
     project
@@ -18,7 +14,6 @@ export const projects = [
     output: string | undefined;
     enableStatic: boolean;
     ignorePath: string | undefined;
-    nodeVer: number;
   }[] => [
     { ...project, output: undefined, enableStatic: true, ignorePath: undefined },
     {

@@ -5,7 +5,7 @@
     "downlevelIteration": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": ["dom", "es2020"],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "moduleResolution": "node",
     "sourceMap": true,
     "strict": true,
@@ -13,5 +13,5 @@
     "exactOptionalPropertyTypes": true,
     "target": "es2020"
   },
-  "exclude": ["projects/**/*"]
+  "exclude": ["node_modules", "projects/**/*"]
 }
