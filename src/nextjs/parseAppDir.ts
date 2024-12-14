@@ -65,7 +65,21 @@ export const parseAppDir = (
         const newSlugs = [...slugs];
         const target = path.posix.join(targetDir, file);
         if (file.startsWith('(') && file.endsWith(')')) {
-          return createPathObjString(target, indent.slice(2), url, newSlugs, '<% props %>');
+          const indexFile = fs.readdirSync(target).find(name => pageFileNames.includes(name));
+          return createPathObjString(
+            target,
+            indent.slice(2),
+            url,
+            newSlugs,
+            '<% props %>',
+            indexFile &&
+              createMethods(
+                indent.slice(2),
+                getImportName(path.posix.join(target, indexFile)),
+                newSlugs,
+                url
+              )
+          );
         }
 
         const newUrl = `${url}/${file}`;

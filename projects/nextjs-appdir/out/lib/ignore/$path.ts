@@ -1,6 +1,8 @@
 import type { Query as Query_1yksaqv } from '../../../app/page';
 import type { OptionalQuery as OptionalQuery_a6l6vr } from '../../../app/(group1)/[pid]/page';
 import type { Query as Query_46sa06 } from '../../../app/(group1)/blog/[...slug]/page';
+import type { OptionalQuery as OptionalQuery_1cjq374 } from '../../../app/xxx/(group3)/page';
+import type { OptionalQuery as OptionalQuery_75amui } from '../../../app/xxx/(group3)/yyy/page';
 import type { OptionalQuery as OptionalQuery_1b52tdg } from '../../../pages/children/[pid]';
 import type { Query as Query_9ixms9 } from '../../../pages/children/blog/[...slug]';
 
@@ -52,6 +54,12 @@ export const pagesPath = {
       })
     }
   }),
+  "xxx": {
+    "yyy": {
+      $url: (url?: { query?: OptionalQuery_75amui, hash?: string }) => ({ pathname: '/xxx/yyy' as const, query: url?.query, hash: url?.hash, path: `/xxx/yyy${buildSuffix(url)}` })
+    },
+    $url: (url?: { query?: OptionalQuery_1cjq374, hash?: string }) => ({ pathname: '/xxx' as const, query: url?.query, hash: url?.hash, path: `/xxx${buildSuffix(url)}` })
+  },
   $url: (url: { query: Query_1yksaqv, hash?: string }) => ({ pathname: '/' as const, query: url.query, hash: url.hash, path: `/${buildSuffix(url)}` }),
   "children": {
     "%E6%97%A5%E6%9C%AC%E8%AA%9E": {
