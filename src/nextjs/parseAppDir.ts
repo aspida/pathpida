@@ -82,7 +82,9 @@ export const parseAppDir = (
           );
         }
 
-        const newUrl = `${url}/${file}`;
+        const isParallelRoute = file.startsWith('@');
+        const newUrl = isParallelRoute ? url : `${url}/${file}`;
+
         let valFn = `${indent}${JSON.stringify(
           replaceWithUnderscore(file)
         )}: {\n<% next %>\n${indent}}`;
