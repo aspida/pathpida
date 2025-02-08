@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { describe, expect, test, vi } from 'vitest';
 import { version } from '../package.json';
 import { projects } from '../projects/projects';
 import build, { resetCache } from '../src/buildTemplate';
@@ -8,7 +9,7 @@ import getConfig from '../src/getConfig';
 
 describe('cli test', () => {
   test('version command', async () => {
-    const spyLog = jest.spyOn(console, 'log').mockImplementation((x) => x);
+    const spyLog = vi.spyOn(console, 'log').mockImplementation((x) => x);
     const args = ['--version'];
 
     await run(args);
