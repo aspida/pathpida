@@ -72,9 +72,7 @@ export const parsePagesDir = (
         const newSlugs = [...slugs];
         const basename = file.replace(pageExtRegExp, '');
         const newUrl = `${url}/${basename}`;
-        let valFn = `${indent}${JSON.stringify(
-          replaceWithUnderscore(basename),
-        )}: {\n<% next %>\n${indent}}`;
+        let valFn = `${indent}'${replaceWithUnderscore(basename)}': {\n<% next %>\n${indent}}`;
 
         if (basename.startsWith('[') && basename.endsWith(']')) {
           const slug = basename.replace(/[.[\]]/g, '');

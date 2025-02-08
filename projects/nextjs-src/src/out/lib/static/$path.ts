@@ -3,11 +3,11 @@ import type { OptionalQuery as OptionalQuery_1j8ubzu } from '../../../pages/[pid
 import type { Query as Query_1oqjm3b } from '../../../pages/blog/[...slug]';
 
 export const pagesPath = {
-  "_ignore": {
+  '_ignore': {
     $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/.ignore' as const, hash: url?.hash })
   },
   _a: (a: string | number) => ({
-    "b": {
+    'b': {
       _c: (c: string[]) => ({
         $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/[a]/b/[...c]' as const, query: { a, c }, hash: url?.hash })
       })
@@ -16,23 +16,23 @@ export const pagesPath = {
   _pid: (pid: string | number) => ({
     $url: (url?: { query?: OptionalQuery_1j8ubzu | undefined, hash?: string | undefined } | undefined) => ({ pathname: '/[pid]' as const, query: { pid, ...url?.query }, hash: url?.hash })
   }),
-  "aaa": {
+  'aaa': {
     _bbb: (bbb: string[]) => ({
-      "ccc": {
+      'ccc': {
         $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/aaa/[...bbb]/ccc' as const, query: { bbb }, hash: url?.hash })
       }
     }),
-    "api": {
-      "samples": {
+    'api': {
+      'samples': {
         $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/aaa/api/samples' as const, hash: url?.hash })
       }
     }
   },
-  "blog": {
+  'blog': {
     _slug: (slug: string[]) => ({
       $url: (url: { query: Query_1oqjm3b, hash?: string | undefined }) => ({ pathname: '/blog/[...slug]' as const, query: { slug, ...url.query }, hash: url.hash })
     }),
-    "hoge": {
+    'hoge': {
       _fuga: (fuga?: string[] | undefined) => ({
         $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/blog/hoge/[[...fuga]]' as const, query: { fuga }, hash: url?.hash })
       })

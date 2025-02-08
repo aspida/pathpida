@@ -84,9 +84,7 @@ export const parseAppDir = (
         const isParallelRoute = file.startsWith('@');
         const newUrl = isParallelRoute ? url : `${url}/${file}`;
 
-        let valFn = `${indent}${JSON.stringify(
-          replaceWithUnderscore(file),
-        )}: {\n<% next %>\n${indent}}`;
+        let valFn = `${indent}'${replaceWithUnderscore(file)}': {\n<% next %>\n${indent}}`;
 
         if (file.startsWith('[') && file.endsWith(']')) {
           const slug = file.replace(/[.[\]]/g, '');

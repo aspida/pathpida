@@ -18,12 +18,11 @@ export const createNextTemplate = (
 
   return `${imports.join('\n')}${imports.length ? '\n\n' : ''}${
     appDir
-      ? `const buildSuffix = (url?: {query?: Record<string, string>, hash?: string}) => {
+      ? `const buildSuffix = (url?: { query?: any, hash?: string }) => {
   const query = url?.query;
   const hash = url?.hash;
-  if (!query && !hash) return '';
-  const search = query ? \`?\${new URLSearchParams(query)}\` : '';
-  return \`\${search}\${hash ? \`#\${hash}\` : ''}\`;
+
+  return \`\${query ? \`?\${new URLSearchParams(query)}\` : ''}\${hash ? \`#\${hash}\` : ''}\`;
 };
 
 `

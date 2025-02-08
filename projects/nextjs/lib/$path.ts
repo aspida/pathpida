@@ -3,14 +3,14 @@ import type { OptionalQuery as OptionalQuery_4ked3w } from '../pages/[pid]';
 import type { Query as Query_1v65l5d } from '../pages/blog/[...slug]';
 
 export const pagesPath = {
-  "%E6%97%A5%E6%9C%AC%E8%AA%9E": {
+  '%E6%97%A5%E6%9C%AC%E8%AA%9E': {
     $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/%E6%97%A5%E6%9C%AC%E8%AA%9E' as const, hash: url?.hash })
   },
-  "_ignore": {
+  '_ignore': {
     $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/.ignore' as const, hash: url?.hash })
   },
   _a: (a: string | number) => ({
-    "b": {
+    'b': {
       _c: (c: string[]) => ({
         $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/[a]/b/[...c]' as const, query: { a, c }, hash: url?.hash })
       })
@@ -19,33 +19,33 @@ export const pagesPath = {
   _pid: (pid: string | number) => ({
     $url: (url?: { query?: OptionalQuery_4ked3w | undefined, hash?: string | undefined } | undefined) => ({ pathname: '/[pid]' as const, query: { pid, ...url?.query }, hash: url?.hash })
   }),
-  "aaa": {
+  'aaa': {
     _bbb: (bbb: string[]) => ({
-      "ccc": {
+      'ccc': {
         $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/aaa/[...bbb]/ccc' as const, query: { bbb }, hash: url?.hash })
       }
     }),
-    "api": {
-      "samples": {
+    'api': {
+      'samples': {
         $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/aaa/api/samples' as const, hash: url?.hash })
       }
     }
   },
-  "blog": {
+  'blog': {
     _slug: (slug: string[]) => ({
       $url: (url: { query: Query_1v65l5d, hash?: string | undefined }) => ({ pathname: '/blog/[...slug]' as const, query: { slug, ...url.query }, hash: url.hash })
     }),
-    "hoge": {
+    'hoge': {
       _fuga: (fuga?: string[] | undefined) => ({
         $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/blog/hoge/[[...fuga]]' as const, query: { fuga }, hash: url?.hash })
       })
     }
   },
-  "x": {
+  'x': {
     $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/x' as const, hash: url?.hash }),
     _y: (y: string | number) => ({
       $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/x/[y]' as const, query: { y }, hash: url?.hash }),
-      "z": {
+      'z': {
         $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/x/[y]/z' as const, query: { y }, hash: url?.hash })
       }
     })

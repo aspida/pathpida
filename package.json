@@ -32,25 +32,25 @@
     "path"
   ],
   "dependencies": {
-    "chokidar": "^4.0.1",
-    "ignore": "^6.0.2",
+    "chokidar": "^4.0.3",
+    "ignore": "^7.0.3",
     "minimist": "^1.2.8"
   },
   "devDependencies": {
     "@types/eslint-config-prettier": "^6.11.3",
     "@types/minimist": "^1.2.2",
-    "@types/react": "^18.0.25",
-    "@types/react-dom": "^18.0.9",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
     "eslint": "^9.20.0",
     "eslint-config-flat-gitignore": "^2.0.0",
     "eslint-config-prettier": "^10.0.1",
     "globals": "^15.14.0",
     "jiti": "^2.4.2",
-    "next": "^15.1.0",
+    "next": "^15.1.6",
     "prettier": "^3.4.2",
     "prettier-plugin-organize-imports": "^4.1.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.1.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3",
     "typescript-eslint": "^8.23.0",
     "vitest": "^3.0.5"
   }
