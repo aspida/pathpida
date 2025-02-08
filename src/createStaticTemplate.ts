@@ -9,9 +9,13 @@ export const createStaticTemplate = (
   ignorePath: string | undefined,
 ) => {
   const ig = createIg(ignorePath);
-  const createPublicString = (targetDir: string, indent: string, url: string, text: string) => {
-    indent += '  ';
-
+  const createPublicString = (
+    targetDir: string,
+    parentIndent: string,
+    url: string,
+    text: string,
+  ) => {
+    const indent = `  ${parentIndent}`;
     const files = fs.readdirSync(targetDir).sort();
     const replacedFiles = files.map(replaceWithUnderscore);
     const duplicatedInfo = replacedFiles.reduce<Record<string, number[]>>(

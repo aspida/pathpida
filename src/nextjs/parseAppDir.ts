@@ -3,7 +3,7 @@ import path from 'path';
 import { createIg, isIgnored } from '../isIgnored';
 import { parseQueryFromTS } from '../parseQueryFromTS';
 import { replaceWithUnderscore } from '../replaceWithUnderscore';
-import { Slugs } from './parsePagesDir';
+import type { Slugs } from './parsePagesDir';
 
 export const createMethods = (
   indent: string,
@@ -44,14 +44,13 @@ export const parseAppDir = (
 
   const createPathObjString = (
     targetDir: string,
-    indent: string,
+    parentIndent: string,
     url: string,
     slugs: Slugs,
     text: string,
     methodsOfIndexTsFile?: string,
   ) => {
-    indent += '  ';
-
+    const indent = `  ${parentIndent}`;
     const props: string[] = fs
       .readdirSync(targetDir)
       .filter((file) =>

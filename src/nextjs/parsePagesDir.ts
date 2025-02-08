@@ -12,12 +12,12 @@ export const createMethods = (
   slugs: Slugs,
   pathname: string,
 ) =>
-  `${indent}  $url: ` +
-  ((opt) =>
+  `${indent}  $url: ${((opt) =>
     `(url${opt ? '?' : ''}: { ${
       importName ? `query${opt ? '?' : ''}: ${importName}${opt ? ' | undefined' : ''}, ` : ''
-    }hash?: string | undefined }${opt ? ' | undefined' : ''})`)(!importName?.startsWith('Query')) +
-  ` => ({ pathname: '${pathname}' as const${
+    }hash?: string | undefined }${opt ? ' | undefined' : ''})`)(
+    !importName?.startsWith('Query'),
+  )} => ({ pathname: '${pathname}' as const${
     slugs.length
       ? `, query: { ${slugs.join(', ')}${
           importName ? `, ...url${importName.startsWith('Query') ? '' : '?'}.query` : ''
@@ -49,14 +49,13 @@ export const parsePagesDir = (
 
   const createPathObjString = (
     targetDir: string,
-    indent: string,
+    parentIndent: string,
     url: string,
     slugs: Slugs,
     text: string,
     methodsOfIndexTsFile?: string,
   ) => {
-    indent += '  ';
-
+    const indent = `  ${parentIndent}`;
     const props: string[] = fs
       .readdirSync(targetDir)
       .filter((file) =>

@@ -29,7 +29,7 @@ export default async (
       require('next/constants').PHASE_PRODUCTION_BUILD,
       dir,
     );
-  } catch (e) {
+  } catch (_) {
     // < v11.1.0
     config = await require('next/dist/next-server/server/config').default(
       require('next/constants').PHASE_PRODUCTION_BUILD,
@@ -45,19 +45,21 @@ export default async (
 
   const isAppDirUsed = fs.existsSync(path.posix.join(srcDir, 'app'));
 
-  if (!output) {
+  let outDir = output;
+
+  if (!outDir) {
     const utilsPath = path.join(srcDir, 'utils');
-    output = fs.existsSync(utilsPath) ? utilsPath : path.join(srcDir, 'lib');
+    outDir = fs.existsSync(utilsPath) ? utilsPath : path.join(srcDir, 'lib');
   }
 
-  if (!fs.existsSync(output)) fs.mkdirSync(output);
+  if (!fs.existsSync(outDir)) fs.mkdirSync(outDir);
 
   const inputDir = path.posix.join(srcDir, 'pages');
 
   return {
     input: fs.existsSync(inputDir) ? inputDir : undefined,
     staticDir: enableStatic ? path.posix.join(dir, 'public') : undefined,
-    output,
+    output: outDir,
     ignorePath,
     appDir: isAppDirUsed ? { input: path.posix.join(srcDir, 'app') } : undefined,
     pageExtensions: config.pageExtensions,

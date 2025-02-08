@@ -1,5 +1,6 @@
 import fs from 'fs';
-import ignore, { Ignore } from 'ignore';
+import type { Ignore } from 'ignore';
+import ignore from 'ignore';
 import path from 'path';
 
 export const createIg = (ignorePath: string | undefined) =>

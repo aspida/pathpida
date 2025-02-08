@@ -9,8 +9,8 @@
     "dev": "npm run build && ts-node projects/build.ts",
     "build": "npm run rimraf && tsc -p tsconfig.build.json",
     "rimraf": "node -e \"require('fs').existsSync('dist') && require('fs').rmSync('dist', { recursive: true, force: true })\"",
-    "lint": "eslint --ext .ts . && prettier --check \"./**/*.ts\"",
-    "lint:fix": "eslint --ext .ts . --fix && prettier --write \"./**/*.ts\"",
+    "lint": "eslint . && prettier --check \"./**/*.ts\"",
+    "lint:fix": "eslint . --fix && prettier --write \"./**/*.ts\"",
     "test": "cross-env __NEXT_TEST_MODE=jest jest",
     "typecheck": "tsc --noEmit"
   },
@@ -31,61 +31,30 @@
     "pages",
     "path"
   ],
-  "eslintConfig": {
-    "env": {
-      "es6": true,
-      "node": true,
-      "browser": true
-    },
-    "extends": [
-      "standard",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:jest/recommended",
-      "prettier"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 2018,
-      "sourceType": "module"
-    },
-    "root": true,
-    "rules": {
-      "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/ban-ts-comment": "off",
-      "@typescript-eslint/explicit-module-boundary-types": "off",
-      "@typescript-eslint/no-var-requires": "off",
-      "@typescript-eslint/ban-types": "off",
-      "@typescript-eslint/camelcase": "off",
-      "@typescript-eslint/no-explicit-any": "off"
-    }
-  },
   "dependencies": {
     "chokidar": "^4.0.1",
     "ignore": "^6.0.2",
     "minimist": "^1.2.8"
   },
   "devDependencies": {
+    "@types/eslint-config-prettier": "^6.11.3",
     "@types/jest": "^29.5.3",
     "@types/minimist": "^1.2.2",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
-    "@typescript-eslint/eslint-plugin": "^6.2.0",
-    "@typescript-eslint/parser": "^6.2.0",
     "cross-env": "^7.0.3",
-    "eslint": "^8.46.0",
-    "eslint-config-prettier": "^8.9.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.28.0",
-    "eslint-plugin-jest": "^27.2.3",
-    "eslint-plugin-n": "^16.0.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-standard": "^5.0.0",
+    "eslint": "^9.20.0",
+    "eslint-config-flat-gitignore": "^2.0.0",
+    "eslint-config-prettier": "^10.0.1",
+    "globals": "^15.14.0",
     "jest": "^29.6.2",
+    "jiti": "^2.4.2",
     "next": "^15.1.0",
     "prettier": "^3.4.2",
     "prettier-plugin-organize-imports": "^4.1.0",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "typescript-eslint": "^8.23.0"
   }
 }
