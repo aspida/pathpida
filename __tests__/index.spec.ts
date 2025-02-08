@@ -8,7 +8,7 @@ import getConfig from '../src/getConfig';
 
 describe('cli test', () => {
   test('version command', async () => {
-    const spyLog = jest.spyOn(console, 'log').mockImplementation(x => x);
+    const spyLog = jest.spyOn(console, 'log').mockImplementation((x) => x);
     const args = ['--version'];
 
     await run(args);
@@ -27,7 +27,7 @@ describe('cli test', () => {
         project.enableStatic,
         project.output && path.join(workingDir, project.output),
         project.ignorePath,
-        workingDir
+        workingDir,
       );
 
       const result = fs.readFileSync(`${output}/$path.ts`, 'utf8');
@@ -39,7 +39,7 @@ describe('cli test', () => {
         ignorePath,
         pageExtensions,
         appDir,
-        basepath
+        basepath,
       });
 
       expect(filePath).toBe(`${output}/$path.ts`);
@@ -49,10 +49,10 @@ describe('cli test', () => {
             `${
               /\\/.test(workingDir) ? `${workingDir.replace(/\\/g, '\\\\')}(/src)?` : workingDir
             }/`,
-            'g'
+            'g',
           ),
-          ''
-        )
+          '',
+        ),
       ).toBe(result.replace(/\r/g, ''));
     }
   });

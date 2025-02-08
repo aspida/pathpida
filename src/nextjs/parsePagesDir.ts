@@ -10,10 +10,10 @@ export const createMethods = (
   indent: string,
   importName: string | undefined,
   slugs: Slugs,
-  pathname: string
+  pathname: string,
 ) =>
   `${indent}  $url: ` +
-  (opt =>
+  ((opt) =>
     `(url${opt ? '?' : ''}: { ${
       importName ? `query${opt ? '?' : ''}: ${importName}${opt ? ' | undefined' : ''}, ` : ''
     }hash?: string | undefined }${opt ? ' | undefined' : ''})`)(!importName?.startsWith('Query')) +
@@ -23,15 +23,15 @@ export const createMethods = (
           importName ? `, ...url${importName.startsWith('Query') ? '' : '?'}.query` : ''
         } }`
       : importName
-      ? `, query: url${importName.startsWith('Query') ? '' : '?'}.query`
-      : ''
+        ? `, query: url${importName.startsWith('Query') ? '' : '?'}.query`
+        : ''
   }, hash: url${importName?.startsWith('Query') ? '' : '?'}.hash })`;
 
 export const parsePagesDir = (
   input: string,
   output: string,
   ignorePath: string | undefined,
-  pageExtensions = ['tsx', 'ts', 'jsx', 'js']
+  pageExtensions = ['tsx', 'ts', 'jsx', 'js'],
 ): { imports: string[]; text: string } => {
   const ig = createIg(ignorePath);
   const regExpChunk = `\\.(${pageExtensions.join('|').replace(/\./g, '\\.')})$`;
@@ -53,28 +53,28 @@ export const parsePagesDir = (
     url: string,
     slugs: Slugs,
     text: string,
-    methodsOfIndexTsFile?: string
+    methodsOfIndexTsFile?: string,
   ) => {
     indent += '  ';
 
     const props: string[] = fs
       .readdirSync(targetDir)
-      .filter(file =>
+      .filter((file) =>
         [
           !file.startsWith('_'),
           !file.endsWith('.d.ts'),
           `${url}/${file}` !== '/api',
           !isIgnored(ig, ignorePath, targetDir, file),
-          fs.statSync(path.posix.join(targetDir, file)).isDirectory() || pageExtRegExp.test(file)
-        ].every(Boolean)
+          fs.statSync(path.posix.join(targetDir, file)).isDirectory() || pageExtRegExp.test(file),
+        ].every(Boolean),
       )
       .sort()
-      .map(file => {
+      .map((file) => {
         const newSlugs = [...slugs];
         const basename = file.replace(pageExtRegExp, '');
         const newUrl = `${url}/${basename}`;
         let valFn = `${indent}${JSON.stringify(
-          replaceWithUnderscore(basename)
+          replaceWithUnderscore(basename),
         )}: {\n<% next %>\n${indent}}`;
 
         if (basename.startsWith('[') && basename.endsWith(']')) {
@@ -93,10 +93,10 @@ export const parsePagesDir = (
         if (fs.statSync(target).isFile() && basename !== 'index') {
           return valFn.replace(
             '<% next %>',
-            createMethods(indent, getImportName(target), newSlugs, newUrl)
+            createMethods(indent, getImportName(target), newSlugs, newUrl),
           );
         } else if (fs.statSync(target).isDirectory()) {
-          const indexFile = fs.readdirSync(target).find(name => indexPageRegExp.test(name));
+          const indexFile = fs.readdirSync(target).find((name) => indexPageRegExp.test(name));
 
           return createPathObjString(
             target,
@@ -109,8 +109,8 @@ export const parsePagesDir = (
                 indent,
                 getImportName(path.posix.join(target, indexFile)),
                 newSlugs,
-                newUrl
-              )
+                newUrl,
+              ),
           );
         }
 
@@ -142,11 +142,11 @@ export const parsePagesDir = (
       '<% props %>',
       `${joinedProps}${
         methodsOfIndexTsFile ? `${props.length ? ',\n' : ''}${methodsOfIndexTsFile}` : ''
-      }`
+      }`,
     );
   };
 
-  const rootIndexFile = fs.readdirSync(input).find(name => indexPageRegExp.test(name));
+  const rootIndexFile = fs.readdirSync(input).find((name) => indexPageRegExp.test(name));
   const rootIndent = '';
   let rootMethods;
 
@@ -155,7 +155,7 @@ export const parsePagesDir = (
       rootIndent,
       getImportName(path.posix.join(input, rootIndexFile)),
       [],
-      '/'
+      '/',
     );
   }
 

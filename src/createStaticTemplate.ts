@@ -6,7 +6,7 @@ import { replaceWithUnderscore } from './replaceWithUnderscore';
 export const createStaticTemplate = (
   input: string,
   basepath: string | undefined,
-  ignorePath: string | undefined
+  ignorePath: string | undefined,
 ) => {
   const ig = createIg(ignorePath);
   const createPublicString = (targetDir: string, indent: string, url: string, text: string) => {
@@ -16,7 +16,7 @@ export const createStaticTemplate = (
     const replacedFiles = files.map(replaceWithUnderscore);
     const duplicatedInfo = replacedFiles.reduce<Record<string, number[]>>(
       (a, b, i) => ({ ...a, [b]: [...(a[b] ?? []), i] }),
-      {}
+      {},
     );
     const props: string[] = files
       .map((file, i) => {
@@ -35,13 +35,13 @@ export const createStaticTemplate = (
         return fs.statSync(target).isFile()
           ? valFn.replace('<% next %>', `'${newUrl}'`)
           : fs.statSync(target).isDirectory()
-          ? createPublicString(
-              target,
-              indent,
-              newUrl,
-              valFn.replace('<% next %>', `{\n<% props %>\n${indent}}`)
-            )
-          : '';
+            ? createPublicString(
+                target,
+                indent,
+                newUrl,
+                valFn.replace('<% next %>', `{\n<% props %>\n${indent}}`),
+              )
+            : '';
       })
       .filter(Boolean);
 
@@ -52,7 +52,7 @@ export const createStaticTemplate = (
     input,
     '',
     typeof basepath === 'string' ? basepath.replace(/\/+$/, '') : '',
-    '{\n<% props %>\n} as const;'
+    '{\n<% props %>\n} as const;',
   );
 
   return `\nexport const staticPath = ${text}\n\nexport type StaticPath = typeof staticPath;\n`;

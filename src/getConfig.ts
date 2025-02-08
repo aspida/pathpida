@@ -17,7 +17,7 @@ export default async (
   enableStatic: boolean,
   output: string | undefined,
   igPath: string | undefined,
-  dir = process.cwd()
+  dir = process.cwd(),
 ): Promise<Config> => {
   const ignorePath = igPath && path.join(dir, igPath);
 
@@ -27,13 +27,13 @@ export default async (
     // >= v11.1.0
     config = await require('next/dist/server/config').default(
       require('next/constants').PHASE_PRODUCTION_BUILD,
-      dir
+      dir,
     );
   } catch (e) {
     // < v11.1.0
     config = await require('next/dist/next-server/server/config').default(
       require('next/constants').PHASE_PRODUCTION_BUILD,
-      dir
+      dir,
     );
   }
 
@@ -61,6 +61,6 @@ export default async (
     ignorePath,
     appDir: isAppDirUsed ? { input: path.posix.join(srcDir, 'app') } : undefined,
     pageExtensions: config.pageExtensions,
-    basepath: config.basePath
+    basepath: config.basePath,
   };
 };

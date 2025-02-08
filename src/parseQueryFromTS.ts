@@ -4,8 +4,8 @@ import { createHash } from './createHash';
 
 export const parseQueryFromTS = (output: string, file: string) => {
   const fileData = fs.readFileSync(file, 'utf8');
-  const typeName = ['Query', 'OptionalQuery'].find(type =>
-    new RegExp(`export (interface ${type} ?{|type ${type} ?=)`).test(fileData)
+  const typeName = ['Query', 'OptionalQuery'].find((type) =>
+    new RegExp(`export (interface ${type} ?{|type ${type} ?=)`).test(fileData),
   );
 
   if (!typeName) return;
@@ -18,6 +18,6 @@ export const parseQueryFromTS = (output: string, file: string) => {
 
   return {
     importName,
-    importString: `import type { ${typeName} as ${importName} } from '${importPath}';`
+    importString: `import type { ${typeName} as ${importName} } from '${importPath}';`,
   };
 };

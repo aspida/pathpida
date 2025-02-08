@@ -7,23 +7,25 @@ import write from './writeRouteFile';
 export const run = async (args: string[]) => {
   const argv = minimist(args, {
     string: ['version', 'watch', 'enableStatic', 'output', 'ignorePath'],
-    alias: { v: 'version', w: 'watch', s: 'enableStatic', o: 'output', p: 'ignorePath' }
+    alias: { v: 'version', w: 'watch', s: 'enableStatic', o: 'output', p: 'ignorePath' },
   });
 
   argv.version !== undefined
     ? console.log(`v${require('../package.json').version}`)
     : argv.watch !== undefined
-    ? await (async () => {
-        const config = await getConfig(
-          argv.enableStatic !== undefined,
-          argv.output,
-          argv.ignorePath
-        );
-        write(build(config));
+      ? await (async () => {
+          const config = await getConfig(
+            argv.enableStatic !== undefined,
+            argv.output,
+            argv.ignorePath,
+          );
+          write(build(config));
 
-        config.input && watch(config.input, () => write(build(config, 'pages')));
-        config.appDir && watch(config.appDir.input, () => write(build(config, 'pages')));
-        config.staticDir && watch(config.staticDir, () => write(build(config, 'static')));
-      })()
-    : write(build(await getConfig(argv.enableStatic !== undefined, argv.output, argv.ignorePath)));
+          config.input && watch(config.input, () => write(build(config, 'pages')));
+          config.appDir && watch(config.appDir.input, () => write(build(config, 'pages')));
+          config.staticDir && watch(config.staticDir, () => write(build(config, 'static')));
+        })()
+      : write(
+          build(await getConfig(argv.enableStatic !== undefined, argv.output, argv.ignorePath)),
+        );
 };

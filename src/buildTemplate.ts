@@ -13,7 +13,7 @@ export const resetCache = () => {
 
 export default (
   { input, staticDir, output, ignorePath, basepath, pageExtensions, appDir }: Config,
-  mode?: 'pages' | 'static'
+  mode?: 'pages' | 'static',
 ) => {
   const emptyPathRegExp = /\n.+{\n+ +}.*/;
 
@@ -39,6 +39,6 @@ export default (
 
   return {
     text: `${prevPagesText}${prevStaticText}`,
-    filePath: path.posix.join(output, '$path.ts')
+    filePath: path.posix.join(output, '$path.ts'),
   };
 };

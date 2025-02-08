@@ -9,11 +9,11 @@ export const isIgnored = (
   ig: Ignore | undefined,
   ignorePath: string | undefined,
   targetDir: string,
-  file: string
+  file: string,
 ) =>
   !!ig?.ignores(
     path.relative(
       (ignorePath ?? '').replace(path.basename(ignorePath ?? ''), ''),
-      path.posix.join(targetDir, file)
-    )
+      path.posix.join(targetDir, file),
+    ),
   );

@@ -5,10 +5,10 @@ export const projects = [
   { dir: 'nextjs-basepath', output: 'out/lib' },
   { dir: 'nextjs-custom-ext', output: 'out/lib' },
   { dir: 'nextjs-src', output: 'src/out/lib' },
-  { dir: 'nextjs-stable-appdir', output: 'out/lib' }
+  { dir: 'nextjs-stable-appdir', output: 'out/lib' },
 ].flatMap(
   (
-    project
+    project,
   ): {
     dir: string;
     output: string | undefined;
@@ -20,19 +20,19 @@ export const projects = [
       ...project,
       output: `${project.output}/basic`,
       enableStatic: false,
-      ignorePath: '.pathpidaignore'
+      ignorePath: '.pathpidaignore',
     },
     {
       ...project,
       output: `${project.output}/static`,
       enableStatic: true,
-      ignorePath: undefined
+      ignorePath: undefined,
     },
     {
       ...project,
       output: `${project.output}/ignore`,
       enableStatic: true,
-      ignorePath: '.pathpidaignore'
-    }
-  ]
+      ignorePath: '.pathpidaignore',
+    },
+  ],
 );

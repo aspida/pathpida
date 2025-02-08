@@ -9,7 +9,7 @@ export const createMethods = (
   indent: string,
   importName: string | undefined,
   slugs: Slugs,
-  pathname: string
+  pathname: string,
 ) =>
   `${indent}  $url: (url${importName?.startsWith('Query') ? '' : '?'}: { ${
     importName ? `query${importName.startsWith('Optional') ? '?' : ''}: ${importName}, ` : ''
@@ -19,8 +19,8 @@ export const createMethods = (
           importName ? `, ...url${importName.startsWith('Query') ? '' : '?'}.query` : ''
         } }`
       : importName
-      ? `, query: url${importName.startsWith('Query') ? '' : '?'}.query`
-      : ''
+        ? `, query: url${importName.startsWith('Query') ? '' : '?'}.query`
+        : ''
   }, hash: url${importName?.startsWith('Query') ? '' : '?'}.hash, path: \`${pathname
     .replace(/\[\[?\.\.\.(.*?)\]\]?/g, `\${$1?.join('/')}`)
     .replace(/\[(.*?)\]/g, `\${$1}`)}\${buildSuffix(url)}\` })`;
@@ -28,7 +28,7 @@ export const createMethods = (
 export const parseAppDir = (
   input: string,
   output: string,
-  ignorePath: string | undefined
+  ignorePath: string | undefined,
 ): { imports: string[]; text: string } => {
   const ig = createIg(ignorePath);
   const pageFileNames = ['page.tsx', 'page.jsx', 'page.js'];
@@ -48,24 +48,24 @@ export const parseAppDir = (
     url: string,
     slugs: Slugs,
     text: string,
-    methodsOfIndexTsFile?: string
+    methodsOfIndexTsFile?: string,
   ) => {
     indent += '  ';
 
     const props: string[] = fs
       .readdirSync(targetDir)
-      .filter(file =>
+      .filter((file) =>
         [
           !isIgnored(ig, ignorePath, targetDir, file),
-          fs.statSync(path.posix.join(targetDir, file)).isDirectory()
-        ].every(Boolean)
+          fs.statSync(path.posix.join(targetDir, file)).isDirectory(),
+        ].every(Boolean),
       )
       .sort()
-      .map(file => {
+      .map((file) => {
         const newSlugs = [...slugs];
         const target = path.posix.join(targetDir, file);
         if (file.startsWith('(') && file.endsWith(')')) {
-          const indexFile = fs.readdirSync(target).find(name => pageFileNames.includes(name));
+          const indexFile = fs.readdirSync(target).find((name) => pageFileNames.includes(name));
           return createPathObjString(
             target,
             indent.slice(2),
@@ -77,8 +77,8 @@ export const parseAppDir = (
                 indent.slice(2),
                 getImportName(path.posix.join(target, indexFile)),
                 newSlugs,
-                url
-              )
+                url,
+              ),
           );
         }
 
@@ -86,7 +86,7 @@ export const parseAppDir = (
         const newUrl = isParallelRoute ? url : `${url}/${file}`;
 
         let valFn = `${indent}${JSON.stringify(
-          replaceWithUnderscore(file)
+          replaceWithUnderscore(file),
         )}: {\n<% next %>\n${indent}}`;
 
         if (file.startsWith('[') && file.endsWith(']')) {
@@ -97,7 +97,7 @@ export const parseAppDir = (
           newSlugs.push(slug);
         }
 
-        const indexFile = fs.readdirSync(target).find(name => pageFileNames.includes(name));
+        const indexFile = fs.readdirSync(target).find((name) => pageFileNames.includes(name));
 
         return createPathObjString(
           target,
@@ -110,8 +110,8 @@ export const parseAppDir = (
               indent,
               getImportName(path.posix.join(target, indexFile)),
               newSlugs,
-              newUrl
-            )
+              newUrl,
+            ),
         );
       })
       .filter(Boolean);
@@ -140,11 +140,11 @@ export const parseAppDir = (
       '<% props %>',
       `${joinedProps}${
         methodsOfIndexTsFile ? `${props.length ? ',\n' : ''}${methodsOfIndexTsFile}` : ''
-      }`
+      }`,
     );
   };
 
-  const rootIndexFile = fs.readdirSync(input).find(name => pageFileNames.includes(name));
+  const rootIndexFile = fs.readdirSync(input).find((name) => pageFileNames.includes(name));
   const rootIndent = '';
   let rootMethods;
 
@@ -153,7 +153,7 @@ export const parseAppDir = (
       rootIndent,
       getImportName(path.posix.join(input, rootIndexFile)),
       [],
-      '/'
+      '/',
     );
   }
 
