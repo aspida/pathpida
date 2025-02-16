@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import { createIg, isIgnored } from '../isIgnored';
-import { parseQueryFromTS } from '../parseQueryFromTS';
-import { replaceWithUnderscore } from '../replaceWithUnderscore';
+import { createIg, isIgnored } from './isIgnored';
+import { parseQueryFromTS } from './parseQueryFromTS';
+import { replaceWithUnderscore } from './replaceWithUnderscore';
 
 export type Slugs = string[];
 

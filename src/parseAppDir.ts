@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import { createIg, isIgnored } from '../isIgnored';
-import { parseQueryFromTS } from '../parseQueryFromTS';
-import { replaceWithUnderscore } from '../replaceWithUnderscore';
+import { createIg, isIgnored } from './isIgnored';
 import type { Slugs } from './parsePagesDir';
+import { parseQueryFromTS } from './parseQueryFromTS';
+import { replaceWithUnderscore } from './replaceWithUnderscore';
 
 export const createMethods = (
   indent: string,
@@ -155,6 +155,6 @@ export const parseAppDir = (
   }
 
   const text = createPathObjString(input, rootIndent, '', [], '<% props %>', rootMethods);
-  // console.log({ input, rootIndent, rootMethods, text })
+
   return { imports, text };
 };
