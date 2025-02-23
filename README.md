@@ -219,28 +219,6 @@ export default () => {
 };
 ```
 
-<a id="Convert query types"></a>
-
-### Convert query types
-
-```tsx
-import type { ToNextSearchParams } from "../lib/$path";
-
-export type Query = {
-  limit: number;
-  productIds: number[];
-};
-
-type PageProps = {
-  searchParams: ToNextSearchParams<Query>;
-}
-// {
-//   limit: number;          // number -> string
-//   productIds: number[];   // number[] -> string[]
-// }
-```
-
-
 <a id="Generate-static-files-path"></a>
 
 ## Generate static files path
