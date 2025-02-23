@@ -18,13 +18,7 @@ export const createNextTemplate = (
 
   return `${imports.join('\n')}${imports.length ? '\n\n' : ''}${
     appDir
-      ? `type ConvertToSearchParam<T> = T extends unknown[] ? string[] : string;
-
-export type ToNextSearchParams<T> = {
-  [K in keyof T]: ConvertToSearchParam<T[K]>
-};
-
-const buildSuffix = (url?: {
+      ? `const buildSuffix = (url?: {
   query?: Record<string, string | number | boolean | Array<string | number | boolean>>,
   hash?: string
 }) => {

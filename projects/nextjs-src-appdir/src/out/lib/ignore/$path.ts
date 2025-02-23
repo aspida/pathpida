@@ -2,12 +2,6 @@ import type { Query as Query_1yksaqv } from '../../../app/page';
 import type { OptionalQuery as OptionalQuery_a6l6vr } from '../../../app/(group1)/[pid]/page';
 import type { Query as Query_46sa06 } from '../../../app/(group1)/blog/[...slug]/page';
 
-type ConvertToSearchParam<T> = T extends unknown[] ? string[] : string;
-
-export type ToNextSearchParams<T> = {
-  [K in keyof T]: ConvertToSearchParam<T[K]>
-};
-
 const buildSuffix = (url?: {
   query?: Record<string, string | number | boolean | Array<string | number | boolean>>,
   hash?: string
