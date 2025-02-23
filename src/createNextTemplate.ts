@@ -6,7 +6,7 @@ export const createNextTemplate = (
   output: string,
   ignorePath: string | undefined,
   appDir: { input: string } | undefined,
-  pageExtensions = ['tsx', 'ts', 'jsx', 'js']
+  pageExtensions = ['tsx', 'ts', 'jsx', 'js'],
 ): string => {
   const appDirData = appDir
     ? parseAppDir(appDir.input, output, ignorePath)
