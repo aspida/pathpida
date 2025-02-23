@@ -6,11 +6,37 @@ import type { OptionalQuery as OptionalQuery_75amui } from '../../../app/xxx/(gr
 import type { OptionalQuery as OptionalQuery_1b52tdg } from '../../../pages/children/[pid]';
 import type { Query as Query_9ixms9 } from '../../../pages/children/blog/[...slug]';
 
-const buildSuffix = (url?: { query?: any, hash?: string }) => {
+type ConvertToSearchParam<T> = T extends unknown[] ? string[] : string;
+
+export type ToNextSearchParams<T> = {
+  [K in keyof T]: ConvertToSearchParam<T[K]>
+};
+
+const buildSuffix = (url?: {
+  query?: Record<string, string | number | boolean | Array<string | number | boolean>>,
+  hash?: string
+}) => {
   const query = url?.query;
   const hash = url?.hash;
+  if (!query && !hash) return '';
+  const search = (() => {
+    if (!query) return '';
 
-  return `${query ? `?${new URLSearchParams(query)}` : ''}${hash ? `#${hash}` : ''}`;
+    const params = new URLSearchParams();
+
+    Object.entries(query).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((item) =>
+          params.append(key, String(item))
+        );
+      } else {
+        params.set(key, String(value));
+      }
+    });
+
+    return `?${params.toString()}`;
+  })();
+  return `${search}${hash ? `#${hash}` : ''}`;
 };
 
 export const pagesPath = {
