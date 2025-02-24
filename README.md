@@ -9,12 +9,6 @@
   <a href="https://www.npmjs.com/package/pathpida">
     <img src="https://img.shields.io/npm/dm/pathpida" alt="npm download" />
   </a>
-  <a href="https://github.com/aspida/pathpida/actions?query=workflow%3A%22Node.js+CI%22">
-    <img src="https://github.com/aspida/pathpida/workflows/Node.js%20CI/badge.svg?branch=master" alt="Node.js CI" />
-  </a>
-  <a href="https://lgtm.com/projects/g/aspida/pathpida/context:javascript">
-    <img src="https://img.shields.io/lgtm/grade/javascript/g/aspida/pathpida.svg" alt="Language grade: JavaScript" />
-  </a>
 </div>
 <br />
 <p align="center">TypeScript friendly pages and static path generator for Next.js.</p>
@@ -147,12 +141,12 @@ src/lib/$path.ts or src/utils/$path.ts // Generated automatically by pathpida
 `pages/index.tsx`
 
 ```tsx
-import Link from "next/link";
-import { pagesPath } from "../lib/$path";
+import Link from 'next/link';
+import { pagesPath } from '../lib/$path';
 
 console.log(pagesPath.post.create.$url()); // { pathname: '/post/create' }
 console.log(pagesPath.post._pid(1).$url()); // { pathname: '/post/[pid]', query: { pid: 1 }}
-console.log(pagesPath.post._slug(["a", "b", "c"]).$url()); // { pathname: '/post//[...slug]', query: { slug: ['a', 'b', 'c'] }}
+console.log(pagesPath.post._slug(['a', 'b', 'c']).$url()); // { pathname: '/post//[...slug]', query: { slug: ['a', 'b', 'c'] }}
 
 export default () => {
   const onClick = useCallback(() => {
@@ -161,7 +155,7 @@ export default () => {
 
   return (
     <>
-      <Link href={pagesPath.post._slug(["a", "b", "c"]).$url()} />
+      <Link href={pagesPath.post._slug(['a', 'b', 'c']).$url()} />
       <div onClick={onClick} />
     </>
   );
@@ -197,13 +191,13 @@ export default () => <div />;
 `pages/index.tsx`
 
 ```tsx
-import Link from "next/link";
-import { pagesPath } from "../lib/$path";
+import Link from 'next/link';
+import { pagesPath } from '../lib/$path';
 
 console.log(pagesPath.post.create.$url({ query: { userId: 1 } })); // { pathname: '/post/create', query: { userId: 1 }}
 console.log(pagesPath.post.create.$url()); // type error
 console.log(pagesPath.post._pid(1).$url()); // { pathname: '/post/[pid]', query: { pid: 1 }}
-console.log(pagesPath.post._pid(1).$url({ query: { limit: 10 }, hash: "sample" })); // { pathname: '/post/[pid]', query: { pid: 1, limit: 10 }, hash: 'sample' }
+console.log(pagesPath.post._pid(1).$url({ query: { limit: 10 }, hash: 'sample' })); // { pathname: '/post/[pid]', query: { pid: 1, limit: 10 }, hash: 'sample' }
 
 export default () => {
   const onClick = useCallback(() => {
@@ -212,7 +206,7 @@ export default () => {
 
   return (
     <>
-      <Link href={pagesPath.post._slug(["a", "b", "c"]).$url()} />
+      <Link href={pagesPath.post._slug(['a', 'b', 'c']).$url()} />
       <div onClick={onClick} />
     </>
   );
@@ -265,15 +259,15 @@ src/lib/$path.ts or src/utils/$path.ts // Generated automatically by pathpida
 `pages/index.tsx`
 
 ```tsx
-import Link from "next/link";
-import { pagesPath, staticPath } from "../lib/$path";
+import Link from 'next/link';
+import { pagesPath, staticPath } from '../lib/$path';
 
 console.log(staticPath.aa_json); // /aa.json
 
 export default () => {
   return (
     <>
-      <Link href={pagesPath.post._slug(["a", "b", "c"]).$url()} />
+      <Link href={pagesPath.post._slug(['a', 'b', 'c']).$url()} />
       <img src={staticPath.bb.cc_png} />
     </>
   );
@@ -282,4 +276,4 @@ export default () => {
 
 ## License
 
-pathpida is licensed under a [MIT License](https://github.com/aspida/pathpida/blob/master/LICENSE).
+pathpida is licensed under a [MIT License](https://github.com/aspida/pathpida/blob/main/LICENSE).
