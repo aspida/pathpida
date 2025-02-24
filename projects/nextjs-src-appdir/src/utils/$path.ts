@@ -2,11 +2,31 @@ import type { Query as Query_1j04kwd } from '../app/page';
 import type { OptionalQuery as OptionalQuery_1qd20e9 } from '../app/(group1)/[pid]/page';
 import type { Query as Query_g05ywg } from '../app/(group1)/blog/[...slug]/page';
 
-const buildSuffix = (url?: { query?: any, hash?: string }) => {
+const buildSuffix = (url?: {
+  query?: Record<string, string | number | boolean | Array<string | number | boolean>>,
+  hash?: string
+}) => {
   const query = url?.query;
   const hash = url?.hash;
+  if (!query && !hash) return '';
+  const search = (() => {
+    if (!query) return '';
 
-  return `${query ? `?${new URLSearchParams(query)}` : ''}${hash ? `#${hash}` : ''}`;
+    const params = new URLSearchParams();
+
+    Object.entries(query).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((item) =>
+          params.append(key, String(item))
+        );
+      } else {
+        params.set(key, String(value));
+      }
+    });
+
+    return `?${params.toString()}`;
+  })();
+  return `${search}${hash ? `#${hash}` : ''}`;
 };
 
 export const pagesPath = {
