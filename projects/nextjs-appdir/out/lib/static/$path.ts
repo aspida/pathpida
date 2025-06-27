@@ -55,7 +55,7 @@ export const pagesPath = {
       'ccc': {
         $url: (url?: { hash?: string }) => ({ pathname: '/aaa/[...bbb]/ccc' as const, query: { bbb }, hash: url?.hash, path: `/aaa/${bbb?.join('/')}/ccc${buildSuffix(url)}` })
       }
-    }),
+    })
   },
   'x': {
     _y: (y: string | number) => ({
