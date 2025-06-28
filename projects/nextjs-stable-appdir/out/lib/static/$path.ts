@@ -46,7 +46,11 @@ export const pagesPath = {
       _fuga: (fuga?: string[]) => ({
         $url: (url?: { hash?: string }) => ({ pathname: '/blog/hoge/[[...fuga]]' as const, query: { fuga }, hash: url?.hash, path: `/blog/hoge/${fuga?.join('/')}${buildSuffix(url)}` })
       })
-    }
+    },
+    'analytics': {
+      $url: (url?: { hash?: string }) => ({ pathname: '/blog/analytics' as const, hash: url?.hash, path: `/blog/analytics${buildSuffix(url)}` })
+    },
+    $url: (url?: { hash?: string }) => ({ pathname: '/blog' as const, hash: url?.hash, path: `/blog${buildSuffix(url)}` })
   },
   'aaa': {
     _bbb: (bbb: string[]) => ({
