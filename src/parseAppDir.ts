@@ -217,7 +217,7 @@ export const parseAppDir = (
   };
   scanDirectoryRecursively(input);
 
-  const result = outputObject.toText().trim().slice(2).slice(0, -2);
+  const text = outputObject.toText().trim().slice(2).slice(0, -2);
 
-  return { imports, text: result };
+  return { imports, text };
 };
