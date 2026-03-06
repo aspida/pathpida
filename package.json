@@ -9,8 +9,8 @@
     "dev": "npm run build && ts-node projects/build.ts",
     "build": "npm run rimraf && tsc -p tsconfig.build.json",
     "rimraf": "node -e \"require('fs').existsSync('dist') && require('fs').rmSync('dist', { recursive: true, force: true })\"",
-    "lint": "eslint . && prettier --check \"./**/*.ts\"",
-    "lint:fix": "eslint . --fix && prettier --write \"./**/*.ts\"",
+    "lint": "oxlint && oxfmt --check",
+    "lint:fix": "oxlint --fix && oxfmt",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
@@ -34,21 +34,14 @@
     "minimist": "^1.2.8"
   },
   "devDependencies": {
-    "@types/eslint-config-prettier": "^6.11.3",
     "@types/minimist": "^1.2.5",
     "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",
-    "eslint": "^9.20.0",
-    "eslint-config-flat-gitignore": "^2.0.0",
-    "eslint-config-prettier": "^10.0.1",
-    "globals": "^15.14.0",
-    "jiti": "^2.4.2",
     "next": "^15.5.12",
-    "prettier": "^3.4.2",
-    "prettier-plugin-organize-imports": "^4.1.0",
+    "oxfmt": "^0.36.0",
+    "oxlint": "^1.51.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.56.1",
     "vitest": "^3.2.4"
   }
 }

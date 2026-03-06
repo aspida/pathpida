@@ -1,7 +1,7 @@
 import fs from 'fs';
+import path from 'path';
 // import type { NextConfig } from 'next/dist/server/config'
 import type { NextConfig } from 'next';
-import path from 'path';
 
 export type Config = {
   input: string | undefined;

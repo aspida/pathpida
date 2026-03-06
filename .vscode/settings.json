@@ -1,13 +1,13 @@
 {
-  "eslint.run": "onSave",
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "oxc.oxc-vscode",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll": "explicit"
   },
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.referencesCodeLens.enabled": true,
+  "oxc.typeAware": true,
+  "oxc.fixKind": "all",
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.referencesCodeLens.enabled": true,
   "files.eol": "\n",
-  "editor.tabSize": 2,
-  "prettier.prettierPath": "node_modules/prettier"
+  "editor.tabSize": 2
 }

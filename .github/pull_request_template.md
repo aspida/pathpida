@@ -17,9 +17,7 @@ Thank you for your contribution! 👍
 
 - ...
 
-
 ## Additional context
-
 
 ## Community note
 

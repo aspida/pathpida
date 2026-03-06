@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 100,
+  "singleQuote": true,
+  "sortPackageJson": false,
+  "sortImports": {
+    "newlinesBetween": false
+  },
+  "ignorePatterns": ["dist", "projects/*/**", "$*.ts"]
+}

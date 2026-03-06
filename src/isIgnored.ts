@@ -1,7 +1,7 @@
 import fs from 'fs';
+import path from 'path';
 import type { Ignore } from 'ignore';
 import ignore from 'ignore';
-import path from 'path';
 
 export const createIg = (ignorePath: string | undefined) =>
   ignorePath === undefined ? undefined : ignore().add(fs.readFileSync(ignorePath).toString());
