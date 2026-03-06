@@ -17,10 +17,7 @@
   "homepage": "https://github.com/aspida/pathpida#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aspida/pathpida.git"
-  },
-  "bugs": {
-    "url": "https://github.com/aspida/pathpida/issues"
+    "url": "https://github.com/aspida/pathpida"
   },
   "files": [
     "dist"
@@ -33,25 +30,25 @@
   ],
   "dependencies": {
     "chokidar": "^4.0.3",
-    "ignore": "^7.0.3",
+    "ignore": "^7.0.5",
     "minimist": "^1.2.8"
   },
   "devDependencies": {
     "@types/eslint-config-prettier": "^6.11.3",
-    "@types/minimist": "^1.2.2",
-    "@types/react": "^18.3.18",
-    "@types/react-dom": "^18.3.5",
+    "@types/minimist": "^1.2.5",
+    "@types/react": "^18.3.28",
+    "@types/react-dom": "^18.3.7",
     "eslint": "^9.20.0",
     "eslint-config-flat-gitignore": "^2.0.0",
     "eslint-config-prettier": "^10.0.1",
     "globals": "^15.14.0",
     "jiti": "^2.4.2",
-    "next": "^15.1.6",
+    "next": "^15.5.12",
     "prettier": "^3.4.2",
     "prettier-plugin-organize-imports": "^4.1.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.3",
-    "typescript-eslint": "^8.23.0",
-    "vitest": "^3.0.5"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1",
+    "vitest": "^3.2.4"
   }
 }
