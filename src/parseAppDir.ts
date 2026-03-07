@@ -5,6 +5,7 @@ import type { Slugs } from './parsePagesDir';
 import { parseQueryFromTS } from './parseQueryFromTS';
 import { replaceWithUnderscore } from './replaceWithUnderscore';
 
+const PAGE_FILE_NAMES = ['page.tsx', 'page.jsx', 'page.js'];
 export const createMethods = (
   indent: string,
   importName: string | undefined,
@@ -25,13 +26,155 @@ export const createMethods = (
     .replace(/\[\[?\.\.\.(.*?)\]\]?/g, `\${$1?.join('/')}`)
     .replace(/\[(.*?)\]/g, `\${$1}`)}\${buildSuffix(url)}\` })`;
 
+class OutputObject {
+  /**
+   * This key is like [slug], not _slug
+   */
+  private objectKey: string;
+  private parentObject: OutputObject | undefined;
+  private importName: string | undefined;
+  private hasPage: boolean = false;
+  readonly children: OutputObject[] = [];
+
+  get slug(): string | null {
+    if (!(this.objectKey.startsWith('[') && this.objectKey.endsWith(']'))) return null;
+    const slug = this.objectKey.replace(/[.[\]]/g, '');
+    if (slug === undefined || slug === '') {
+      return null;
+    }
+    return slug;
+  }
+
+  /** Slugs of this object and all its parents */
+  get slugs(): string[] {
+    const parentSlugs = this.parentObject?.slugs ?? [];
+    if (this.slug === null) return parentSlugs;
+    return [...parentSlugs, this.slug];
+  }
+
+  private setImportNameIfUndefined(importName: string | undefined) {
+    if (this.importName === undefined) {
+      this.importName = importName;
+    }
+  }
+
+  private setHasPage() {
+    this.hasPage = true;
+  }
+
+  constructor(args: { objectKey: string; parentObject: OutputObject | undefined }) {
+    this.objectKey = args.objectKey;
+    this.parentObject = args.parentObject;
+  }
+
+  private createOrGetExistChildObject(
+    args: Omit<ConstructorParameters<typeof OutputObject>[0], 'parentObject'>,
+  ): OutputObject {
+    const childObject = this.children.find((child) => child.objectKey === args.objectKey);
+    if (childObject !== undefined) {
+      return childObject;
+    } else {
+      const newChildObject = new OutputObject({ ...args, parentObject: this });
+      this.children.push(newChildObject);
+      return newChildObject;
+    }
+  }
+
+  get ParentObjects(): OutputObject[] {
+    if (this.parentObject === undefined) return [];
+    return [...this.parentObject.ParentObjects, this.parentObject];
+  }
+
+  get isRoot(): boolean {
+    return this.parentObject === undefined;
+  }
+
+  get objectPath(): string {
+    return OutputObject.objectPath(
+      [
+        ...this.ParentObjects.filter((parent) => !parent.isRoot).map((parent) => parent.objectKey),
+        this.objectKey,
+      ].join('/'),
+    );
+  }
+
+  static objectPath(path: string) {
+    return OutputObject.ignoreRouteGroupPath(path);
+  }
+
+  static ignoreRouteGroupPath(path: string) {
+    return path
+      .split('/')
+      .filter((path) => !(path.startsWith('(') && path.endsWith(')')))
+      .join('/');
+  }
+
+  static ignoreParallelRoutePath(path: string) {
+    return path
+      .split('/')
+      .filter((path) => !path.startsWith('@'))
+      .join('/');
+  }
+
+  static url(path: string) {
+    return OutputObject.ignoreRouteGroupPath(OutputObject.ignoreParallelRoutePath(path));
+  }
+
+  get url(): string {
+    return OutputObject.url(this.objectPath);
+  }
+
+  registerPage(args: { directoryRelativePath: string; importName: string | undefined }) {
+    const splitTargetFileObjectPath = OutputObject.objectPath(args.directoryRelativePath)
+      .split('/')
+      .filter((path) => path !== '');
+    const splitThisObjectPath = this.objectPath.split('/').filter((path) => path !== '');
+
+    const nextObjectKey = splitTargetFileObjectPath.find((path, index) => {
+      return splitThisObjectPath[index] !== path;
+    });
+
+    if (nextObjectKey === undefined) {
+      this.setHasPage();
+      this.setImportNameIfUndefined(args.importName);
+      return;
+    }
+
+    const nextObject = this.createOrGetExistChildObject({ objectKey: nextObjectKey });
+    nextObject.registerPage(args);
+  }
+
+  toText(): string {
+    const indent = '  '.repeat(this.ParentObjects.length);
+    const isRoot = this.ParentObjects.length === 0;
+    const thisLevelTextBody = this.hasPage
+      ? createMethods(indent, this.importName, this.slugs, `${this.isRoot ? '' : '/'}${this.url}`)
+      : null;
+
+    const childrenTexts = this.children
+      .sort()
+      .map((child) => child.toText())
+      .filter((text) => text !== '');
+
+    const childrenTextWithThisLevelText = [...childrenTexts, thisLevelTextBody].filter(
+      (text) => text !== null,
+    );
+
+    const bodyText = childrenTextWithThisLevelText.join(',\n');
+    const isNullable = this.objectKey.startsWith('[[');
+    const objectKey =
+      this.slug === null ? `'${replaceWithUnderscore(this.objectKey)}'` : `_${this.slug}`;
+
+    return `${indent}${isRoot ? '' : `${objectKey}:`} ${this.slug === null ? `{\n${bodyText}\n${indent}}` : `(${this.slug}${isNullable ? '?' : ''}: ${/\[\./.test(this.objectKey) ? 'string[]' : 'string | number'}) => ({\n${bodyText}\n${indent}})`}`;
+  }
+}
+
 export const parseAppDir = (
   input: string,
   output: string,
   ignorePath: string | undefined,
 ): { imports: string[]; text: string } => {
   const ig = createIg(ignorePath);
-  const pageFileNames = ['page.tsx', 'page.jsx', 'page.js'];
   const imports: string[] = [];
   const getImportName = (file: string) => {
     const result = parseQueryFromTS(output, file);
@@ -42,119 +185,39 @@ export const parseAppDir = (
     }
   };
 
-  const createPathObjString = (
-    targetDir: string,
-    parentIndent: string,
-    url: string,
-    slugs: Slugs,
-    text: string,
-    methodsOfIndexTsFile?: string,
-  ) => {
-    const indent = `  ${parentIndent}`;
-    const props: string[] = fs
-      .readdirSync(targetDir)
-      .filter((file) =>
-        [
-          !isIgnored(ig, ignorePath, targetDir, file),
-          fs.statSync(path.posix.join(targetDir, file)).isDirectory(),
-        ].every(Boolean),
-      )
-      .sort()
-      .map((file) => {
-        const newSlugs = [...slugs];
-        const target = path.posix.join(targetDir, file);
-        if (file.startsWith('(') && file.endsWith(')')) {
-          const indexFile = fs.readdirSync(target).find((name) => pageFileNames.includes(name));
-          return createPathObjString(
-            target,
-            indent.slice(2),
-            url,
-            newSlugs,
-            '<% props %>',
-            indexFile &&
-              createMethods(
-                indent.slice(2),
-                getImportName(path.posix.join(target, indexFile)),
-                newSlugs,
-                url,
-              ),
-          );
-        }
+  // init root directory object
+  const outputObject = new OutputObject({
+    objectKey: '/',
+    parentObject: undefined,
+  });
 
-        const isParallelRoute = file.startsWith('@');
-        const newUrl = isParallelRoute ? url : `${url}/${file}`;
+  const scanDirectoryRecursively = (targetDirectoryPath: string) => {
+    if (!fs.statSync(targetDirectoryPath).isDirectory()) {
+      throw new Error(`${targetDirectoryPath} is not a directory`);
+    }
 
-        let valFn = `${indent}'${replaceWithUnderscore(file)}': {\n<% next %>\n${indent}}`;
+    const filteredThisDirectoryItems = fs.readdirSync(targetDirectoryPath).filter((item) => {
+      return !isIgnored(ig, ignorePath, targetDirectoryPath, item);
+    });
 
-        if (file.startsWith('[') && file.endsWith(']')) {
-          const slug = file.replace(/[.[\]]/g, '');
-          valFn = `${indent}${`_${slug}`}: (${slug}${file.startsWith('[[') ? '?' : ''}: ${
-            /\[\./.test(file) ? 'string[]' : 'string | number'
-          }) => ({\n<% next %>\n${indent}})`;
-          newSlugs.push(slug);
-        }
+    const pageFile = filteredThisDirectoryItems.find((item) => PAGE_FILE_NAMES.includes(item));
+    if (pageFile) {
+      outputObject.registerPage({
+        directoryRelativePath: path.relative(input, targetDirectoryPath),
+        importName: getImportName(path.posix.join(targetDirectoryPath, pageFile)),
+      });
+    }
 
-        const indexFile = fs.readdirSync(target).find((name) => pageFileNames.includes(name));
-
-        return createPathObjString(
-          target,
-          indent,
-          newUrl,
-          newSlugs,
-          valFn.replace('<% next %>', '<% props %>'),
-          indexFile &&
-            createMethods(
-              indent,
-              getImportName(path.posix.join(target, indexFile)),
-              newSlugs,
-              newUrl,
-            ),
-        );
-      })
-      .filter(Boolean);
-
-    const joinedProps = props
-      .reduce<string[]>((accumulator, current) => {
-        const last = accumulator[accumulator.length - 1];
-
-        if (last !== undefined) {
-          const [a, ...b] = last.split('\n');
-          const [x, ...y] = current.split('\n');
-
-          if (a === x) {
-            y.pop();
-            const z = y.pop();
-            const merged = [a, ...y, `${z},`, ...b].join('\n');
-            return [...accumulator.slice(0, -1), merged];
-          }
-        }
-
-        return [...accumulator, current];
-      }, [])
-      .join(',\n');
-
-    return text.replace(
-      '<% props %>',
-      `${joinedProps}${
-        methodsOfIndexTsFile ? `${props.length ? ',\n' : ''}${methodsOfIndexTsFile}` : ''
-      }`,
-    );
+    filteredThisDirectoryItems.forEach((item) => {
+      const subDirectoryPath = path.posix.join(targetDirectoryPath, item);
+      if (fs.statSync(subDirectoryPath).isDirectory()) {
+        scanDirectoryRecursively(subDirectoryPath);
+      }
+    });
   };
+  scanDirectoryRecursively(input);
 
-  const rootIndexFile = fs.readdirSync(input).find((name) => pageFileNames.includes(name));
-  const rootIndent = '';
-  let rootMethods;
-
-  if (rootIndexFile) {
-    rootMethods = createMethods(
-      rootIndent,
-      getImportName(path.posix.join(input, rootIndexFile)),
-      [],
-      '/',
-    );
-  }
-
-  const text = createPathObjString(input, rootIndent, '', [], '<% props %>', rootMethods);
+  const text = outputObject.toText().trim().slice(2).slice(0, -2);
 
   return { imports, text };
 };
