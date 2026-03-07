@@ -196,14 +196,15 @@ export const parseAppDir = (
       throw new Error(`${targetDirectoryPath} is not a directory`);
     }
 
-    const filteredThisDirectoryItems = fs.readdirSync(targetDirectoryPath).filter((item) => {
-      return !isIgnored(ig, ignorePath, targetDirectoryPath, item);
-    });
+    const filteredThisDirectoryItems = fs
+      .readdirSync(targetDirectoryPath)
+      .filter((item) => !isIgnored(ig, ignorePath, targetDirectoryPath, item))
+      .sort();
 
     const pageFile = filteredThisDirectoryItems.find((item) => PAGE_FILE_NAMES.includes(item));
     if (pageFile) {
       outputObject.registerPage({
-        directoryRelativePath: path.relative(input, targetDirectoryPath),
+        directoryRelativePath: path.posix.relative(input, targetDirectoryPath),
         importName: getImportName(path.posix.join(targetDirectoryPath, pageFile)),
       });
     }
