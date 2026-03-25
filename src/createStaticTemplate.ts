@@ -30,11 +30,11 @@ export const createStaticTemplate = (
         if (isIgnored(ig, ignorePath, targetDir, file)) return '';
 
         const replacedFile = replacedFiles[i];
-        const valFn = `${indent}${
+        const valFn = `${indent}'${
           duplicatedInfo[replacedFile].length > 1
             ? `${replacedFile}_${duplicatedInfo[replacedFile].indexOf(i)}`
             : replacedFile
-        }: <% next %>`;
+        }': <% next %>`;
 
         return fs.statSync(target).isFile()
           ? valFn.replace('<% next %>', `'${newUrl}'`)

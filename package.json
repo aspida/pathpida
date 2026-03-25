@@ -6,7 +6,7 @@
   "license": "MIT",
   "bin": "bin/index.js",
   "scripts": {
-    "dev": "npm run build && node projects/build.ts",
+    "dev": "npm run build && tsx projects/build.ts",
     "build": "npm run rimraf && tsc -p tsconfig.build.json",
     "rimraf": "node -e \"require('fs').existsSync('dist') && require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "lint": "oxlint && oxfmt --check",
@@ -41,6 +41,7 @@
     "next": "^16.1.6",
     "oxfmt": "^0.36.0",
     "oxlint": "^1.51.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vitest": "^3.2.4"
   }
