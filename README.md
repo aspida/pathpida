@@ -11,27 +11,16 @@
   </a>
 </div>
 <br />
-<p align="center">TypeScript friendly pages and static path generator for Next.js.</p>
+<p align="center">TypeScript friendly pages and static path generator for Next.js and Vinext.</p>
 <br />
 <br />
-
-## Breaking change :warning:
-
-### 2024/12/14
-
-Since pathpida >= `0.23.0` , removed Nuxt support.
-
-### 2022/11/25
-
-Since pathpida >= `0.20.0` , removed Sapper support.
 
 ## Features
 
-- **Type safety**. Automatically generate type definition files for manipulating internal links in Next.js.
+- **Type safety**. Automatically generate type definition files for manipulating internal links in Next.js and Vinext.
 - **Zero configuration**. No configuration required can be used immediately after installation.
 - **Zero runtime**. Lightweight because runtime code is not included in the bundle.
 - **Support for static files**. Static files in public/ are also supported, so static assets can be safely referenced.
-- **Support for appDir of Next.js 13 Layout**.
 
 ## Table of Contents
 

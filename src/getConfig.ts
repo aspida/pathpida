@@ -1,9 +1,5 @@
 import fs from 'fs';
-import { createRequire } from 'node:module';
 import path from 'path';
-import type { NextConfig } from 'next';
-
-const require = createRequire(import.meta.url);
 
 export type Config = {
   input: string | undefined;
@@ -23,20 +19,17 @@ export default async (
 ): Promise<Config> => {
   const ignorePath = igPath && path.join(dir, igPath);
 
-  let config: NextConfig;
+  let config: { basePath?: string | undefined; pageExtensions?: string[] | undefined };
 
   try {
-    // >= v11.1.0
-    config = await require('next/dist/server/config').default(
-      require('next/constants').PHASE_PRODUCTION_BUILD,
-      dir,
-    );
+    // Vinext
+    const vinextModule = await import('vinext/internal/config/next-config');
+    config = (await vinextModule.loadNextConfig(dir, vinextModule.PHASE_PRODUCTION_BUILD)) ?? {};
   } catch (_) {
-    // < v11.1.0
-    config = await require('next/dist/next-server/server/config').default(
-      require('next/constants').PHASE_PRODUCTION_BUILD,
-      dir,
-    );
+    // Next.js
+    const nextModule = await import('next/dist/server/config');
+    const nextConstants = await import('next/constants');
+    config = await nextModule.default(nextConstants.PHASE_PRODUCTION_BUILD, dir);
   }
 
   const srcDir =

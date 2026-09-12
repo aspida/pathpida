@@ -11,6 +11,7 @@
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
     "exactOptionalPropertyTypes": true,
+    "types": ["node", "vinext"],
     "target": "es2020"
   },
   "exclude": ["node_modules", "projects/**/*"]
