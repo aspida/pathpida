@@ -1,5 +1,8 @@
 import fs from 'fs';
+import { createRequire } from 'node:module';
 import path from 'path';
+
+const require = createRequire(import.meta.url);
 
 export type Config = {
   input: string | undefined;
@@ -27,9 +30,8 @@ export default async (
     config = (await vinextModule.loadNextConfig(dir, vinextModule.PHASE_PRODUCTION_BUILD)) ?? {};
   } catch (_) {
     // Next.js
-    const nextModule = await import('next/dist/server/config');
-    const nextConstants = await import('next/constants');
-    config = await nextModule.default(nextConstants.PHASE_PRODUCTION_BUILD, dir);
+    const nextModule = require('next/dist/server/config.js');
+    config = await nextModule.default(require('next/constants.js').PHASE_PRODUCTION_BUILD, dir);
   }
 
   const srcDir =
