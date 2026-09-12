@@ -29,20 +29,20 @@
     "path"
   ],
   "dependencies": {
-    "chokidar": "^4.0.3",
-    "ignore": "^7.0.5",
+    "chokidar": "^5.0.0",
+    "ignore": "^7.0.9",
     "minimist": "^1.2.8"
   },
   "devDependencies": {
     "@types/minimist": "^1.2.5",
     "@types/node": "^25.3.5",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "next": "^16.1.6",
-    "oxfmt": "^0.36.0",
-    "oxlint": "^1.51.0",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3",
-    "vitest": "^3.2.4"
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "next": "^16.3.5",
+    "oxfmt": "^0.67.0",
+    "oxlint": "^1.82.0",
+    "tsx": "^4.23.13",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.0"
   }
 }

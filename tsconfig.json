@@ -2,11 +2,10 @@
   "compilerOptions": {
     "declaration": true,
     "declarationMap": true,
-    "downlevelIteration": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["dom", "dom.iterable", "esnext"],
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "sourceMap": true,
     "strict": true,
     "strictPropertyInitialization": false,
