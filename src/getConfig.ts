@@ -1,7 +1,9 @@
 import fs from 'fs';
+import { createRequire } from 'node:module';
 import path from 'path';
-// import type { NextConfig } from 'next/dist/server/config'
 import type { NextConfig } from 'next';
+
+const require = createRequire(import.meta.url);
 
 export type Config = {
   input: string | undefined;

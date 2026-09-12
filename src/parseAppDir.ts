@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import { createIg, isIgnored } from './isIgnored';
-import type { Slugs } from './parsePagesDir';
-import { parseQueryFromTS } from './parseQueryFromTS';
-import { replaceWithUnderscore } from './replaceWithUnderscore';
+import { createIg, isIgnored } from './isIgnored.js';
+import type { Slugs } from './parsePagesDir.js';
+import { parseQueryFromTS } from './parseQueryFromTS.js';
+import { replaceWithUnderscore } from './replaceWithUnderscore.js';
 
 const PAGE_FILE_NAMES = ['page.tsx', 'page.jsx', 'page.js'];
 export const createMethods = (

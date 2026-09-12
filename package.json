@@ -4,6 +4,7 @@
   "description": "TypeScript friendly pages and static path generator for Next.js",
   "author": "Solufa",
   "license": "MIT",
+  "type": "module",
   "bin": "bin/index.js",
   "scripts": {
     "dev": "npm run build && tsx projects/build.ts",

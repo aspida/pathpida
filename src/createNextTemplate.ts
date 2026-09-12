@@ -1,5 +1,5 @@
-import { parseAppDir } from './parseAppDir';
-import { parsePagesDir } from './parsePagesDir';
+import { parseAppDir } from './parseAppDir.js';
+import { parsePagesDir } from './parsePagesDir.js';
 
 export const createNextTemplate = (
   input: string | undefined,

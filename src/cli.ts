@@ -1,8 +1,9 @@
+import { readFileSync } from 'node:fs';
 import minimist from 'minimist';
-import build from './buildTemplate';
-import getConfig from './getConfig';
-import watch from './watchInputDir';
-import write from './writeRouteFile';
+import build from './buildTemplate.js';
+import getConfig from './getConfig.js';
+import watch from './watchInputDir.js';
+import write from './writeRouteFile.js';
 
 export const run = async (args: string[]) => {
   const argv = minimist(args, {
@@ -11,7 +12,10 @@ export const run = async (args: string[]) => {
   });
 
   if (argv.version !== undefined) {
-    console.log(`v${require('../package.json').version}`);
+    const { version } = JSON.parse(
+      readFileSync(new URL('../package.json', import.meta.url), 'utf8'),
+    );
+    console.log(`v${version}`);
     return;
   }
 

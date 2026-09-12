@@ -1,7 +1,7 @@
 import path from 'path';
-import { createNextTemplate } from './createNextTemplate';
-import { createStaticTemplate } from './createStaticTemplate';
-import type { Config } from './getConfig';
+import { createNextTemplate } from './createNextTemplate.js';
+import { createStaticTemplate } from './createStaticTemplate.js';
+import type { Config } from './getConfig.js';
 
 let prevPagesText = '';
 let prevStaticText = '';

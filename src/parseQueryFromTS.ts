@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { createHash } from './createHash';
+import { createHash } from './createHash.js';
 
 export const parseQueryFromTS = (output: string, file: string) => {
   const fileData = fs.readFileSync(file, 'utf8');
