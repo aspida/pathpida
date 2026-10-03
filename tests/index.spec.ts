@@ -1,11 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 import { describe, expect, test, vi } from 'vitest';
-import { version } from '../package.json';
-import { projects } from '../projects/projects';
-import build, { resetCache } from '../src/buildTemplate';
-import { run } from '../src/cli';
-import getConfig from '../src/getConfig';
+import packageJson from '../package.json' with { type: 'json' };
+import { projects } from '../projects/projects.js';
+import build, { resetCache } from '../src/buildTemplate.js';
+import { run } from '../src/cli.js';
+import getConfig from '../src/getConfig.js';
 
 describe('cli test', () => {
   test('version command', async () => {
@@ -13,7 +13,7 @@ describe('cli test', () => {
     const args = ['--version'];
 
     await run(args);
-    expect(console.log).toHaveBeenCalledWith(`v${version}`);
+    expect(console.log).toHaveBeenCalledWith(`v${packageJson.version}`);
 
     spyLog.mockReset();
     spyLog.mockRestore();
