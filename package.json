@@ -30,7 +30,6 @@
     "pathpida"
   ],
   "dependencies": {
-    "chokidar": "^5.0.0",
     "ignore": "^7.0.9"
   },
   "devDependencies": {
