@@ -31,11 +31,9 @@
   ],
   "dependencies": {
     "chokidar": "^5.0.0",
-    "ignore": "^7.0.9",
-    "minimist": "^1.2.8"
+    "ignore": "^7.0.9"
   },
   "devDependencies": {
-    "@types/minimist": "^1.2.5",
     "@types/node": "^26.6.4",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
