@@ -82,11 +82,6 @@
         Regenerate <code>$path.ts</code>.
       </td>
     </tr>
-    <tr>
-      <td nowrap><code>--version</code><br /><code>-v</code></td>
-      <td></td>
-      <td>Print pathpida version.</td>
-    </tr>
   </tbody>
 </table>
 

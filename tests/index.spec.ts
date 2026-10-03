@@ -1,24 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import { describe, expect, test, vi } from 'vitest';
-import packageJson from '../package.json' with { type: 'json' };
+import { describe, expect, test } from 'vitest';
 import { projects } from '../projects/projects.js';
 import build, { resetCache } from '../src/buildTemplate.js';
-import { run } from '../src/cli.js';
 import getConfig from '../src/getConfig.js';
 
 describe('cli test', () => {
-  test('version command', async () => {
-    const spyLog = vi.spyOn(console, 'log').mockImplementation((x) => x);
-    const args = ['--version'];
-
-    await run(args);
-    expect(console.log).toHaveBeenCalledWith(`v${packageJson.version}`);
-
-    spyLog.mockReset();
-    spyLog.mockRestore();
-  });
-
   test('main', async () => {
     for (const project of projects) {
       resetCache();
